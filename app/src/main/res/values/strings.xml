@@ -1,0 +1,16 @@
+<resources>
+
+    <!-- 主界面 -->
+    <string name="app_name">豆瓣书影</string>
+    <string name="action_settings">设置</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="drawer_menu_home">首页</string>
+    <string name="drawer_menu_book">我的书籍</string>
+    <string name="drawer_menu_movie">我的电影</string>
+
+    <!-- -->
+
+</resources>

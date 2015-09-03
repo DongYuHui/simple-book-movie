@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 主界面 -->
+    <color name="toolbar_background">#4caf50</color>
+    <color name="statusbar_background">#388e3c</color>
+    <color name="tablayout_text_unselected_color">#eeeeee</color>
+    <color name="tablayout_text_selected_color">#ffffff</color>
+    <color name="tablayout_indicator_color">#ffffff</color>
+
+</resources>

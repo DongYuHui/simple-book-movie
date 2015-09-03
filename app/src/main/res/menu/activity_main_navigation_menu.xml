@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:checked="true"
+            android:id="@+id/navigation_menu_home"
+            android:title="首页">
+
+        </item>
+
+        <item
+            android:id="@+id/navigation_menu_book"
+            android:title="我的书籍">
+
+        </item>
+
+        <item
+            android:id="@+id/navigation_menu_movie"
+            android:title="我的电影">
+
+        </item>
+
+    </group>
+
+</menu>
