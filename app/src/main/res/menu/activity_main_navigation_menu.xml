@@ -11,14 +11,14 @@
         </item>
 
         <item
-            android:id="@+id/navigation_menu_book"
-            android:title="我的书籍">
+            android:id="@+id/navigation_menu_movie"
+            android:title="电影">
 
         </item>
 
         <item
-            android:id="@+id/navigation_menu_movie"
-            android:title="我的电影">
+            android:id="@+id/navigation_menu_book"
+            android:title="书籍">
 
         </item>
 

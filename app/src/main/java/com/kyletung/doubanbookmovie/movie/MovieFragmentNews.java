@@ -12,10 +12,10 @@ import com.kyletung.doubanbookmovie.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieFragmentWatched extends Fragment {
+public class MovieFragmentNews extends Fragment {
 
 
-    public MovieFragmentWatched() {
+    public MovieFragmentNews() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class MovieFragmentWatched extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movie_watched, container, false);
+        return inflater.inflate(R.layout.fragment_movie_news, container, false);
     }
 
 

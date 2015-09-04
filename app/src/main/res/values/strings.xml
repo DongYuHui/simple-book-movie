@@ -8,9 +8,21 @@
     <string name="drawer_close">Close</string>
 
     <string name="drawer_menu_home">首页</string>
-    <string name="drawer_menu_book">我的书籍</string>
-    <string name="drawer_menu_movie">我的电影</string>
+    <string name="drawer_menu_book">书籍</string>
+    <string name="drawer_menu_movie">电影</string>
 
-    <!-- -->
+    <string name="navigation_header_in">登录</string>
+    <string name="navigation_header_out">注销</string>
+
+    <!-- 读书 -->
+
+    <!-- 电影 -->
+
+    <!-- Temp -->
+
+    <string name="title_activity_get_authorization_code">GetAuthorizationCodeActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+
 
 </resources>

@@ -3,15 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.kyletung.doubanbookmovie.home.HomeFragmentWillshow">
+    tools:context="com.kyletung.doubanbookmovie.movie.MovieFragmentTop250">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="fragment home willshow" />
+        android:text="fragment movie top250" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_home_willshow_recyclcer"
+        android:id="@+id/fragment_movie_top250_recyclcer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp" />
