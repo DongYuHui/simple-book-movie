@@ -13,3 +13,5 @@
 2015-9-3 因为一些摸不着头脑的问题，整整折腾了三天才把框架搭建起来。最后终于用理想的方式，即 NavigationView + TabLayout + ViewPager 的方式实现了应用的整体架构。
 
 2015-9-4 完成了界面中列表 Item 的布局和数据封装，完成了用户授权登录的功能，以及获取用户的简洁信息到 NavigationView 的 Header 中。
+
+2015-9-5 完成了电影部分的 RecyclerView 视图，实现下拉刷新，向下加载更多的功能。优化了 NavigationView 中的 UI 效果。
