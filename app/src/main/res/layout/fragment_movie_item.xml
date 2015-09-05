@@ -17,7 +17,6 @@
             android:id="@+id/fragment_movie_item_image"
             android:layout_width="70dp"
             android:layout_height="100dp"
-            android:background="#34298d"
             android:scaleType="centerCrop" />
 
         <LinearLayout
@@ -34,12 +33,14 @@
                 android:layout_marginRight="4dp">
 
                 <TextView
+                    android:singleLine="true"
+                    android:textColor="@color/fragment_movie_item_texttitlecolor"
                     android:id="@+id/fragment_movie_item_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Movie Title"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/fragment_movie_item_points"
@@ -54,18 +55,20 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="1dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:layout_marginTop="2dp">
+                android:layout_marginTop="1dp">
 
                 <TextView
+                    android:textColor="@color/fragment_movie_item_textcontentcolor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="4dp"
                     android:text="导演" />
 
                 <TextView
+                    android:textColor="@color/fragment_movie_item_textcontentcolor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
@@ -73,6 +76,8 @@
                     android:text=":" />
 
                 <TextView
+                    android:textColor="@color/fragment_movie_item_textcontentcolor"
+                    android:singleLine="true"
                     android:id="@+id/fragment_movie_item_director"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -84,18 +89,20 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="1dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:layout_marginTop="2dp">
+                android:layout_marginTop="1dp">
 
                 <TextView
+                    android:textColor="@color/fragment_movie_item_textcontentcolor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="4dp"
                     android:text="卡司" />
 
                 <TextView
+                    android:textColor="@color/fragment_movie_item_textcontentcolor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
@@ -103,6 +110,8 @@
                     android:text=":" />
 
                 <TextView
+                    android:textColor="@color/fragment_movie_item_textcontentcolor"
+                    android:singleLine="true"
                     android:id="@+id/fragment_movie_item_cast"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -118,6 +127,7 @@
                 android:layout_marginRight="4dp">
 
                 <TextView
+                    android:textColor="@color/fragment_movie_item_textcontentcolor"
                     android:id="@+id/fragment_movie_item_year"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -125,21 +135,23 @@
                     android:text="Year" />
 
                 <LinearLayout
+                    android:layout_marginTop="2dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/fragment_movie_item_collection_background"
                     android:gravity="center_vertical">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
                         android:src="@drawable/ic_star_white_18dp" />
 
                     <TextView
                         android:id="@+id/fragment_movie_item_collections"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="2dp"
+                        android:paddingLeft="2dp"
+                        android:paddingRight="2dp"
                         android:text="Collections"
                         android:textColor="@color/fragment_movie_item_textcolor" />
 

@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:background="@color/toolbar_background"
             app:tabIndicatorColor="@color/tablayout_indicator_color"
-            app:tabIndicatorHeight="4dp"
+            app:tabIndicatorHeight="3dp"
             app:tabSelectedTextColor="@color/tablayout_text_selected_color"
             app:tabTextColor="@color/tablayout_text_unselected_color" />
 

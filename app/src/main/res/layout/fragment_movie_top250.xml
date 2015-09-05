@@ -1,19 +1,16 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_movie_top250_swipe"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.kyletung.doubanbookmovie.movie.MovieFragmentTop250">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="fragment movie top250" />
-
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_movie_top250_recyclcer"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:id="@+id/fragment_movie_top250_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp" />
 
-</LinearLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

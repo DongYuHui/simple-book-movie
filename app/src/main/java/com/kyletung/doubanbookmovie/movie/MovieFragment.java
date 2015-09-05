@@ -29,7 +29,6 @@ public class MovieFragment extends Fragment {
 
         //init view pager and tab layout
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.fragment_movie_viewpager);
-        viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(new MoviePagerAdapter(getFragmentManager()));
         TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.fragment_tablayout);
         tabLayout.setupWithViewPager(viewPager);

@@ -27,6 +27,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.kyletung.doubanbookmovie.book.BookFragment;
 import com.kyletung.doubanbookmovie.home.HomeFragment;
 import com.kyletung.doubanbookmovie.movie.MovieFragment;
+import com.kyletung.doubanbookmovie.search.SearchFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     try {
 //                        String name = response.getString("name");
                         navigationHeaderName.setText(response.getString("name"));
-                        String avatar = response.getString("avatar");
+                        String avatar = response.getString("large_avatar");
                         ImageRequest avatarResquest = new ImageRequest(avatar, new Response.Listener<Bitmap>() {
                             @Override
                             public void onResponse(Bitmap response) {
@@ -216,6 +217,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 fragmentManager.beginTransaction().replace(R.id.content, new MovieFragment()).commit();
                 drawerLayout.closeDrawer(navigationView);
                 break;
+            case R.id.navigation_menu_search:
+                fragmentManager.beginTransaction().replace(R.id.content, new SearchFragment()).commit();
+                drawerLayout.closeDrawer(navigationView);
             default:
                 break;
         }

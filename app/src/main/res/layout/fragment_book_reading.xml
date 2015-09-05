@@ -11,7 +11,7 @@
         android:text="fragment book reading" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_book_reading_recyclcer"
+        android:id="@+id/fragment_book_reading_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp" />

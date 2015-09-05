@@ -8,6 +8,14 @@
     <color name="tablayout_text_selected_color">#ffffff</color>
     <color name="tablayout_indicator_color">#ffffff</color>
 
+    <color name="recycler_item_color">#fafafa</color>
+
+    <!-- Google Colors-->
+    <color name="google_blue">#4285f4</color>
+    <color name="google_red">#ea4335</color>
+    <color name="google_yellow">#fbbc05</color>
+    <color name="google_green">#34a853</color>
+
     <!-- 首页 -->
     <color name="fragment_home_item">#f97956</color>
     <color name="fragment_home_item_textcolor">#ffffff</color>
@@ -18,6 +26,8 @@
 
     <!-- 电影 -->
     <color name="fragment_movie_item">#f97956</color>
+    <color name="fragment_movie_item_texttitlecolor">#111111</color>
+    <color name="fragment_movie_item_textcontentcolor">#444444</color>
     <color name="fragment_movie_item_textcolor">#ffffff</color>
 
 </resources>

@@ -5,7 +5,7 @@ public class MovieItemData {
     private String movieId;
     private String movieName;
     private String movieImage;
-    private int moviePoints;
+    private double moviePoints;
     private String movieDirector;
     private String movieCasts;
     private String movieYear;
@@ -35,11 +35,11 @@ public class MovieItemData {
         this.movieImage = movieImage;
     }
 
-    public int getMoviePoints() {
+    public double getMoviePoints() {
         return moviePoints;
     }
 
-    public void setMoviePoints(int moviePoints) {
+    public void setMoviePoints(double moviePoints) {
         this.moviePoints = moviePoints;
     }
 

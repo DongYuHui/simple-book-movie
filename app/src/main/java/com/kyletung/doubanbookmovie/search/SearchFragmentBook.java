@@ -1,4 +1,4 @@
-package com.kyletung.doubanbookmovie.movie;
+package com.kyletung.doubanbookmovie.search;
 
 
 import android.os.Bundle;
@@ -12,10 +12,10 @@ import com.kyletung.doubanbookmovie.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieFragmentNews extends Fragment {
+public class SearchFragmentBook extends Fragment {
 
 
-    public MovieFragmentNews() {
+    public SearchFragmentBook() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class MovieFragmentNews extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movie_news, container, false);
+        return inflater.inflate(R.layout.fragment_search_book, container, false);
     }
 
 

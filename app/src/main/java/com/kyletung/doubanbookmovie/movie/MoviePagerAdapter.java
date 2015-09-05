@@ -10,17 +10,14 @@ public class MoviePagerAdapter extends FragmentStatePagerAdapter {
     //get fragments contains unwatched, watched, watching
     MovieFragmentTop250 fragmentMovieTop250;
     MovieFragmentAmerica fragmentMovieAmerica;
-    MovieFragmentNews fragmentMovieNews;
-
 
     //titles
-    String[] fragmentMovieTabTitles = {"Top250", "新片榜", "北美票房榜"};
+    String[] fragmentMovieTabTitles = {"北美票房榜", "Top250"};
 
     public MoviePagerAdapter(FragmentManager fm) {
         super(fm);
         fragmentMovieTop250 = new MovieFragmentTop250();
         fragmentMovieAmerica = new MovieFragmentAmerica();
-        fragmentMovieNews = new MovieFragmentNews();
     }
 
     @Override
@@ -31,17 +28,15 @@ public class MoviePagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return fragmentMovieTop250;
-        } else if (position == 1){
-            return fragmentMovieNews;
-        } else {
             return fragmentMovieAmerica;
+        } else {
+            return fragmentMovieTop250;
         }
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
 }
