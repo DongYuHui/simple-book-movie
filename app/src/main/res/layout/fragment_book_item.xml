@@ -14,7 +14,6 @@
         android:layout_height="match_parent">
 
         <com.android.volley.toolbox.NetworkImageView
-            android:background="#45239a"
             android:id="@+id/fragment_book_item_image"
             android:layout_width="70dp"
             android:layout_height="100dp"
@@ -38,8 +37,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:singleLine="true"
                     android:text="Book Title"
-                    android:textSize="20sp" />
+                    android:textColor="@color/fragment_book_item_texttitlecolor"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/fragment_book_item_points"
@@ -54,42 +55,50 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="1dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:layout_marginTop="2dp">
+                android:layout_marginTop="1dp">
 
                 <TextView
+                    android:textColor="@color/fragment_book_item_textcontentcolor"
                     android:id="@+id/fragment_book_item_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="4dp"
+                    android:layout_marginRight="2dp"
+                    android:singleLine="true"
                     android:text="Book Author" />
 
                 <TextView
+                    android:textColor="@color/fragment_book_item_textcontentcolor"
+                    android:id="@+id/fragment_book_item_divider"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
                     android:text="-" />
 
                 <TextView
+                    android:textColor="@color/fragment_book_item_textcontentcolor"
                     android:id="@+id/fragment_book_item_translator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
+                    android:layout_marginLeft="2dp"
+                    android:singleLine="true"
                     android:text="Book Translator" />
 
             </LinearLayout>
 
             <TextView
+                android:textColor="@color/fragment_book_item_textcontentcolor"
                 android:id="@+id/fragment_book_item_publisher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
+                android:layout_marginTop="1dp"
+                android:singleLine="true"
                 android:text="Publisher" />
 
             <LinearLayout
@@ -99,33 +108,23 @@
                 android:layout_marginRight="4dp">
 
                 <TextView
+                    android:textColor="@color/fragment_book_item_textcontentcolor"
                     android:id="@+id/fragment_book_item_pubdate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:singleLine="true"
                     android:text="Pub Date" />
 
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/fragment_movie_item_collection_background"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_attach_money_white_18dp" />
-
                     <TextView
+                        android:background="@drawable/fragment_book_item_price_background"
                         android:id="@+id/fragment_book_item_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="2dp"
+                        android:paddingLeft="2dp"
+                        android:paddingRight="2dp"
                         android:text="Price"
                         android:textColor="@color/fragment_book_item_textcolor" />
-
-                </LinearLayout>
 
             </LinearLayout>
 

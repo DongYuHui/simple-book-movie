@@ -1,20 +1,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/toolbar_background"
+        android:elevation="5dp"
+        android:gravity="center_vertical"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp">
+
+        <EditText
+            android:textColor="@color/fragment_search_text_input"
+            android:id="@+id/fragment_search_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/fragment_search_text_background"
+            android:hint="@string/search_hint"
+            android:padding="4dp"
+            android:textColorHint="@color/fragment_search_text_hint_color" />
+
+        <ImageButton
+            android:id="@+id/fragment_search_search"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="8dp"
+            android:background="@null"
+            android:padding="4dp"
+            android:src="@drawable/ic_search_white_24dp" />
+
+    </LinearLayout>
 
     <android.support.design.widget.TabLayout
-        android:elevation="5dp"
         android:id="@+id/fragment_search_tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/toolbar_background"
+        android:elevation="5dp"
         app:tabIndicatorColor="@color/tablayout_indicator_color"
         app:tabIndicatorHeight="3dp"
         app:tabSelectedTextColor="@color/tablayout_text_selected_color"
         app:tabTextColor="@color/tablayout_text_unselected_color" />
-
 
     <android.support.v4.view.ViewPager
         android:id="@+id/fragment_search_viewpager"

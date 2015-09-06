@@ -18,6 +18,9 @@
 
     <!-- 电影 -->
 
+    <!-- 搜索 -->
+    <string name="search_hint">搜索</string>
+
     <!-- Temp -->
 
     <string name="title_activity_get_authorization_code">GetAuthorizationCodeActivity</string>

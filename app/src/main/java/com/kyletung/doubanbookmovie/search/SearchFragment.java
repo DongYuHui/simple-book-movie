@@ -9,6 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.kyletung.doubanbookmovie.MyApplication;
 import com.kyletung.doubanbookmovie.R;
@@ -23,10 +26,12 @@ public class SearchFragment extends Fragment {
     ViewPager viewPager;
     TabLayout tabLayout;
 
+    //init search pager adapter
+    SearchPagerAdapter adapter;
+
     public SearchFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +41,8 @@ public class SearchFragment extends Fragment {
 
         //init view pager and tab layout
         viewPager = (ViewPager) view.findViewById(R.id.fragment_search_viewpager);
-        viewPager.setAdapter(new SearchPagerAdapter(getFragmentManager()));
+        adapter = new SearchPagerAdapter(getFragmentManager());
+        viewPager.setAdapter(adapter);
         tabLayout = (TabLayout) view.findViewById(R.id.fragment_search_tablayout);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         //fix tablayout no title bug
@@ -51,6 +57,25 @@ public class SearchFragment extends Fragment {
                 }
             });
         }
+
+        //init edit text and search button
+        final EditText input = (EditText) view.findViewById(R.id.fragment_search_text);
+        ImageButton search = (ImageButton) view.findViewById(R.id.fragment_search_search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!input.getText().toString().equals("")) {
+                    String inputText = input.getText().toString();
+                    inputText = inputText.replace(" ", "\b");
+                    SearchFragmentMovie movieSearchFragment = (SearchFragmentMovie) adapter.getItem(1);
+                    movieSearchFragment.search(inputText);
+                    SearchFragmentBook bookSearchFragment = (SearchFragmentBook) adapter.getItem(0);
+                    bookSearchFragment.search(inputText);
+                } else {
+                    Toast.makeText(getActivity(), "输入为空", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         return view;
     }
