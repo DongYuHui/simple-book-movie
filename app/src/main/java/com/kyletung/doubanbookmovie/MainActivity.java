@@ -43,8 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DrawerLayout drawerLayout;
     NavigationView navigationView;
 
-    //init tab layout and fragment manager
-    TabLayout tabLayout;
+    //init and fragment manager
     FragmentManager fragmentManager = getSupportFragmentManager();
 
     //set api key and secret key
@@ -62,9 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //init tab layout and home fragment
-        tabLayout = (TabLayout) findViewById(R.id.fragment_tablayout);
 
         //init home
         fragmentManager.beginTransaction().replace(R.id.content, new HomeFragment()).commit();

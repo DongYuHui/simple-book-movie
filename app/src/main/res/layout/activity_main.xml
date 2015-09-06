@@ -22,18 +22,8 @@
 
         </android.support.v7.widget.Toolbar>
 
-        <android.support.design.widget.TabLayout
-            android:elevation="5dp"
-            android:id="@+id/fragment_tablayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/toolbar_background"
-            app:tabIndicatorColor="@color/tablayout_indicator_color"
-            app:tabIndicatorHeight="3dp"
-            app:tabSelectedTextColor="@color/tablayout_text_selected_color"
-            app:tabTextColor="@color/tablayout_text_unselected_color" />
-
         <FrameLayout
+            android:elevation="5dp"
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

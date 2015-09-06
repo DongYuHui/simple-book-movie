@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kyletung.doubanbookmovie.MyApplication;
 import com.kyletung.doubanbookmovie.R;
 
 /**
@@ -28,12 +29,9 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        //init view pager and tab layout
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.fragment_home_viewpager);
-        viewPager.setOffscreenPageLimit(1);
-        viewPager.setAdapter(new HomePagerAdapter(getFragmentManager()));
-        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.fragment_tablayout);
-        tabLayout.setupWithViewPager(viewPager);
+        //set tablayout
+//        TabLayout tabLayout = MyApplication.getTabLayout();
+//        tabLayout.setVisibility(View.GONE);
 
         return view;
     }

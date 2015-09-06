@@ -3,6 +3,7 @@ package com.kyletung.doubanbookmovie;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.design.widget.TabLayout;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -48,5 +49,4 @@ public class MyApplication extends Application {
     public static String getRefreshToken() {
         return sharedPreferences.getString("refreshToken", "null");
     }
-
 }

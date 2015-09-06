@@ -6,6 +6,8 @@
     tools:context="com.kyletung.doubanbookmovie.movie.MovieFragmentAmerica">
 
     <android.support.v7.widget.RecyclerView
+        android:clipToPadding="false"
+        android:clipChildren="false"
         android:id="@+id/fragment_movie_america_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
