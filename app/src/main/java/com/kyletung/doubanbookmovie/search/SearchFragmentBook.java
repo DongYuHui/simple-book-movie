@@ -25,9 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class SearchFragmentBook extends Fragment {
 
     private static String bookUrl;
@@ -52,7 +49,7 @@ public class SearchFragmentBook extends Fragment {
         //init recycler view
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragment_search_book_recycler);
         manager = new LinearLayoutManager(getActivity());
-        adapter = new BookRecyclerAdapter();
+        adapter = new BookRecyclerAdapter(getActivity());
         recyclerView.setLayoutManager(manager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -104,6 +101,8 @@ public class SearchFragmentBook extends Fragment {
 
     public void search(String bookName) {
         bookUrl = "https://api.douban.com/v2/book/search?q=" + bookName + "&start=";
+        adapter.clear();
+        adapter.notifyDataSetChanged();
         get();
     }
 

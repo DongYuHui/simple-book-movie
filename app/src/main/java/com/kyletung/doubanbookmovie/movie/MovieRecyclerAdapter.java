@@ -1,6 +1,9 @@
 package com.kyletung.doubanbookmovie.movie;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.LruCache;
 import android.view.LayoutInflater;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.kyletung.doubanbookmovie.moviedetail.MovieDetailActivity;
 import com.kyletung.doubanbookmovie.MyApplication;
 import com.kyletung.doubanbookmovie.R;
 
@@ -21,9 +25,12 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerView
     List<MovieItemData> list;
     LayoutInflater inflater;
 
-    public MovieRecyclerAdapter() {
+    Context context;
+
+    public MovieRecyclerAdapter(Context context) {
         list = new ArrayList<>();
         inflater = LayoutInflater.from(MyApplication.getContext());
+        this.context = context;
     }
 
     public void add(MovieItemData movieItemData) {
@@ -41,7 +48,7 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerView
     }
 
     @Override
-    public void onBindViewHolder(MovieRecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(MovieRecyclerViewHolder holder, final int position) {
         //init image
         ImageLoader imageLoader = new ImageLoader(MyApplication.getRequestQueue(), new MovieImageCache());
         holder.fragmentMovieImage.setDefaultImageResId(R.drawable.recycler_image_background);
@@ -55,6 +62,17 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerView
         holder.fragmentMovieCast.setText(list.get(position).getMovieCasts());
         holder.fragmentMovieYear.setText(list.get(position).getMovieYear());
         holder.fragmentMovieCollections.setText(list.get(position).getMovieCollections() + "");
+
+        //set card view
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MovieDetailActivity.class);
+                intent.putExtra("movieId", list.get(position).getMovieId());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -98,6 +116,7 @@ class MovieRecyclerViewHolder extends RecyclerView.ViewHolder {
     TextView fragmentMovieCast;
     TextView fragmentMovieYear;
     TextView fragmentMovieCollections;
+    CardView cardView;
 
     public MovieRecyclerViewHolder(View itemView) {
         super(itemView);
@@ -108,5 +127,6 @@ class MovieRecyclerViewHolder extends RecyclerView.ViewHolder {
         fragmentMovieCast = (TextView) itemView.findViewById(R.id.fragment_movie_item_cast);
         fragmentMovieYear = (TextView) itemView.findViewById(R.id.fragment_movie_item_year);
         fragmentMovieCollections = (TextView) itemView.findViewById(R.id.fragment_movie_item_collections);
+        cardView = (CardView) itemView.findViewById(R.id.fragment_movie_item);
     }
 }

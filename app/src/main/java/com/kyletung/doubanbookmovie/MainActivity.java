@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView navigationHeaderOut;
     TextView navigationHeaderName;
 
+    //init toolbar
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentManager.beginTransaction().replace(R.id.content, new HomeFragment()).commit();
 
         //init toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("首页");
         setSupportActionBar(toolbar);
 
         //set status bar
@@ -202,18 +206,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         menuItem.setChecked(true);
         switch (menuItem.getItemId()) {
             case R.id.navigation_menu_home:
+                toolbar.setTitle("首页");
                 fragmentManager.beginTransaction().replace(R.id.content, new HomeFragment()).commit();
                 drawerLayout.closeDrawer(navigationView);
                 break;
             case R.id.navigation_menu_book:
+                toolbar.setTitle("书籍");
                 fragmentManager.beginTransaction().replace(R.id.content, new BookFragment()).commit();
                 drawerLayout.closeDrawer(navigationView);
                 break;
             case R.id.navigation_menu_movie:
+                toolbar.setTitle("电影");
                 fragmentManager.beginTransaction().replace(R.id.content, new MovieFragment()).commit();
                 drawerLayout.closeDrawer(navigationView);
                 break;
             case R.id.navigation_menu_search:
+                toolbar.setTitle("搜索");
                 fragmentManager.beginTransaction().replace(R.id.content, new SearchFragment()).commit();
                 drawerLayout.closeDrawer(navigationView);
             default:
@@ -236,7 +244,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+            startActivity(intent);
             return true;
         }
 

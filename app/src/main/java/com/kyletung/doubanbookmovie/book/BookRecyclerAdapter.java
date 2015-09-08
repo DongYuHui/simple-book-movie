@@ -1,6 +1,9 @@
 package com.kyletung.doubanbookmovie.book;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.LruCache;
 import android.view.LayoutInflater;
@@ -12,6 +15,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.kyletung.doubanbookmovie.MyApplication;
 import com.kyletung.doubanbookmovie.R;
+import com.kyletung.doubanbookmovie.bookdetail.BookDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +24,12 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerViewHo
 
     List<BookItemData> list;
     LayoutInflater inflater;
+    Context context;
 
-    public BookRecyclerAdapter() {
+    public BookRecyclerAdapter(Context context) {
+        this.context = context;
         list = new ArrayList<>();
-        inflater = LayoutInflater.from(MyApplication.getContext());
+        inflater = LayoutInflater.from(context);
     }
 
     public void add(BookItemData bookItemData) {
@@ -41,7 +47,7 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerViewHo
     }
 
     @Override
-    public void onBindViewHolder(BookRecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(BookRecyclerViewHolder holder, final int position) {
         //set image
         ImageLoader imageLoader = new ImageLoader(MyApplication.getRequestQueue(), new BookImageCache());
         holder.bookImage.setDefaultImageResId(R.drawable.recycler_image_background);
@@ -63,6 +69,16 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerViewHo
         } else {
             holder.bookTranslator.setText(list.get(position).getBookTranslator() + " 译");
         }
+
+        //set card view
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, BookDetailActivity.class);
+                intent.putExtra("bookId", list.get(position).getBookId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     class BookImageCache implements ImageLoader.ImageCache {
@@ -107,6 +123,7 @@ class BookRecyclerViewHolder extends RecyclerView.ViewHolder {
     TextView bookPubdate;
     TextView bookPrice;
     TextView bookDivider;
+    CardView cardView;
 
     public BookRecyclerViewHolder(View itemView) {
         super(itemView);
@@ -119,5 +136,6 @@ class BookRecyclerViewHolder extends RecyclerView.ViewHolder {
         bookPubdate = (TextView) itemView.findViewById(R.id.fragment_book_item_pubdate);
         bookPrice = (TextView) itemView.findViewById(R.id.fragment_book_item_price);
         bookDivider = (TextView) itemView.findViewById(R.id.fragment_book_item_divider);
+        cardView = (CardView) itemView.findViewById(R.id.fragment_book_item);
     }
 }

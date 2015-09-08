@@ -16,6 +16,7 @@
         android:paddingLeft="16dp">
 
         <EditText
+            android:maxLines="1"
             android:textColor="@color/fragment_search_text_input"
             android:id="@+id/fragment_search_text"
             android:layout_width="0dp"

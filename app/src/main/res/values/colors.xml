@@ -7,7 +7,6 @@
     <color name="tablayout_text_unselected_color">#eeeeee</color>
     <color name="tablayout_text_selected_color">#ffffff</color>
     <color name="tablayout_indicator_color">#ffffff</color>
-
     <color name="recycler_item_color">#fafafa</color>
 
     <!-- Google Colors-->
@@ -16,7 +15,12 @@
     <color name="google_yellow">#fbbc05</color>
     <color name="google_green">#34a853</color>
 
+    <!-- About -->
+    <color name="about_status_background">#388e3c</color>
+
     <!-- 首页 -->
+    <color name="fragment_home_today_luck_border">#777777</color>
+    <color name="fragment_home_today_luck_divider">#777777</color>
 
     <!-- 书籍 -->
     <color name="fragment_book_item">#f97956</color>
@@ -34,5 +38,16 @@
     <color name="fragment_search_text_background">#388e3c</color>
     <color name="fragment_search_text_hint_color">#cccccc</color>
     <color name="fragment_search_text_input">#ffffff</color>
+
+    <!-- Movie Detail -->
+    <color name="movie_detail">#777777</color>
+    <color name="movie_detail_points">#f97956</color>
+    <color name="movie_detail_default_background">#4caf50</color>
+
+    <!-- Book Detail -->
+    <color name="book_detail">#777777</color>
+    <color name="book_detail_default_background">#4caf50</color>
+    <color name="book_detail_status">#f97956</color>
+    <color name="book_detail_points">#f97956</color>
 
 </resources>

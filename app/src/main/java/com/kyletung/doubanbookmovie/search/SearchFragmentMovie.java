@@ -50,7 +50,7 @@ public class SearchFragmentMovie extends Fragment {
 
         //init view pager and recycler view
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragment_search_movie_recycler);
-        adapter = new MovieRecyclerAdapter();
+        adapter = new MovieRecyclerAdapter(getActivity());
         manager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
@@ -102,6 +102,8 @@ public class SearchFragmentMovie extends Fragment {
 
     public void search(String movieName) {
         movieUrl = "https://api.douban.com/v2/movie/search?q=" + movieName + "&start=";
+        adapter.clear();
+        adapter.notifyDataSetChanged();
         get();
     }
 

@@ -47,7 +47,7 @@ public class MovieFragmentAmerica extends Fragment {
         //init recycler view
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragment_movie_america_recycler);
         manager = new LinearLayoutManager(getActivity());
-        adapter = new MovieRecyclerAdapter();
+        adapter = new MovieRecyclerAdapter(getActivity());
         recyclerView.setLayoutManager(manager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);

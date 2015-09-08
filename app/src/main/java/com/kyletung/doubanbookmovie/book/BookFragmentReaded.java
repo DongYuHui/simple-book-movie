@@ -50,7 +50,7 @@ public class BookFragmentReaded extends Fragment {
 
         //init recycler view
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.fragment_book_readed_recycler);
-        adapter = new BookRecyclerAdapter();
+        adapter = new BookRecyclerAdapter(getActivity());
         manager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(manager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -62,9 +62,13 @@ public class BookFragmentReaded extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                count = 0;
-                adapter.clear();
-                get();
+                if (!MyApplication.getSharedPreferences().getString("userId", "null").equals("null")) {
+                    count = 0;
+                    adapter.clear();
+                    get();
+                } else {
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -100,8 +104,12 @@ public class BookFragmentReaded extends Fragment {
         });
 
         //init when begin fragment
-        get();
-        swipeRefreshLayout.setRefreshing(true);
+        if (!MyApplication.getSharedPreferences().getString("userId", "null").equals("null")) {
+            get();
+            swipeRefreshLayout.setRefreshing(true);
+        } else {
+            Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+        }
 
         return view;
     }
