@@ -14,6 +14,9 @@
     <string name="navigation_header_in">登录</string>
     <string name="navigation_header_out">注销</string>
 
+    <!-- About -->
+    <string name="about_me">这是由个人开发的豆瓣小应用，只集成了读书与电影两个功能。\n完善性自然不能与官方应用相比，只是为了能够提供一个轻便的，去除无用以及不常用功能的使用体验。\n同时由于豆瓣 API 的限制，只能开发非常简陋的搜索和查看功能。\n用户在使用过程中有任何建议和 Bug 提交，都可以随时与我联系。\n\n个人微信：KyleTung\n个人微博：http://weibo.com/kyletung\n个人邮箱：dyh920827@gmail.com\n本项目开源地址：https://github.com/KyleTung/douban-book-movie</string>
+
     <!-- 读书 -->
 
     <!-- 电影 -->
