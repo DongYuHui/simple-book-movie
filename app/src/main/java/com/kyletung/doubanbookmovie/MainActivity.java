@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,11 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -32,8 +29,6 @@ import com.kyletung.doubanbookmovie.search.SearchFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -113,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.navigation_header_out:
                 SharedPreferences.Editor editor = MyApplication.getSharedPreferences().edit();
                 editor.remove("accessToken");
+                editor.apply();
                 navigationHeaderImage.setImageResource(R.mipmap.ic_launcher);
                 navigationHeaderOut.setVisibility(View.GONE);
                 navigationHeaderName.setVisibility(View.GONE);
@@ -138,7 +134,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
-//                        String name = response.getString("name");
                         navigationHeaderName.setText(response.getString("name"));
                         String avatar = response.getString("large_avatar");
                         ImageRequest avatarResquest = new ImageRequest(avatar, new Response.Listener<Bitmap>() {
@@ -160,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    System.out.println("salfdaofheofasdfsf");
+                    Toast.makeText(MainActivity.this, "获取用户数据失败", Toast.LENGTH_SHORT).show();
                 }
             });
             MyApplication.getRequestQueue().add(jsonObjectRequest);
@@ -212,18 +207,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.navigation_menu_book:
                 toolbar.setTitle("书籍");
-                fragmentManager.beginTransaction().replace(R.id.content, new BookFragment()).commit();
                 drawerLayout.closeDrawer(navigationView);
+                fragmentManager.beginTransaction().replace(R.id.content, new BookFragment()).commit();
                 break;
             case R.id.navigation_menu_movie:
                 toolbar.setTitle("电影");
-                fragmentManager.beginTransaction().replace(R.id.content, new MovieFragment()).commit();
                 drawerLayout.closeDrawer(navigationView);
+                fragmentManager.beginTransaction().replace(R.id.content, new MovieFragment()).commit();
                 break;
             case R.id.navigation_menu_search:
                 toolbar.setTitle("搜索");
-                fragmentManager.beginTransaction().replace(R.id.content, new SearchFragment()).commit();
                 drawerLayout.closeDrawer(navigationView);
+                fragmentManager.beginTransaction().replace(R.id.content, new SearchFragment()).commit();
             default:
                 break;
         }

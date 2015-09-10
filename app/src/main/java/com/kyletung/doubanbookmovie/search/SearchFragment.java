@@ -6,11 +6,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kyletung.doubanbookmovie.MyApplication;
@@ -29,6 +32,9 @@ public class SearchFragment extends Fragment {
     //init search pager adapter
     SearchPagerAdapter adapter;
 
+    //init edit text
+    EditText input;
+
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -41,44 +47,42 @@ public class SearchFragment extends Fragment {
 
         //init view pager and tab layout
         viewPager = (ViewPager) view.findViewById(R.id.fragment_search_viewpager);
-        adapter = new SearchPagerAdapter(getFragmentManager());
+        adapter = new SearchPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout = (TabLayout) view.findViewById(R.id.fragment_search_tablayout);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         //fix tablayout no title bug
-        if (ViewCompat.isLaidOut(tabLayout)) {
-            tabLayout.setupWithViewPager(viewPager);
-        } else {
-            tabLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-                @Override
-                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    tabLayout.setupWithViewPager(viewPager);
-                    tabLayout.removeOnLayoutChangeListener(this);
-                }
-            });
-        }
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                tabLayout.setupWithViewPager(viewPager);
+            }
+        });
 
         //init edit text and search button
-        final EditText input = (EditText) view.findViewById(R.id.fragment_search_text);
+        input = (EditText) view.findViewById(R.id.fragment_search_text);
         ImageButton search = (ImageButton) view.findViewById(R.id.fragment_search_search);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!input.getText().toString().equals("")) {
-                    String inputText = input.getText().toString();
-                    inputText = inputText.replace(" ", "\b");
-                    SearchFragmentMovie movieSearchFragment = (SearchFragmentMovie) adapter.getItem(1);
-                    movieSearchFragment.search(inputText);
-                    SearchFragmentBook bookSearchFragment = (SearchFragmentBook) adapter.getItem(0);
-                    bookSearchFragment.search(inputText);
-                } else {
-                    Toast.makeText(getActivity(), "输入为空", Toast.LENGTH_SHORT).show();
-                }
+                getData();
             }
         });
 
         return view;
     }
 
+    public void getData() {
+        if (!input.getText().toString().equals("")) {
+            String inputText = input.getText().toString();
+            inputText = inputText.replace(" ", "\b");
+            SearchFragmentMovie movieSearchFragment = (SearchFragmentMovie) adapter.getItem(1);
+            movieSearchFragment.search(inputText);
+            SearchFragmentBook bookSearchFragment = (SearchFragmentBook) adapter.getItem(0);
+            bookSearchFragment.search(inputText);
+        } else {
+            Toast.makeText(getActivity(), "输入为空", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }

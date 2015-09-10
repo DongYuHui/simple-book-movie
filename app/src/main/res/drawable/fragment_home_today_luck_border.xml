@@ -4,5 +4,6 @@
     <stroke
         android:width="3dp"
         android:color="@color/fragment_home_today_luck_border" />
+    <solid android:color="#ffffff" />
 
 </shape>

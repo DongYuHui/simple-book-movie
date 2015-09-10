@@ -105,8 +105,13 @@ public class BookFragmentReaded extends Fragment {
 
         //init when begin fragment
         if (!MyApplication.getSharedPreferences().getString("userId", "null").equals("null")) {
-            get();
-            swipeRefreshLayout.setRefreshing(true);
+            swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(true);
+                    get();
+                }
+            });
         } else {
             Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
         }

@@ -48,36 +48,35 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/fragment_home_today_luck"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/fragment_home_today_luck_border"
-            android:orientation="vertical"
-            android:padding="8dp">
-
-            <TextView
+            <LinearLayout
+                android:background="@drawable/fragment_home_today_luck_border"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/fragment_home_today_luck"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="今日运势"
-                android:textSize="18sp" />
+                android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/fragment_home_today_luck_divider" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="今日运势"
+                    android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/fragment_home_today_luck_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="16sp" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="@color/fragment_home_today_luck_divider" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/fragment_home_today_luck_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text=""
+                    android:textSize="16sp" />
+
+            </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

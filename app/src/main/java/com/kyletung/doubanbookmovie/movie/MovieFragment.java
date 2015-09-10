@@ -30,25 +30,20 @@ public class MovieFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_movie, container, false);
+        final View view = inflater.inflate(R.layout.fragment_movie, container, false);
 
         //init view pager and tab layout
         viewPager = (ViewPager) view.findViewById(R.id.fragment_movie_viewpager);
-        viewPager.setAdapter(new MoviePagerAdapter(getFragmentManager()));
+        viewPager.setAdapter(new MoviePagerAdapter(getChildFragmentManager()));
         tabLayout = (TabLayout) view.findViewById(R.id.fragment_movie_tablayout);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         //fix tablayout no title bug
-        if (ViewCompat.isLaidOut(tabLayout)) {
-            tabLayout.setupWithViewPager(viewPager);
-        } else {
-            tabLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-                @Override
-                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    tabLayout.setupWithViewPager(viewPager);
-                    tabLayout.removeOnLayoutChangeListener(this);
-                }
-            });
-        }
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                tabLayout.setupWithViewPager(viewPager);
+            }
+        });
         
         return view;
     }

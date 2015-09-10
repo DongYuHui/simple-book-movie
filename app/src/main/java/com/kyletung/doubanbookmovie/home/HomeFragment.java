@@ -22,6 +22,8 @@ import com.kyletung.doubanbookmovie.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Random;
 
 /**
@@ -40,6 +42,9 @@ public class HomeFragment extends Fragment {
     TextView fragmentHomeMoney;
     TextView fragmentHomeLove;
     TextView fragmentHomeLuck;
+
+    //init swipe refresh layout
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -63,7 +68,7 @@ public class HomeFragment extends Fragment {
         fragmentHomeLuck = (TextView) view.findViewById(R.id.fragment_home_today_luck_content);
 
         //init swipe refresh layout
-        final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_home_swipe);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_home_swipe);
         swipeRefreshLayout.setColorSchemeResources(R.color.google_blue, R.color.google_red, R.color.google_green, R.color.google_yellow);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -74,7 +79,13 @@ public class HomeFragment extends Fragment {
         });
 
         //set view
-        getData();
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                getData();
+            }
+        });
 
         return view;
     }
@@ -122,6 +133,11 @@ public class HomeFragment extends Fragment {
             default:
                 break;
         }
+        try {
+            cons = URLEncoder.encode(cons, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, consUrl + cons, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -146,6 +162,7 @@ public class HomeFragment extends Fragment {
             fragmentHomeMoney.setText(jsonObject.getString("money"));
             fragmentHomeLove.setText(jsonObject.getString("love"));
             fragmentHomeLuck.setText(jsonObject.getString("summary"));
+            swipeRefreshLayout.setRefreshing(false);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -11,20 +11,21 @@
         android:elevation="5dp"
         android:gravity="center_vertical"
         android:paddingBottom="2dp"
-        android:paddingTop="2dp"
+        android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingLeft="16dp">
+        android:paddingTop="2dp">
 
         <EditText
-            android:maxLines="1"
-            android:textColor="@color/fragment_search_text_input"
             android:id="@+id/fragment_search_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/fragment_search_text_background"
             android:hint="@string/search_hint"
+            android:imeOptions="actionDone"
             android:padding="4dp"
+            android:singleLine="true"
+            android:textColor="@color/fragment_search_text_input"
             android:textColorHint="@color/fragment_search_text_hint_color" />
 
         <ImageButton

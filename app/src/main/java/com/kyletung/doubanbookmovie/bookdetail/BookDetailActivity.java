@@ -197,10 +197,10 @@ public class BookDetailActivity extends AppCompatActivity {
                 for (int i = 0; i < translators.length(); i++) {
                     StringBuilder translator = new StringBuilder();
                     if (i != translators.length() - 1) {
-                        translator.append(authors.getString(i));
+                        translator.append(translators.getString(i));
                         translator.append("、");
                     } else {
-                        translator.append(authors.getString(i));
+                        translator.append(translators.getString(i));
                     }
                     bookTranslator.setText(translator.toString());
                 }

@@ -97,8 +97,13 @@ public class MovieFragmentTop250 extends Fragment {
         });
 
         //init when begin fragment
-        get();
-        swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                get();
+            }
+        });
 
         return view;
     }
