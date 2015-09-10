@@ -21,3 +21,23 @@
 2015-9-7 完成电影的详情界面。导演以及演员列表通过横向 CardView 实现滑动效果。通过 Palette 实现动态改变 Toolbar 与 StatusBar 颜色。
 
 2015-9-8 完成书籍的详情界面。对于收藏的书籍加入阅读状态的 CardView。并且在书籍以及电影详情界面能够跳转到浏览器。
+
+2015-9-10 修复一些 Bug，优化了 UI
+
+---
+
+下面是应用主要界面的截图：
+
+![NavigationView](https://github.com/KyleTung/douban-book-movie/blob/master/doubanbookmovie_1.png)
+
+![Home](https://github.com/KyleTung/douban-book-movie/blob/master/doubanbookmovie_2.png)
+
+![Movie](https://github.com/KyleTung/douban-book-movie/blob/master/doubanbookmovie_3.png)
+
+![Book](https://github.com/KyleTung/douban-book-movie/blob/master/doubanbookmovie_4.png)
+
+![Search](https://github.com/KyleTung/douban-book-movie/blob/master/doubanbookmovie_5.png)
+
+![BookDetail](https://github.com/KyleTung/douban-book-movie/blob/master/doubanbookmovie_6.png)
+
+![MovieDetail](https://github.com/KyleTung/douban-book-movie/blob/master/doubanbookmovie_8.png)
