@@ -25,6 +25,7 @@ import com.kyletung.doubanbookmovie.book.BookFragment;
 import com.kyletung.doubanbookmovie.home.HomeFragment;
 import com.kyletung.doubanbookmovie.movie.MovieFragment;
 import com.kyletung.doubanbookmovie.search.SearchFragment;
+import com.umeng.update.UmengUpdateAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //check update
+        UmengUpdateAgent.setUpdateOnlyWifi(false);
+        UmengUpdateAgent.update(this);
 
         //init home
         fragmentManager.beginTransaction().replace(R.id.content, new HomeFragment()).commit();

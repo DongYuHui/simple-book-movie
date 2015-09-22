@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kyletung.doubanbookmovie" >
+    package="com.kyletung.doubanbookmovie">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".MyApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data android:value="YOUR APP KEY" android:name="56010555e0f55a2bcd00097e"/>
+        <meta-data android:value="Channel ID" android:name="All_Channel"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -41,6 +45,8 @@
             android:name=".bookdetail.BookDetailActivity"
             android:label="@string/title_activity_book_detail" >
         </activity>
+        <activity android:name="com.umeng.update.UpdateDialogActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <service android:name="com.umeng.update.net.DownloadingService" android:process=":DownloadingService" />
     </application>
 
 </manifest>
