@@ -1,7 +1,7 @@
 <resources>
 
     <!-- 主界面 -->
-    <string name="app_name">豆瓣书影</string>
+    <string name="app_name">简单书影</string>
     <string name="action_about">关于</string>
 
     <string name="drawer_open">Open</string>

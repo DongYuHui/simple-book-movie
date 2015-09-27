@@ -24,7 +24,7 @@ public class GetAuthorizationCodeActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-                if (url.contains("www.douban.com/?code=")) {
+                if (url.contains("www.kyletung.com/?code=")) {
                     String authorizationCode = url.substring(url.indexOf("=") + 1);
                     Intent intent = new Intent();
                     intent.putExtra("authorizationCode", authorizationCode);
@@ -40,7 +40,7 @@ public class GetAuthorizationCodeActivity extends AppCompatActivity {
                 return super.shouldOverrideUrlLoading(view, url);
             }
         });
-        webView.loadUrl("https://www.douban.com/service/auth2/auth?client_id=" + API_KEY + "&redirect_uri=http://www.douban.com&response_type=code&scope=book_basic_r,book_basic_w,douban_basic_common,movie_basic_r");
+        webView.loadUrl("https://www.douban.com/service/auth2/auth?client_id=" + API_KEY + "&redirect_uri=http://www.kyletung.com&response_type=code&scope=book_basic_r,book_basic_w,douban_basic_common,movie_basic_r");
     }
 
 }

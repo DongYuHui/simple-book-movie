@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         if (requestCode == 827 && resultCode == 512) {
             authorizationCode = data.getStringExtra("authorizationCode");
-            String url = "https://www.douban.com/service/auth2/token?client_id=" + API_KEY + "&client_secret=" + SECRET + "&redirect_uri=http://www.douban.com&grant_type=authorization_code&code=" + authorizationCode;
+            String url = "https://www.douban.com/service/auth2/token?client_id=" + API_KEY + "&client_secret=" + SECRET + "&redirect_uri=http://www.kyletung.com&grant_type=authorization_code&code=" + authorizationCode;
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {

@@ -7,7 +7,7 @@ android {
         applicationId 'com.kyletung.doubanbookmovie'
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 1
+        versionCode 3
         versionName "1.0"
     }
     buildTypes {
@@ -29,4 +29,5 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:1.3.0'
     compile project(':volley')
     compile 'com.android.support:palette-v7:22.2.1'
+    compile files('libs/umeng-update-v2.6.0.1.jar')
 }
