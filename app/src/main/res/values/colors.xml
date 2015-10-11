@@ -8,6 +8,7 @@
     <color name="tablayout_text_selected_color">#ffffff</color>
     <color name="tablayout_indicator_color">#ffffff</color>
     <color name="recycler_item_color">#fafafa</color>
+    <color name="launcher_screen">#76c375</color>
 
     <!-- Google Colors-->
     <color name="google_blue">#4285f4</color>

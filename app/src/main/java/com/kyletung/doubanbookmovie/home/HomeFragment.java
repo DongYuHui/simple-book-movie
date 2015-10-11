@@ -43,13 +43,9 @@ public class HomeFragment extends Fragment {
     TextView fragmentHomeLove;
     TextView fragmentHomeLuck;
 
-    //init swipe refresh layout
-    SwipeRefreshLayout swipeRefreshLayout;
-
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,25 +63,7 @@ public class HomeFragment extends Fragment {
         fragmentHomeLove = (TextView) view.findViewById(R.id.fragment_home_today_love);
         fragmentHomeLuck = (TextView) view.findViewById(R.id.fragment_home_today_luck_content);
 
-        //init swipe refresh layout
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_home_swipe);
-        swipeRefreshLayout.setColorSchemeResources(R.color.google_blue, R.color.google_red, R.color.google_green, R.color.google_yellow);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getData();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-
-        //set view
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                getData();
-            }
-        });
+        getData();
 
         return view;
     }
@@ -162,7 +140,6 @@ public class HomeFragment extends Fragment {
             fragmentHomeMoney.setText(jsonObject.getString("money"));
             fragmentHomeLove.setText(jsonObject.getString("love"));
             fragmentHomeLuck.setText(jsonObject.getString("summary"));
-            swipeRefreshLayout.setRefreshing(false);
         } catch (JSONException e) {
             e.printStackTrace();
         }

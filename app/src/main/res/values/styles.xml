@@ -6,7 +6,10 @@
     </style>
 
     <style name="OtherActivity" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
 
+    <style name="LauncherScreen" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/launcher_screen</item>
     </style>
 
 </resources>
