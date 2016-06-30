@@ -1,8 +1,14 @@
 package com.kyletung.simplebookmovie.util;
 
-import java.util.Map;
+import java.io.IOException;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * All rights reserved by Author<br>
@@ -14,6 +20,8 @@ import okhttp3.OkHttpClient;
  * 网络请求工具类
  */
 public class HttpUtil {
+
+    private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown; charset=utf-8");
 
     private static HttpUtil mUtil;
 
@@ -29,24 +37,90 @@ public class HttpUtil {
         return mUtil;
     }
 
-//    public String getSyn(String url, Map params) {
-//
-//    }
-//
-//    public String postSyn(String url, Map params, Map body) {
-//
-//    }
-
-    public void getAsyn(String url, Map params, OnResultListener onResultListener) {
-
+    public void setClient(OkHttpClient httpClient) {
+        mHttpClient = httpClient;
     }
 
-    public void postAsyn(String url, Map params, Map body, OnResultListener onResultListener) {
-
+    public String getSyn(Object tag, String url) {
+        String result;
+        Request request = new Request.Builder().url(url).tag(tag).build();
+        try {
+            Response response = mHttpClient.newCall(request).execute();
+            if (response.isSuccessful()) {
+                result = response.body().string();
+            } else {
+                result = null;
+            }
+        } catch (IOException e) {
+            result = null;
+        }
+        return result;
     }
 
-    public void cancelRequest(Object object) {
+    public String postSyn(Object tag, String url, String body) {
+        String result;
+        Request request = new Request.Builder().url(url).tag(tag).post(RequestBody.create(MEDIA_TYPE_MARKDOWN, body)).build();
+        try {
+            Response response = mHttpClient.newCall(request).execute();
+            if (response.isSuccessful()) {
+                result = response.body().string();
+            } else {
+                result = null;
+            }
+        } catch (IOException e) {
+            result = null;
+        }
+        return result;
+    }
 
+    public void getAsyn(Object tag, String url, final OnResultListener onResultListener) {
+        Request request = new Request.Builder().url(url).tag(tag).build();
+        mHttpClient.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                onResultListener.onError(e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    onResultListener.onSuccess(response.body().string());
+                } else {
+                    onResultListener.onError(response.toString());
+                }
+            }
+
+        });
+    }
+
+    public void postAsyn(Object tag, String url, String body, final OnResultListener onResultListener) {
+        Request request = new Request.Builder().url(url).tag(tag).post(RequestBody.create(MEDIA_TYPE_MARKDOWN, body)).build();
+        mHttpClient.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                onResultListener.onError(e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    onResultListener.onSuccess(response.body().string());
+                } else {
+                    onResultListener.onError(response.toString());
+                }
+            }
+
+        });
+    }
+
+    public synchronized void cancelRequest(Object tag) {
+        for (Call call : mHttpClient.dispatcher().queuedCalls()) {
+            if (call.request().tag().equals(tag)) {
+                call.cancel();
+            }
+        }
     }
 
     public interface OnResultListener {
