@@ -1,5 +1,8 @@
 <resources>
 
+    <!-- Test -->
+    <string name="test">Test</string>
+
     <!-- Application Name -->
     <string name="app_name">简单书影</string>
 

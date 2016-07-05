@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <FrameLayout
+    <com.kyletung.simplebookmovie.view.TabViewPager
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -15,6 +15,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/tab_movie"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -22,6 +23,7 @@
             android:text="movie"/>
 
         <TextView
+            android:id="@+id/tab_book"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -29,6 +31,7 @@
             android:text="book"/>
 
         <TextView
+            android:id="@+id/tab_mine"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

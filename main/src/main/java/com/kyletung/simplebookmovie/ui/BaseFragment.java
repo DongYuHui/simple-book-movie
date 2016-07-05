@@ -4,7 +4,10 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.kyletung.simplebookmovie.util.HttpUtil;
 
@@ -13,20 +16,25 @@ import com.kyletung.simplebookmovie.util.HttpUtil;
  * Author: Dong YuHui<br>
  * Email: <a href="mailto:dyh920827@gmail.com">dyh920827@gmail.com</a><br>
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
- * Create Time: 2016/06/27 at 11:58<br>
+ * Create Time: 2016/06/30 at 21:20<br>
  * <br>
- * 基础 Activity
+ * BaseFragment
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseFragment extends Fragment {
+
+    private View mView;
 
     // Progress Dialog
     protected ProgressDialog mProgressDialog;
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(getContentLayout());
-        init();
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (mView == null) {
+            mView = inflater.inflate(getContentLayout(), container, false);
+            init(mView);
+        }
+        return mView;
     }
 
     /**
@@ -37,9 +45,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract int getContentLayout();
 
     /**
-     * 提供一个方法供子类实现
+     * 初始化页面
+     *
+     * @param view View
      */
-    protected abstract void init();
+    protected abstract void init(View view);
 
     /**
      * Init Progress Dialog
@@ -49,7 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param onCancelListener 取消 ProgressDialog 的监听器
      */
     protected void showProgress(String msg, boolean cancelable, @Nullable DialogInterface.OnCancelListener onCancelListener) {
-        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage(msg);
         mProgressDialog.setCancelable(cancelable);
         if (onCancelListener != null) mProgressDialog.setOnCancelListener(onCancelListener);
@@ -60,14 +70,14 @@ public abstract class BaseActivity extends AppCompatActivity {
      * Dismiss Progress Dialog
      */
     protected void cancelProgress() {
-        if (mProgressDialog != null) {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         HttpUtil.getInstance().cancelRequest(this);
     }
 

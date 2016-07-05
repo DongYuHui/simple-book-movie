@@ -7,7 +7,12 @@
     <color name="colorPrimaryDark">#303F9F</color>
 
     <!-- Base Color -->
+    <color name="base_color_gray">#888888</color>
     <color name="base_color_white">#FFFFFF</color>
     <color name="base_color_black">#000000</color>
+
+    <!-- Items -->
+    <color name="item_color_gray">#444444</color>
+    <color name="item_color_orange">#F97956</color>
 
 </resources>

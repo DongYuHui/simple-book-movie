@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import com.kyletung.simplebookmovie.util.HttpUtil;
 import com.kyletung.simplebookmovie.util.JsonUtil;
+import com.kyletung.simplebookmovie.util.UrlUtil;
 
 /**
  * All rights reserved by Author<br>
@@ -19,6 +20,7 @@ import com.kyletung.simplebookmovie.util.JsonUtil;
 public abstract class BaseModel {
 
     // 工具类
+    private UrlUtil mUrlUtil;
     private JsonUtil mJsonUtil;
     private HttpUtil mHttpUtil;
 
@@ -53,6 +55,7 @@ public abstract class BaseModel {
      * 初始化
      */
     private void init() {
+        mUrlUtil = UrlUtil.getInstance();
         mJsonUtil = JsonUtil.getInstance();
         mHttpUtil = HttpUtil.getInstance();
     }
@@ -82,6 +85,15 @@ public abstract class BaseModel {
      */
     protected Fragment getFragment() {
         return mFragment;
+    }
+
+    /**
+     * 获取 UrlUtil
+     *
+     * @return UrlUtil
+     */
+    protected UrlUtil getUrlUtil() {
+        return mUrlUtil;
     }
 
     /**

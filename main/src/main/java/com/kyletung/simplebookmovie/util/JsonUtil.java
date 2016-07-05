@@ -2,7 +2,6 @@ package com.kyletung.simplebookmovie.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 
@@ -35,14 +34,13 @@ public class JsonUtil {
         return mJson.toJson(object);
     }
 
-    public <T> T fromJson(String content) {
-        return mJson.fromJson(content, new TypeToken<T>() {
-        }.getType());
+    public <T> T fromJson(String content, Class<T> cls) {
+        return mJson.fromJson(content, cls);
     }
 
+    @SuppressWarnings("unchecked")
     public <T> ArrayList<T> toList(String content) {
-        return mJson.fromJson(content, new TypeToken<ArrayList<T>>() {
-        }.getType());
+        return mJson.fromJson(content, ArrayList.class);
     }
 
 }

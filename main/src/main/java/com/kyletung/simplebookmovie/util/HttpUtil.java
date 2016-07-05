@@ -1,5 +1,7 @@
 package com.kyletung.simplebookmovie.util;
 
+import android.os.Handler;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -27,9 +29,12 @@ public class HttpUtil {
 
     private OkHttpClient mHttpClient;
 
+    private Handler mHandler;
+
     private HttpUtil() {
         //no instance
         mHttpClient = new OkHttpClient();
+        mHandler = new Handler();
     }
 
     public static HttpUtil getInstance() {
@@ -79,15 +84,34 @@ public class HttpUtil {
 
             @Override
             public void onFailure(Call call, IOException e) {
-                onResultListener.onError(e.getMessage());
+                final String error = e.getMessage();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        onResultListener.onError(error);
+                    }
+                });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+
                 if (response.isSuccessful()) {
-                    onResultListener.onSuccess(response.body().string());
+                    final String result = response.body().string();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            onResultListener.onSuccess(result);
+                        }
+                    });
                 } else {
-                    onResultListener.onError(response.toString());
+                    final String error = response.toString();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            onResultListener.onError(error);
+                        }
+                    });
                 }
             }
 
@@ -100,15 +124,33 @@ public class HttpUtil {
 
             @Override
             public void onFailure(Call call, IOException e) {
-                onResultListener.onError(e.getMessage());
+                final String error = e.getMessage();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        onResultListener.onError(error);
+                    }
+                });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    onResultListener.onSuccess(response.body().string());
+                    final String result = response.body().string();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            onResultListener.onSuccess(result);
+                        }
+                    });
                 } else {
-                    onResultListener.onError(response.toString());
+                    final String error = response.toString();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            onResultListener.onError(error);
+                        }
+                    });
                 }
             }
 
