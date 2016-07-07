@@ -13,9 +13,16 @@ import android.app.Application;
  */
 public class BaseApplication extends Application {
 
+    private static BaseApplication mApp;
+
+    public static BaseApplication getInstance() {
+        return mApp;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mApp = this;
     }
 
 }

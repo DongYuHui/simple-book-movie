@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
  * Create Time: 2016/06/27 at 15:27<br>
  * <br>
- * 封装 Gson 库，用于处理 Json 格式
+ * 封装 GSon 库，用于处理 Json 格式
  */
 public class JsonUtil {
 

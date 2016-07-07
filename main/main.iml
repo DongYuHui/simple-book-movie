@@ -127,5 +127,6 @@
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-24.0.0" level="project" />
     <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
+    <orderEntry type="module" module-name="volley" exported="" />
   </component>
 </module>

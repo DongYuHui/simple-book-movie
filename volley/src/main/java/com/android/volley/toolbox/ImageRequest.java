@@ -16,6 +16,11 @@
 
 package com.android.volley.toolbox;
 
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.widget.ImageView.ScaleType;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -23,30 +28,19 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyLog;
 
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
-import android.widget.ImageView.ScaleType;
-
 /**
  * A canned request for getting an image at a given URL and calling
  * back with a decoded Bitmap.
  */
 public class ImageRequest extends Request<Bitmap> {
-    /**
-     * Socket timeout in milliseconds for image requests
-     */
-    private static final int IMAGE_TIMEOUT_MS = 1000;
+    /** Socket timeout in milliseconds for image requests */
+    public static final int DEFAULT_IMAGE_TIMEOUT_MS = 1000;
 
-    /**
-     * Default number of retries for image requests
-     */
-    private static final int IMAGE_MAX_RETRIES = 2;
+    /** Default number of retries for image requests */
+    public static final int DEFAULT_IMAGE_MAX_RETRIES = 2;
 
-    /**
-     * Default backoff multiplier for image requests
-     */
-    private static final float IMAGE_BACKOFF_MULT = 2f;
+    /** Default backoff multiplier for image requests */
+    public static final float DEFAULT_IMAGE_BACKOFF_MULT = 2f;
 
     private final Response.Listener<Bitmap> mListener;
     private final Config mDecodeConfig;
@@ -54,9 +48,7 @@ public class ImageRequest extends Request<Bitmap> {
     private final int mMaxHeight;
     private ScaleType mScaleType;
 
-    /**
-     * Decoding lock so that we don't decode more than one image at a time (to avoid OOM's)
-     */
+    /** Decoding lock so that we don't decode more than one image at a time (to avoid OOM's) */
     private static final Object sDecodeLock = new Object();
 
     /**
@@ -68,20 +60,20 @@ public class ImageRequest extends Request<Bitmap> {
      * be fit in the rectangle of dimensions width x height while keeping its
      * aspect ratio.
      *
-     * @param url           URL of the image
-     * @param listener      Listener to receive the decoded bitmap
-     * @param maxWidth      Maximum width to decode this bitmap to, or zero for none
-     * @param maxHeight     Maximum height to decode this bitmap to, or zero for
-     *                      none
-     * @param scaleType     The ImageViews ScaleType used to calculate the needed image size.
-     * @param decodeConfig  Format to decode the bitmap to
+     * @param url URL of the image
+     * @param listener Listener to receive the decoded bitmap
+     * @param maxWidth Maximum width to decode this bitmap to, or zero for none
+     * @param maxHeight Maximum height to decode this bitmap to, or zero for
+     *            none
+     * @param scaleType The ImageViews ScaleType used to calculate the needed image size.
+     * @param decodeConfig Format to decode the bitmap to
      * @param errorListener Error listener, or null to ignore errors
      */
     public ImageRequest(String url, Response.Listener<Bitmap> listener, int maxWidth, int maxHeight,
-                        ScaleType scaleType, Config decodeConfig, Response.ErrorListener errorListener) {
+            ScaleType scaleType, Config decodeConfig, Response.ErrorListener errorListener) {
         super(Method.GET, url, errorListener);
-        setRetryPolicy(
-                new DefaultRetryPolicy(IMAGE_TIMEOUT_MS, IMAGE_MAX_RETRIES, IMAGE_BACKOFF_MULT));
+        setRetryPolicy(new DefaultRetryPolicy(DEFAULT_IMAGE_TIMEOUT_MS, DEFAULT_IMAGE_MAX_RETRIES,
+                DEFAULT_IMAGE_BACKOFF_MULT));
         mListener = listener;
         mDecodeConfig = decodeConfig;
         mMaxWidth = maxWidth;
@@ -95,11 +87,10 @@ public class ImageRequest extends Request<Bitmap> {
      */
     @Deprecated
     public ImageRequest(String url, Response.Listener<Bitmap> listener, int maxWidth, int maxHeight,
-                        Config decodeConfig, Response.ErrorListener errorListener) {
+            Config decodeConfig, Response.ErrorListener errorListener) {
         this(url, listener, maxWidth, maxHeight,
                 ScaleType.CENTER_INSIDE, decodeConfig, errorListener);
     }
-
     @Override
     public Priority getPriority() {
         return Priority.LOW;
@@ -108,17 +99,17 @@ public class ImageRequest extends Request<Bitmap> {
     /**
      * Scales one side of a rectangle to fit aspect ratio.
      *
-     * @param maxPrimary      Maximum size of the primary dimension (i.e. width for
-     *                        max width), or zero to maintain aspect ratio with secondary
-     *                        dimension
-     * @param maxSecondary    Maximum size of the secondary dimension, or zero to
-     *                        maintain aspect ratio with primary dimension
-     * @param actualPrimary   Actual size of the primary dimension
+     * @param maxPrimary Maximum size of the primary dimension (i.e. width for
+     *        max width), or zero to maintain aspect ratio with secondary
+     *        dimension
+     * @param maxSecondary Maximum size of the secondary dimension, or zero to
+     *        maintain aspect ratio with primary dimension
+     * @param actualPrimary Actual size of the primary dimension
      * @param actualSecondary Actual size of the secondary dimension
-     * @param scaleType       The ScaleType used to calculate the needed image size.
+     * @param scaleType The ScaleType used to calculate the needed image size.
      */
     private static int getResizedDimension(int maxPrimary, int maxSecondary, int actualPrimary,
-                                           int actualSecondary, ScaleType scaleType) {
+            int actualSecondary, ScaleType scaleType) {
 
         // If no dominant value at all, just return the actual.
         if ((maxPrimary == 0) && (maxSecondary == 0)) {
@@ -201,9 +192,9 @@ public class ImageRequest extends Request<Bitmap> {
             // TODO(ficus): Do we need this or is it okay since API 8 doesn't support it?
             // decodeOptions.inPreferQualityOverSpeed = PREFER_QUALITY_OVER_SPEED;
             decodeOptions.inSampleSize =
-                    findBestSampleSize(actualWidth, actualHeight, desiredWidth, desiredHeight);
+                findBestSampleSize(actualWidth, actualHeight, desiredWidth, desiredHeight);
             Bitmap tempBitmap =
-                    BitmapFactory.decodeByteArray(data, 0, data.length, decodeOptions);
+                BitmapFactory.decodeByteArray(data, 0, data.length, decodeOptions);
 
             // If necessary, scale down to the maximal acceptable size.
             if (tempBitmap != null && (tempBitmap.getWidth() > desiredWidth ||
@@ -232,9 +223,9 @@ public class ImageRequest extends Request<Bitmap> {
      * Returns the largest power-of-two divisor for use in downscaling a bitmap
      * that will not result in the scaling past the desired dimensions.
      *
-     * @param actualWidth   Actual width of the bitmap
-     * @param actualHeight  Actual height of the bitmap
-     * @param desiredWidth  Desired width of the bitmap
+     * @param actualWidth Actual width of the bitmap
+     * @param actualHeight Actual height of the bitmap
+     * @param desiredWidth Desired width of the bitmap
      * @param desiredHeight Desired height of the bitmap
      */
     // Visible for testing.

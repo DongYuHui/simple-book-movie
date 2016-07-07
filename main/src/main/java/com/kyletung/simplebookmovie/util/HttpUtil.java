@@ -1,6 +1,7 @@
 package com.kyletung.simplebookmovie.util;
 
 import android.os.Handler;
+import android.support.annotation.Nullable;
 
 import java.io.IOException;
 
@@ -23,6 +24,7 @@ import okhttp3.Response;
  */
 public class HttpUtil {
 
+    private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
     private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown; charset=utf-8");
 
     private static HttpUtil mUtil;
@@ -64,7 +66,7 @@ public class HttpUtil {
 
     public String postSyn(Object tag, String url, String body) {
         String result;
-        Request request = new Request.Builder().url(url).tag(tag).post(RequestBody.create(MEDIA_TYPE_MARKDOWN, body)).build();
+        Request request = new Request.Builder().url(url).tag(tag).post(RequestBody.create(MEDIA_TYPE_JSON, body)).build();
         try {
             Response response = mHttpClient.newCall(request).execute();
             if (response.isSuccessful()) {
@@ -118,8 +120,10 @@ public class HttpUtil {
         });
     }
 
-    public void postAsyn(Object tag, String url, String body, final OnResultListener onResultListener) {
-        Request request = new Request.Builder().url(url).tag(tag).post(RequestBody.create(MEDIA_TYPE_MARKDOWN, body)).build();
+    public void postAsyn(Object tag, String url, @Nullable String body, final OnResultListener onResultListener) {
+        RequestBody postbody = RequestBody.create(null, new byte[0]);
+        Request.Builder builder = new Request.Builder().url(url).method("POST",postbody).header("Content-Length", "0").tag(tag);
+        Request request = builder.build();
         mHttpClient.newCall(request).enqueue(new Callback() {
 
             @Override

@@ -43,46 +43,31 @@ import java.util.Map;
  */
 public class DiskBasedCache implements Cache {
 
-    /**
-     * Map of the Key, CacheHeader pairs
-     */
+    /** Map of the Key, CacheHeader pairs */
     private final Map<String, CacheHeader> mEntries =
             new LinkedHashMap<String, CacheHeader>(16, .75f, true);
 
-    /**
-     * Total amount of space currently used by the cache in bytes.
-     */
+    /** Total amount of space currently used by the cache in bytes. */
     private long mTotalSize = 0;
 
-    /**
-     * The root directory to use for the cache.
-     */
+    /** The root directory to use for the cache. */
     private final File mRootDirectory;
 
-    /**
-     * The maximum size of the cache in bytes.
-     */
+    /** The maximum size of the cache in bytes. */
     private final int mMaxCacheSizeInBytes;
 
-    /**
-     * Default maximum disk usage in bytes.
-     */
+    /** Default maximum disk usage in bytes. */
     private static final int DEFAULT_DISK_USAGE_BYTES = 5 * 1024 * 1024;
 
-    /**
-     * High water mark percentage for the cache
-     */
+    /** High water mark percentage for the cache */
     private static final float HYSTERESIS_FACTOR = 0.9f;
 
-    /**
-     * Magic number for current version of cache file format.
-     */
+    /** Magic number for current version of cache file format. */
     private static final int CACHE_MAGIC = 0x20150306;
 
     /**
      * Constructs an instance of the DiskBasedCache at the specified directory.
-     *
-     * @param rootDirectory       The root directory of the cache.
+     * @param rootDirectory The root directory of the cache.
      * @param maxCacheSizeInBytes The maximum size of the cache in bytes.
      */
     public DiskBasedCache(File rootDirectory, int maxCacheSizeInBytes) {
@@ -93,7 +78,6 @@ public class DiskBasedCache implements Cache {
     /**
      * Constructs an instance of the DiskBasedCache at the specified directory using
      * the default maximum cache size of 5MB.
-     *
      * @param rootDirectory The root directory of the cache.
      */
     public DiskBasedCache(File rootDirectory) {
@@ -175,23 +159,21 @@ public class DiskBasedCache implements Cache {
                 putEntry(entry.key, entry);
             } catch (IOException e) {
                 if (file != null) {
-                    file.delete();
+                   file.delete();
                 }
             } finally {
                 try {
                     if (fis != null) {
                         fis.close();
                     }
-                } catch (IOException ignored) {
-                }
+                } catch (IOException ignored) { }
             }
         }
     }
 
     /**
      * Invalidates an entry in the cache.
-     *
-     * @param key        Cache key
+     * @param key Cache key
      * @param fullExpire True to fully expire the entry, false to soft expire
      */
     @Override
@@ -250,7 +232,6 @@ public class DiskBasedCache implements Cache {
 
     /**
      * Creates a pseudo-unique filename for the specified cache key.
-     *
      * @param key The key to generate a file name for.
      * @return A pseudo-unique filename.
      */
@@ -270,7 +251,6 @@ public class DiskBasedCache implements Cache {
 
     /**
      * Prunes the cache to fit the amount of bytes specified.
-     *
      * @param neededSpace The amount of bytes we are trying to fit into the cache.
      */
     private void pruneIfNeeded(int neededSpace) {
@@ -293,8 +273,8 @@ public class DiskBasedCache implements Cache {
             if (deleted) {
                 mTotalSize -= e.size;
             } else {
-                VolleyLog.d("Could not delete cache entry for key=%s, filename=%s",
-                        e.key, getFilenameForKey(e.key));
+               VolleyLog.d("Could not delete cache entry for key=%s, filename=%s",
+                       e.key, getFilenameForKey(e.key));
             }
             iterator.remove();
             prunedFiles++;
@@ -312,8 +292,7 @@ public class DiskBasedCache implements Cache {
 
     /**
      * Puts the entry with the specified key into the cache.
-     *
-     * @param key   The key to identify the entry by.
+     * @param key The key to identify the entry by.
      * @param entry The entry to cache.
      */
     private void putEntry(String key, CacheHeader entry) {
@@ -339,7 +318,7 @@ public class DiskBasedCache implements Cache {
 
     /**
      * Reads the contents of an InputStream into a byte[].
-     */
+     * */
     private static byte[] streamToBytes(InputStream in, int length) throws IOException {
         byte[] bytes = new byte[length];
         int count;
@@ -358,54 +337,36 @@ public class DiskBasedCache implements Cache {
      */
     // Visible for testing.
     static class CacheHeader {
-        /**
-         * The size of the data identified by this CacheHeader. (This is not
-         * serialized to disk.
-         */
+        /** The size of the data identified by this CacheHeader. (This is not
+         * serialized to disk. */
         public long size;
 
-        /**
-         * The key that identifies the cache entry.
-         */
+        /** The key that identifies the cache entry. */
         public String key;
 
-        /**
-         * ETag for cache coherence.
-         */
+        /** ETag for cache coherence. */
         public String etag;
 
-        /**
-         * Date of this response as reported by the server.
-         */
+        /** Date of this response as reported by the server. */
         public long serverDate;
 
-        /**
-         * The last modified date for the requested object.
-         */
+        /** The last modified date for the requested object. */
         public long lastModified;
 
-        /**
-         * TTL for this record.
-         */
+        /** TTL for this record. */
         public long ttl;
 
-        /**
-         * Soft TTL for this record.
-         */
+        /** Soft TTL for this record. */
         public long softTtl;
 
-        /**
-         * Headers from the response resulting in this cache entry.
-         */
+        /** Headers from the response resulting in this cache entry. */
         public Map<String, String> responseHeaders;
 
-        private CacheHeader() {
-        }
+        private CacheHeader() { }
 
         /**
          * Instantiates a new CacheHeader object
-         *
-         * @param key   The key that identifies the cache entry
+         * @param key The key that identifies the cache entry
          * @param entry The cache entry.
          */
         public CacheHeader(String key, Entry entry) {
@@ -421,7 +382,6 @@ public class DiskBasedCache implements Cache {
 
         /**
          * Reads the header off of an InputStream and returns a CacheHeader object.
-         *
          * @param is The InputStream to read from.
          * @throws IOException
          */
@@ -547,14 +507,14 @@ public class DiskBasedCache implements Cache {
     }
 
     static void writeLong(OutputStream os, long n) throws IOException {
-        os.write((byte) (n >>> 0));
-        os.write((byte) (n >>> 8));
-        os.write((byte) (n >>> 16));
-        os.write((byte) (n >>> 24));
-        os.write((byte) (n >>> 32));
-        os.write((byte) (n >>> 40));
-        os.write((byte) (n >>> 48));
-        os.write((byte) (n >>> 56));
+        os.write((byte)(n >>> 0));
+        os.write((byte)(n >>> 8));
+        os.write((byte)(n >>> 16));
+        os.write((byte)(n >>> 24));
+        os.write((byte)(n >>> 32));
+        os.write((byte)(n >>> 40));
+        os.write((byte)(n >>> 48));
+        os.write((byte)(n >>> 56));
     }
 
     static long readLong(InputStream is) throws IOException {
