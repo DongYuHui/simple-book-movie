@@ -49,7 +49,7 @@ public class MovieBoardTopFragment extends BaseFragment implements IMovieTopView
         // init refresh
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         // init model
-        mModel = new MovieTopModel(this);
+        mModel = new MovieTopModel(getActivity(), this);
         mModel.setDataInterface(this);
         // init recycler
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);

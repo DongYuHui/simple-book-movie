@@ -6,6 +6,7 @@
     <!-- Application Name -->
     <string name="app_name">简单书影</string>
 
-    <!-- Main Activity -->
+    <!-- Book -->
+    <string name="book_item_price">%s元</string>
 
 </resources>

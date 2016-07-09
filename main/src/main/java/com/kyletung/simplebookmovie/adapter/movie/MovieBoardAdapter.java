@@ -1,6 +1,5 @@
 package com.kyletung.simplebookmovie.adapter.movie;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -27,14 +26,6 @@ import com.kyletung.simplebookmovie.view.recycler.BaseRecyclerAdapter;
  * 电影列表的适配器
  */
 public class MovieBoardAdapter extends BaseRecyclerAdapter<MovieItem, MovieBoardAdapter.MovieViewHolder> {
-
-    public MovieBoardAdapter(Context context, int resource) {
-        super(context, resource);
-    }
-
-    public MovieBoardAdapter(Context context, int resource, Activity activity) {
-        super(context, resource, activity);
-    }
 
     public MovieBoardAdapter(Context context, int resource, Fragment fragment) {
         super(context, resource, fragment);

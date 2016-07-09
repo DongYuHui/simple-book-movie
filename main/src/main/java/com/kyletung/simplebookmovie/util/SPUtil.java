@@ -12,7 +12,7 @@ import java.util.Map;
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
  * Create Time: 2016/07/06 at 17:10<br>
  * <br>
- * FixMe
+ * SharedPreferences 工具类
  */
 public class SPUtil {
 
@@ -27,6 +27,14 @@ public class SPUtil {
         return mUtil;
     }
 
+    /**
+     * 保存数据
+     *
+     * @param context 上下文
+     * @param name    SP 名字
+     * @param key     保存键
+     * @param value   保存值
+     */
     public void save(Context context, String name, String key, String value) {
         SharedPreferences sp = context.getSharedPreferences(name, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -34,6 +42,13 @@ public class SPUtil {
         editor.apply();
     }
 
+    /**
+     * 保存数据
+     *
+     * @param context 上下文
+     * @param name    SP 名字
+     * @param map     包含键值对的 Map
+     */
     public void save(Context context, String name, Map<String, String> map) {
         SharedPreferences sp = context.getSharedPreferences(name, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();

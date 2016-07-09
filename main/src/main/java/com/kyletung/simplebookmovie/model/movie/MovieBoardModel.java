@@ -1,7 +1,6 @@
 package com.kyletung.simplebookmovie.model.movie;
 
-import android.app.Activity;
-import android.support.v4.app.Fragment;
+import android.content.Context;
 
 import com.kyletung.simplebookmovie.data.movie.MovieBoardData;
 import com.kyletung.simplebookmovie.model.BaseModel;
@@ -21,20 +20,20 @@ public class MovieBoardModel extends BaseModel {
 
     private IMovieBoardView mView;
 
-    public MovieBoardModel(Activity activity) {
-        super(activity);
-    }
-
-    public MovieBoardModel(Fragment fragment) {
-        super(fragment);
+    public MovieBoardModel(Context context, IMovieBoardView view) {
+        super(context);
+        mView = view;
     }
 
     public void setDataInterface(IMovieBoardView view) {
         mView = view;
     }
 
+    /**
+     * 获取数据
+     */
     public void getData() {
-        getHttpUtil().getAsyn(getFragment(), getUrlUtil().bindUrl("/movie/us_box"), new HttpUtil.OnResultListener() {
+        getHttpUtil().get(getContext(), getUrlUtil().bindUrl("/movie/us_box"), new HttpUtil.OnResultListener() {
 
             @Override
             public void onSuccess(String result) {

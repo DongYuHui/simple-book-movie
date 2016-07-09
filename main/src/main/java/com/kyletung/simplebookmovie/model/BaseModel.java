@@ -1,8 +1,6 @@
 package com.kyletung.simplebookmovie.model;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 
 import com.kyletung.simplebookmovie.util.HttpUtil;
 import com.kyletung.simplebookmovie.util.JsonUtil;
@@ -26,35 +24,14 @@ public abstract class BaseModel {
 
     // 上下文环境
     private Context mContext;
-    private Activity mActivity;
-    private Fragment mFragment;
 
     /**
      * 构造方法
      *
-     * @param activity Activity
+     * @param context 上下文
      */
-    public BaseModel(Activity activity) {
-        init();
-        mActivity = activity;
-        mContext = activity;
-    }
-
-    /**
-     * 构造方法
-     *
-     * @param fragment Fragment
-     */
-    public BaseModel(Fragment fragment) {
-        init();
-        mFragment = fragment;
-        mContext = fragment.getActivity();
-    }
-
-    /**
-     * 初始化
-     */
-    private void init() {
+    public BaseModel(Context context) {
+        mContext = context;
         mUrlUtil = UrlUtil.getInstance();
         mJsonUtil = JsonUtil.getInstance();
         mHttpUtil = HttpUtil.getInstance();
@@ -67,24 +44,6 @@ public abstract class BaseModel {
      */
     protected Context getContext() {
         return mContext;
-    }
-
-    /**
-     * 获取 Activity
-     *
-     * @return Activity
-     */
-    protected Activity getActivity() {
-        return mActivity;
-    }
-
-    /**
-     * 获取 Fragment
-     *
-     * @return Fragment
-     */
-    protected Fragment getFragment() {
-        return mFragment;
     }
 
     /**

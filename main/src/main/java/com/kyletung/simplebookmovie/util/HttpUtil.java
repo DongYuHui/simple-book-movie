@@ -1,17 +1,17 @@
 package com.kyletung.simplebookmovie.util;
 
-import android.os.Handler;
 import android.support.annotation.Nullable;
 
-import java.io.IOException;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.kyletung.simplebookmovie.BaseApplication;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import java.util.Map;
 
 /**
  * All rights reserved by Author<br>
@@ -24,19 +24,14 @@ import okhttp3.Response;
  */
 public class HttpUtil {
 
-    private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
-    private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown; charset=utf-8");
-
     private static HttpUtil mUtil;
 
-    private OkHttpClient mHttpClient;
-
-    private Handler mHandler;
+    private volatile RequestQueue mRequestQueue;
 
     private HttpUtil() {
         //no instance
-        mHttpClient = new OkHttpClient();
-        mHandler = new Handler();
+        mRequestQueue = Volley.newRequestQueue(BaseApplication.getInstance());
+        mRequestQueue.start();
     }
 
     public static HttpUtil getInstance() {
@@ -44,131 +39,73 @@ public class HttpUtil {
         return mUtil;
     }
 
-    public void setClient(OkHttpClient httpClient) {
-        mHttpClient = httpClient;
-    }
-
-    public String getSyn(Object tag, String url) {
-        String result;
-        Request request = new Request.Builder().url(url).tag(tag).build();
-        try {
-            Response response = mHttpClient.newCall(request).execute();
-            if (response.isSuccessful()) {
-                result = response.body().string();
-            } else {
-                result = null;
-            }
-        } catch (IOException e) {
-            result = null;
-        }
-        return result;
-    }
-
-    public String postSyn(Object tag, String url, String body) {
-        String result;
-        Request request = new Request.Builder().url(url).tag(tag).post(RequestBody.create(MEDIA_TYPE_JSON, body)).build();
-        try {
-            Response response = mHttpClient.newCall(request).execute();
-            if (response.isSuccessful()) {
-                result = response.body().string();
-            } else {
-                result = null;
-            }
-        } catch (IOException e) {
-            result = null;
-        }
-        return result;
-    }
-
-    public void getAsyn(Object tag, String url, final OnResultListener onResultListener) {
-        Request request = new Request.Builder().url(url).tag(tag).build();
-        mHttpClient.newCall(request).enqueue(new Callback() {
-
+    /**
+     * Get 请求
+     *
+     * @param tag              Tag，便于取消请求
+     * @param url              请求地址
+     * @param onResultListener 请求回调
+     */
+    public void get(Object tag, String url, final OnResultListener onResultListener) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                final String error = e.getMessage();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        onResultListener.onError(error);
-                    }
-                });
+            public void onResponse(String response) {
+                onResultListener.onSuccess(response);
             }
-
+        }, new Response.ErrorListener() {
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-                if (response.isSuccessful()) {
-                    final String result = response.body().string();
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            onResultListener.onSuccess(result);
-                        }
-                    });
-                } else {
-                    final String error = response.toString();
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            onResultListener.onError(error);
-                        }
-                    });
-                }
+            public void onErrorResponse(VolleyError error) {
+                onResultListener.onError(error.getMessage());
             }
-
         });
+        stringRequest.setTag(tag);
+        mRequestQueue.add(stringRequest);
     }
 
-    public void postAsyn(Object tag, String url, @Nullable String body, final OnResultListener onResultListener) {
-        RequestBody postbody = RequestBody.create(null, new byte[0]);
-        Request.Builder builder = new Request.Builder().url(url).method("POST",postbody).header("Content-Length", "0").tag(tag);
-        Request request = builder.build();
-        mHttpClient.newCall(request).enqueue(new Callback() {
-
+    /**
+     * Post 请求
+     *
+     * @param tag              Tag，便于取消请求
+     * @param url              请求地址
+     * @param onResultListener 请求回调
+     * @param body             请求体，可以为空
+     */
+    public void post(Object tag, String url, final OnResultListener onResultListener, @Nullable final Map<String, String> body) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                final String error = e.getMessage();
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        onResultListener.onError(error);
-                    }
-                });
+            public void onResponse(String response) {
+                onResultListener.onSuccess(response);
             }
-
+        }, new Response.ErrorListener() {
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    final String result = response.body().string();
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            onResultListener.onSuccess(result);
-                        }
-                    });
-                } else {
-                    final String error = response.toString();
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            onResultListener.onError(error);
-                        }
-                    });
+            public void onErrorResponse(VolleyError error) {
+                onResultListener.onError(error.getMessage());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                if (body != null) {
+                    return body;
                 }
+                return super.getParams();
             }
-
-        });
+        };
+        stringRequest.setTag(tag);
+        mRequestQueue.add(stringRequest);
     }
 
-    public synchronized void cancelRequest(Object tag) {
-        for (Call call : mHttpClient.dispatcher().queuedCalls()) {
-            if (call.request().tag().equals(tag)) {
-                call.cancel();
-            }
-        }
+    /**
+     * 取消请求
+     *
+     * @param tag Tag
+     */
+    public void cancel(Object tag) {
+        mRequestQueue.cancelAll(tag);
     }
 
+    /**
+     * 定义的接口，用于请求回调
+     */
     public interface OnResultListener {
 
         /**

@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.kyletung.simplebookmovie.ui.TestFragment;
+import com.kyletung.simplebookmovie.ui.book.BookFragment;
 import com.kyletung.simplebookmovie.ui.movie.MovieFragment;
 
 /**
@@ -19,7 +20,7 @@ import com.kyletung.simplebookmovie.ui.movie.MovieFragment;
 public class TabPagerAdapter extends FragmentPagerAdapter {
 
     private TestFragment mFragmentMine;
-    private TestFragment mFragmentBook;
+    private BookFragment mFragmentBook;
     private MovieFragment mFragmentMovie;
 
     public TabPagerAdapter(FragmentManager fm) {
@@ -33,7 +34,7 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
                 if (mFragmentMovie == null) mFragmentMovie = MovieFragment.newInstance();
                 return mFragmentMovie;
             case 1:
-                if (mFragmentBook == null) mFragmentBook = TestFragment.newInstance();
+                if (mFragmentBook == null) mFragmentBook = BookFragment.newInstance();
                 return mFragmentBook;
             case 2:
                 if (mFragmentMine == null) mFragmentMine = TestFragment.newInstance();

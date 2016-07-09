@@ -68,7 +68,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        HttpUtil.getInstance().cancelRequest(this);
+        HttpUtil.getInstance().cancel(this);
     }
 
 }

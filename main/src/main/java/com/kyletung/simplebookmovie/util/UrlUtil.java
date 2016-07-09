@@ -26,10 +26,23 @@ public class UrlUtil {
         return mUtil;
     }
 
+    /**
+     * 绑定地址
+     *
+     * @param url 地址后缀
+     * @return 返回完整地址
+     */
     public String bindUrl(String url) {
         return String.format(Constants.BASE_URL, url);
     }
 
+    /**
+     * 生成地址
+     *
+     * @param url    地址后缀
+     * @param params 后续所跟参数
+     * @return 返回完整地址
+     */
     public String buildUrl(String url, Map<String, String> params) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(url).append("?");

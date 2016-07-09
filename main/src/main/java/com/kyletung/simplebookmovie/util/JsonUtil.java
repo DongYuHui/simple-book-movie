@@ -30,14 +30,35 @@ public class JsonUtil {
         return mUtil;
     }
 
+    /**
+     * 将对象转化成 Json 字符串
+     *
+     * @param object 对象
+     * @return 返回 Json 字符串
+     */
     public String toJson(Object object) {
         return mJson.toJson(object);
     }
 
+    /**
+     * 将 Json 字符串转化成对象
+     *
+     * @param content 字符串
+     * @param cls     类类型
+     * @param <T>     类类型
+     * @return 返回生成的对象
+     */
     public <T> T fromJson(String content, Class<T> cls) {
         return mJson.fromJson(content, cls);
     }
 
+    /**
+     * 将 Json 字符串转化成 List
+     *
+     * @param content 字符串
+     * @param <T>     类类型
+     * @return 返回 List
+     */
     @SuppressWarnings("unchecked")
     public <T> ArrayList<T> toList(String content) {
         return mJson.fromJson(content, ArrayList.class);

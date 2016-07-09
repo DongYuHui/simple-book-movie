@@ -1,7 +1,6 @@
 package com.kyletung.simplebookmovie.model.movie;
 
-import android.app.Activity;
-import android.support.v4.app.Fragment;
+import android.content.Context;
 import android.support.v4.util.ArrayMap;
 
 import com.kyletung.simplebookmovie.data.movie.MovieTopData;
@@ -26,25 +25,25 @@ public class MovieTopModel extends BaseModel {
 
     private IMovieTopView mView;
 
-    public MovieTopModel(Activity activity) {
-        super(activity);
-    }
-
-    public MovieTopModel(Fragment fragment) {
-        super(fragment);
+    public MovieTopModel(Context context, IMovieTopView view) {
+        super(context);
+        mView = view;
     }
 
     public void setDataInterface(IMovieTopView view) {
         this.mView = view;
     }
 
+    /**
+     * 获取数据
+     */
     public void getData() {
 
         Map<String, String> params = new ArrayMap<>();
         params.put("start", String.valueOf(0));
         params.put("count", String.valueOf(REQUEST_COUNT));
 
-        getHttpUtil().getAsyn(getFragment(), getUrlUtil().buildUrl("/movie/top250", params), new HttpUtil.OnResultListener() {
+        getHttpUtil().get(getContext(), getUrlUtil().buildUrl("/movie/top250", params), new HttpUtil.OnResultListener() {
 
             @Override
             public void onSuccess(String result) {
@@ -67,13 +66,18 @@ public class MovieTopModel extends BaseModel {
 
     }
 
+    /**
+     * 获取更多
+     *
+     * @param start 开始计数点
+     */
     public void getMore(int start) {
 
         Map<String, String> params = new ArrayMap<>();
         params.put("start", String.valueOf(start));
         params.put("count", String.valueOf(REQUEST_COUNT));
 
-        getHttpUtil().getAsyn(getFragment(), getUrlUtil().buildUrl("/movie/top250", params), new HttpUtil.OnResultListener() {
+        getHttpUtil().get(getContext(), getUrlUtil().buildUrl("/movie/top250", params), new HttpUtil.OnResultListener() {
 
             @Override
             public void onSuccess(String result) {
