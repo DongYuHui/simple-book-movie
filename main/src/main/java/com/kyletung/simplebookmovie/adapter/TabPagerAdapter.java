@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.kyletung.simplebookmovie.ui.TestFragment;
 import com.kyletung.simplebookmovie.ui.book.BookFragment;
 import com.kyletung.simplebookmovie.ui.movie.MovieFragment;
+import com.kyletung.simplebookmovie.ui.user.UserFragment;
 
 /**
  * All rights reserved by Author<br>
@@ -19,7 +19,7 @@ import com.kyletung.simplebookmovie.ui.movie.MovieFragment;
  */
 public class TabPagerAdapter extends FragmentPagerAdapter {
 
-    private TestFragment mFragmentMine;
+    private UserFragment mFragmentMine;
     private BookFragment mFragmentBook;
     private MovieFragment mFragmentMovie;
 
@@ -37,7 +37,7 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
                 if (mFragmentBook == null) mFragmentBook = BookFragment.newInstance();
                 return mFragmentBook;
             case 2:
-                if (mFragmentMine == null) mFragmentMine = TestFragment.newInstance();
+                if (mFragmentMine == null) mFragmentMine = UserFragment.newInstance("61394142");
                 return mFragmentMine;
         }
         return null;

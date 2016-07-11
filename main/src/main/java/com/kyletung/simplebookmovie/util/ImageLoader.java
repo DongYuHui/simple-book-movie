@@ -85,4 +85,8 @@ public class ImageLoader {
         Glide.with(fragment).load(resource).placeholder(R.drawable.image_load_progress).error(R.drawable.image_load_error).into(view);
     }
 
+    public static void load(Fragment fragment, ImageView view, String url, boolean showProgress) {
+        Glide.with(fragment).load(url).into(view);
+    }
+
 }

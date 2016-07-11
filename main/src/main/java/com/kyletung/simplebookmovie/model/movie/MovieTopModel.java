@@ -47,7 +47,6 @@ public class MovieTopModel extends BaseModel {
 
             @Override
             public void onSuccess(String result) {
-                System.out.println("result " + result);
                 if (mView != null) {
                     MovieTopData data = getJsonUtil().fromJson(result, MovieTopData.class);
                     mView.onDataSuccess(data.getSubjects());

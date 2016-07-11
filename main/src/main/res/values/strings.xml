@@ -6,7 +6,12 @@
     <!-- Application Name -->
     <string name="app_name">简单书影</string>
 
-    <!-- Book -->
-    <string name="book_item_price">%s元</string>
+    <!-- User Fragment -->
+    <string name="user_name">昵称</string>
+    <string name="user_head">头像</string>
+    <string name="user_location">地点</string>
+    <string name="user_signature">签名</string>
+    <string name="user_description">描述</string>
+    <string name="user_settings">设置</string>
 
 </resources>

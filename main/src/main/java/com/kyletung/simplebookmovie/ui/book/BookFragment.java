@@ -37,7 +37,7 @@ public class BookFragment extends BaseFragment {
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.book_tab);
         TabViewPager viewPager = (TabViewPager) view.findViewById(R.id.book_viewpager);
         viewPager.setSwipeEnabled(true);
-        BookPagerAdapter adapter = new BookPagerAdapter(getChildFragmentManager(), "");
+        BookPagerAdapter adapter = new BookPagerAdapter(getChildFragmentManager(), "61394142");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
