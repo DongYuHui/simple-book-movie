@@ -2,9 +2,9 @@
 <resources>
 
     <!-- Primary Color -->
-    <color name="colorAccent">#FF4081</color>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#11CD6E</color>
+    <color name="colorPrimary">#1FD679</color>
+    <color name="colorPrimaryDark">#0F864A</color>
 
     <!-- Base Color -->
     <color name="base_color_gray">#888888</color>
@@ -14,5 +14,9 @@
     <!-- Items -->
     <color name="item_color_gray">#444444</color>
     <color name="item_color_orange">#F97956</color>
+
+    <!-- Main Activity -->
+    <color name="top_bar_text_selected_color">#FFFFFF</color>
+    <color name="top_bar_text_unselected_color">#0F864A</color>
 
 </resources>

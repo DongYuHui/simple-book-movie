@@ -36,4 +36,6 @@ dependencies {
     compile project(':volley')
     // EventBus
     compile 'org.greenrobot:eventbus:3.0.0'
+    // Buttom Bar
+    compile 'com.aurelhubert:ahbottomnavigation:1.3.3'
 }

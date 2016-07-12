@@ -8,6 +8,9 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/base_dimen_4dp"
+        android:paddingTop="@dimen/base_dimen_4dp"/>
 
 </android.support.v4.widget.SwipeRefreshLayout>

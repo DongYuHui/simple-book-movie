@@ -6,6 +6,11 @@
     <!-- Application Name -->
     <string name="app_name">简单书影</string>
 
+    <!-- Main Activity -->
+    <string name="main_tab_book">书籍</string>
+    <string name="main_tab_movie">电影</string>
+    <string name="main_tab_user">用户</string>
+
     <!-- Login -->
     <string name="login">登录</string>
     <string name="login_first">请先登录</string>
