@@ -3,6 +3,8 @@ package com.kyletung.simplebookmovie.util;
 import android.content.Context;
 import android.support.v4.util.ArrayMap;
 
+import com.kyletung.simplebookmovie.config.Constants;
+
 /**
  * All rights reserved by Author<br>
  * Author: Dong YuHui<br>
@@ -35,7 +37,16 @@ public class UserInfoUtil {
         map.put("access_token", access_token);
         map.put("user_id", douban_user_id);
         map.put("refresh_token", refresh_token);
-        mSPUtil.save(mContext, "LoginInfo", map);
+        mSPUtil.save(mContext, Constants.SP_LOGIN_INFO, map);
+    }
+
+    /**
+     * 读取用户 Id
+     *
+     * @return 返回用户 Id
+     */
+    public String readUserId() {
+        return mSPUtil.read(mContext, Constants.SP_LOGIN_INFO, "user_id", "");
     }
 
 }

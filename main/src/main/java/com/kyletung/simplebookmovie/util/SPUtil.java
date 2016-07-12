@@ -2,6 +2,7 @@ package com.kyletung.simplebookmovie.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
 
 import java.util.Map;
 
@@ -56,6 +57,20 @@ public class SPUtil {
             editor.putString(entry.getKey(), entry.getValue());
         }
         editor.apply();
+    }
+
+    /**
+     * 读取数据
+     *
+     * @param context      上下文
+     * @param name         SP 名字
+     * @param key          保存键
+     * @param defaultValue 默认值
+     * @return 返回读取到的值或默认值
+     */
+    public String read(Context context, String name, String key, @Nullable String defaultValue) {
+        SharedPreferences sp = context.getSharedPreferences(name, Context.MODE_PRIVATE);
+        return sp.getString(key, defaultValue);
     }
 
 }

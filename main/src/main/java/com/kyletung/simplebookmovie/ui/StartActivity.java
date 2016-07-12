@@ -1,6 +1,10 @@
 package com.kyletung.simplebookmovie.ui;
 
+import android.content.Intent;
+
 import com.kyletung.simplebookmovie.R;
+import com.kyletung.simplebookmovie.ui.main.MainActivity;
+import com.kyletung.simplebookmovie.util.UserInfoUtil;
 
 /**
  * All rights reserved by Author<br>
@@ -21,7 +25,12 @@ public class StartActivity extends BaseActivity {
     @Override
     protected void init() {
         // init data
-
+        UserInfoUtil userInfoUtil = new UserInfoUtil(this);
+        String userId = userInfoUtil.readUserId();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("userId", userId);
+        startActivity(intent);
     }
 
 }

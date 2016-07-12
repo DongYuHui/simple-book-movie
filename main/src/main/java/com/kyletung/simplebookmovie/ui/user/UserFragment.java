@@ -1,17 +1,23 @@
 package com.kyletung.simplebookmovie.ui.user;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.data.user.UserData;
+import com.kyletung.simplebookmovie.event.UserEvent;
 import com.kyletung.simplebookmovie.model.user.UserModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.util.ImageLoader;
 import com.kyletung.simplebookmovie.view.CircleImageView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * All rights reserved by Author<br>
@@ -43,6 +49,12 @@ public class UserFragment extends BaseFragment implements IUserView {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     protected int getContentLayout() {
         return R.layout.fragment_user;
     }
@@ -61,19 +73,15 @@ public class UserFragment extends BaseFragment implements IUserView {
         // init model
         mModel = new UserModel(getActivity());
         mModel.setInterface(this);
-        // set listener
-        setListener();
-    }
-
-    private void setListener() {
-        mUserHead.post(new Runnable() {
-            @Override
-            public void run() {
-                if (!TextUtils.isEmpty(mUserId)) {
+        // get info
+        if (!TextUtils.isEmpty(mUserId)) {
+            mUserHead.post(new Runnable() {
+                @Override
+                public void run() {
                     mModel.getUserInfo(mUserId);
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
@@ -88,6 +96,18 @@ public class UserFragment extends BaseFragment implements IUserView {
     @Override
     public void onGetInfoError(String error) {
         BaseToast.toast(getActivity(), error);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserIdEvent(UserEvent event) {
+        mUserId = event.getUserId();
+        mModel.getUserInfo(mUserId);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 }

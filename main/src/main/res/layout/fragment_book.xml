@@ -10,6 +10,29 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/book_login_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/book_login_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/login_first"
+            android:textSize="@dimen/base_text_20sp"/>
+
+        <Button
+            android:id="@+id/book_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/book_login_text"
+            android:layout_centerHorizontal="true"
+            android:text="@string/login"/>
+
+    </RelativeLayout>
+
     <android.support.design.widget.TabLayout
         android:id="@+id/book_tab"
         android:layout_width="match_parent"

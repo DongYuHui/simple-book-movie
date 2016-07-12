@@ -1,5 +1,6 @@
 package com.kyletung.simplebookmovie.ui.main;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -35,9 +36,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void init() {
+        // init data
+        Intent intent = getIntent();
+        String userId = intent.getStringExtra("userId");
         // init ViewPager
         mTabViewPager = (TabViewPager) findViewById(R.id.main_content);
-        TabPagerAdapter tabAdapter = new TabPagerAdapter(getSupportFragmentManager());
+        TabPagerAdapter tabAdapter = new TabPagerAdapter(getSupportFragmentManager(), userId);
         mTabViewPager.setAdapter(tabAdapter);
         // init tab
         mTabBook = (TextView) findViewById(R.id.tab_book);

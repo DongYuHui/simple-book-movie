@@ -6,6 +6,10 @@
     <!-- Application Name -->
     <string name="app_name">简单书影</string>
 
+    <!-- Login -->
+    <string name="login">登录</string>
+    <string name="login_first">请先登录</string>
+
     <!-- User Fragment -->
     <string name="user_name">昵称</string>
     <string name="user_head">头像</string>
@@ -13,5 +17,8 @@
     <string name="user_signature">签名</string>
     <string name="user_description">描述</string>
     <string name="user_settings">设置</string>
+    <string name="user_location_hint">用户所在地点</string>
+    <string name="user_signature_hint">用户个人签名</string>
+    <string name="user_description_hint">用户自身描述</string>
 
 </resources>
