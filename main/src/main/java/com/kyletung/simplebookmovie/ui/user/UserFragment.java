@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
@@ -12,6 +14,7 @@ import com.kyletung.simplebookmovie.event.UserEvent;
 import com.kyletung.simplebookmovie.model.user.UserModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.util.BaseToast;
+import com.kyletung.simplebookmovie.util.HeadBackUtil;
 import com.kyletung.simplebookmovie.util.ImageLoader;
 import com.kyletung.simplebookmovie.view.CircleImageView;
 
@@ -31,11 +34,13 @@ import org.greenrobot.eventbus.ThreadMode;
 public class UserFragment extends BaseFragment implements IUserView {
 
     // user info
+    private ImageView mUserHeadBack;
     private CircleImageView mUserHead;
     private TextView mUserName;
     private TextView mUserLocation;
     private TextView mUserSignature;
     private TextView mUserDescription;
+    private LinearLayout mSettingContainer;
 
     private String mUserId;
     private UserModel mModel;
@@ -65,11 +70,15 @@ public class UserFragment extends BaseFragment implements IUserView {
         Bundle bundle = getArguments();
         mUserId = bundle.getString("userId");
         // init views
+        mUserHeadBack = (ImageView) view.findViewById(R.id.user_head_back);
         mUserHead = (CircleImageView) view.findViewById(R.id.user_head);
         mUserName = (TextView) view.findViewById(R.id.user_name);
         mUserLocation = (TextView) view.findViewById(R.id.user_location);
         mUserSignature = (TextView) view.findViewById(R.id.user_signature);
         mUserDescription = (TextView) view.findViewById(R.id.user_description);
+        mSettingContainer = (LinearLayout) view.findViewById(R.id.setting_container);
+        // init head background
+        ImageLoader.load(this, mUserHeadBack, new HeadBackUtil(getActivity()).getImage());
         // init model
         mModel = new UserModel(getActivity());
         mModel.setInterface(this);
@@ -82,6 +91,17 @@ public class UserFragment extends BaseFragment implements IUserView {
                 }
             });
         }
+        // set listener
+        setListener();
+    }
+
+    private void setListener() {
+        mSettingContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BaseToast.toast(getActivity(), "Setting");
+            }
+        });
     }
 
     @Override

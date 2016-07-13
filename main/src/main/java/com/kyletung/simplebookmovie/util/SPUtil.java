@@ -48,6 +48,36 @@ public class SPUtil {
      *
      * @param context 上下文
      * @param name    SP 名字
+     * @param key     保存键
+     * @param value   保存值
+     */
+    public void save(Context context, String name, String key, int value) {
+        SharedPreferences sp = context.getSharedPreferences(name, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
+
+    /**
+     * 保存数据
+     *
+     * @param context 上下文
+     * @param name    SP 名字
+     * @param key     保存键
+     * @param value   保存值
+     */
+    public void save(Context context, String name, String key, long value) {
+        SharedPreferences sp = context.getSharedPreferences(name, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putLong(key, value);
+        editor.apply();
+    }
+
+    /**
+     * 保存数据
+     *
+     * @param context 上下文
+     * @param name    SP 名字
      * @param map     包含键值对的 Map
      */
     public void save(Context context, String name, Map<String, String> map) {
@@ -71,6 +101,34 @@ public class SPUtil {
     public String read(Context context, String name, String key, @Nullable String defaultValue) {
         SharedPreferences sp = context.getSharedPreferences(name, Context.MODE_PRIVATE);
         return sp.getString(key, defaultValue);
+    }
+
+    /**
+     * 读取 int 值
+     *
+     * @param context      上下文
+     * @param name         SP 名字
+     * @param key          保存键
+     * @param defaultValue 默认值
+     * @return 返回读取到的值或默认值
+     */
+    public int read(Context context, String name, String key, int defaultValue) {
+        SharedPreferences sp = context.getSharedPreferences(name, Context.MODE_PRIVATE);
+        return sp.getInt(key, defaultValue);
+    }
+
+    /**
+     * 读取 long 值
+     *
+     * @param context      上下文
+     * @param name         SP 名字
+     * @param key          保存键
+     * @param defaultValue 默认值
+     * @return 返回读取到的值或默认值
+     */
+    public long read(Context context, String name, String key, long defaultValue) {
+        SharedPreferences sp = context.getSharedPreferences(name, Context.MODE_PRIVATE);
+        return sp.getLong(key, defaultValue);
     }
 
 }

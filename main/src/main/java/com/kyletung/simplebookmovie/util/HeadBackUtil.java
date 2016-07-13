@@ -15,7 +15,7 @@ import com.kyletung.simplebookmovie.R;
  */
 public class HeadBackUtil {
 
-    private static final int[] headBackImages = {
+    private static final int[] HEAD_BACK_IMAGES = {
             R.drawable.head_back_01,
             R.drawable.head_back_02,
             R.drawable.head_back_03,
@@ -25,10 +25,32 @@ public class HeadBackUtil {
 
     private Context mContext;
 
+    private SPUtil mSPUtil;
+
     public HeadBackUtil(Context context) {
         this.mContext = context;
+        mSPUtil = SPUtil.getInstance();
     }
 
+    public int getImage() {
+        int imageIndex = 0;
+        int index = mSPUtil.read(mContext, "HeadBack", "index", -1);
+        if (index != -1) {
+            long time = mSPUtil.read(mContext, "HeadBack", "time", -1);
+            if (System.currentTimeMillis() - time > (24 * 60 * 60 * 1000)) {
+                index++;
+                imageIndex = index;
+                save(index);
+            } else {
+                imageIndex = index;
+            }
+        }
+        return HEAD_BACK_IMAGES[imageIndex % 5];
+    }
 
+    private void save(int index) {
+        mSPUtil.save(mContext, "HeadBack", "index", index);
+        mSPUtil.save(mContext, "HeadBack", "time", System.currentTimeMillis());
+    }
 
 }
