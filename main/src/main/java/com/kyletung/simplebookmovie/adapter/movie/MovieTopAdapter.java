@@ -27,8 +27,14 @@ import com.kyletung.simplebookmovie.view.recycler.MoreRecyclerAdapter;
  */
 public class MovieTopAdapter extends MoreRecyclerAdapter<MovieSubject, MovieTopAdapter.MovieViewHolder> {
 
+    private OnItemClickListener mOnItemClickListener;
+
     public MovieTopAdapter(Context context, int resource, Fragment fragment) {
         super(context, resource, fragment);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -40,11 +46,11 @@ public class MovieTopAdapter extends MoreRecyclerAdapter<MovieSubject, MovieTopA
     public void onBindDataViewHolder(MovieViewHolder holder, int position) {
         final int itemPosition = position;
         if (mActivity != null) {
-            ImageLoader.load(mActivity, holder.mMovieImage, mListData.get(itemPosition).getImages().getSmall());
+            ImageLoader.load(mActivity, holder.mMovieImage, mListData.get(itemPosition).getImages().getLarge());
         } else if (mFragment != null) {
-            ImageLoader.load(mFragment, holder.mMovieImage, mListData.get(itemPosition).getImages().getSmall());
+            ImageLoader.load(mFragment, holder.mMovieImage, mListData.get(itemPosition).getImages().getLarge());
         } else {
-            ImageLoader.load(mContext, holder.mMovieImage, mListData.get(itemPosition).getImages().getSmall());
+            ImageLoader.load(mContext, holder.mMovieImage, mListData.get(itemPosition).getImages().getLarge());
         }
         holder.mMovieTitle.setText(mListData.get(itemPosition).getTitle());
         StringBuilder directors = new StringBuilder();
@@ -63,6 +69,9 @@ public class MovieTopAdapter extends MoreRecyclerAdapter<MovieSubject, MovieTopA
             @Override
             public void onClick(View view) {
                 Toast.makeText(mContext, "Detail " + itemPosition, Toast.LENGTH_SHORT).show();
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(itemPosition, String.valueOf(mListData.get(itemPosition).getId()));
+                }
             }
         });
     }
@@ -89,5 +98,9 @@ public class MovieTopAdapter extends MoreRecyclerAdapter<MovieSubject, MovieTopA
         }
 
     }
-    
+
+    public interface OnItemClickListener {
+        void onItemClick(int position, String movieId);
+    }
+
 }

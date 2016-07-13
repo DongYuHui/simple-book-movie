@@ -1,5 +1,6 @@
 package com.kyletung.simplebookmovie.ui.movie;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +13,7 @@ import com.kyletung.simplebookmovie.adapter.movie.MovieTopAdapter;
 import com.kyletung.simplebookmovie.data.movie.MovieSubject;
 import com.kyletung.simplebookmovie.model.movie.MovieTopModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
+import com.kyletung.simplebookmovie.ui.moviedetail.MovieDetailActivity;
 import com.kyletung.simplebookmovie.view.recycler.LinearOnScrollListener;
 
 import java.util.ArrayList;
@@ -25,16 +27,16 @@ import java.util.ArrayList;
  * <br>
  * 电影 Top 排行榜的 Fragment
  */
-public class MovieBoardTopFragment extends BaseFragment implements IMovieTopView {
+public class MovieTopFragment extends BaseFragment implements IMovieTopView {
 
     private MovieTopModel mModel;
     private MovieTopAdapter mAdapter;
     private SwipeRefreshLayout mRefreshLayout;
     private LinearOnScrollListener mOnScrollListener;
 
-    public static MovieBoardTopFragment newInstance() {
+    public static MovieTopFragment newInstance() {
         Bundle args = new Bundle();
-        MovieBoardTopFragment fragment = new MovieBoardTopFragment();
+        MovieTopFragment fragment = new MovieTopFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,6 +67,14 @@ public class MovieBoardTopFragment extends BaseFragment implements IMovieTopView
     }
 
     private void setListener() {
+        mAdapter.setOnItemClickListener(new MovieTopAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, String movieId) {
+                Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+                intent.putExtra("movieId", movieId);
+                startActivity(intent);
+            }
+        });
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

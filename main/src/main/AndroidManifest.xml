@@ -24,7 +24,13 @@
             android:name=".ui.main.MainActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.login.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.bookdetail.BookDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.moviedetail.MovieDetailActivity"
             android:screenOrientation="portrait"/>
 
     </application>

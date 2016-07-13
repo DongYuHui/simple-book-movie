@@ -1,4 +1,4 @@
-package com.kyletung.simplebookmovie.adapter;
+package com.kyletung.simplebookmovie.adapter.main;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -1,4 +1,4 @@
-package com.kyletung.simplebookmovie.ui;
+package com.kyletung.simplebookmovie.ui.login;
 
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
@@ -6,9 +6,10 @@ import android.webkit.WebViewClient;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.config.Constants;
-import com.kyletung.simplebookmovie.data.LoginData;
+import com.kyletung.simplebookmovie.data.login.LoginData;
 import com.kyletung.simplebookmovie.event.UserEvent;
-import com.kyletung.simplebookmovie.model.LoginModel;
+import com.kyletung.simplebookmovie.model.login.LoginModel;
+import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.util.UserInfoUtil;
 

@@ -1,6 +1,6 @@
-package com.kyletung.simplebookmovie.ui;
+package com.kyletung.simplebookmovie.ui.login;
 
-import com.kyletung.simplebookmovie.data.LoginData;
+import com.kyletung.simplebookmovie.data.login.LoginData;
 
 /**
  * All rights reserved by Author<br>

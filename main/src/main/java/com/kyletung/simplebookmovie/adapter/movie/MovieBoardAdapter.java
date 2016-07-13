@@ -27,8 +27,14 @@ import com.kyletung.simplebookmovie.view.recycler.BaseRecyclerAdapter;
  */
 public class MovieBoardAdapter extends BaseRecyclerAdapter<MovieItem, MovieBoardAdapter.MovieViewHolder> {
 
+    private OnItemClickListener mOnItemClickListener;
+
     public MovieBoardAdapter(Context context, int resource, Fragment fragment) {
         super(context, resource, fragment);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -40,11 +46,11 @@ public class MovieBoardAdapter extends BaseRecyclerAdapter<MovieItem, MovieBoard
     public void onBindDataViewHolder(MovieViewHolder holder, int position) {
         final int itemPosition = position;
         if (mActivity != null) {
-            ImageLoader.load(mActivity, holder.mMovieImage, mListData.get(itemPosition).getSubject().getImages().getSmall());
+            ImageLoader.load(mActivity, holder.mMovieImage, mListData.get(itemPosition).getSubject().getImages().getLarge());
         } else if (mFragment != null) {
-            ImageLoader.load(mFragment, holder.mMovieImage, mListData.get(itemPosition).getSubject().getImages().getSmall());
+            ImageLoader.load(mFragment, holder.mMovieImage, mListData.get(itemPosition).getSubject().getImages().getLarge());
         } else {
-            ImageLoader.load(mContext, holder.mMovieImage, mListData.get(itemPosition).getSubject().getImages().getSmall());
+            ImageLoader.load(mContext, holder.mMovieImage, mListData.get(itemPosition).getSubject().getImages().getLarge());
         }
         holder.mMovieTitle.setText(mListData.get(itemPosition).getSubject().getTitle());
         StringBuilder directors = new StringBuilder();
@@ -63,6 +69,9 @@ public class MovieBoardAdapter extends BaseRecyclerAdapter<MovieItem, MovieBoard
             @Override
             public void onClick(View view) {
                 Toast.makeText(mContext, "Detail " + itemPosition, Toast.LENGTH_SHORT).show();
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(itemPosition, String.valueOf(mListData.get(itemPosition).getSubject().getId()));
+                }
             }
         });
     }
@@ -88,6 +97,10 @@ public class MovieBoardAdapter extends BaseRecyclerAdapter<MovieItem, MovieBoard
             mMovieCollections = (TextView) itemView.findViewById(R.id.movie_collections);
         }
 
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position, String movieId);
     }
 
 }

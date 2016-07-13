@@ -1,5 +1,6 @@
 package com.kyletung.simplebookmovie.ui.movie;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +13,7 @@ import com.kyletung.simplebookmovie.adapter.movie.MovieBoardAdapter;
 import com.kyletung.simplebookmovie.data.movie.MovieItem;
 import com.kyletung.simplebookmovie.model.movie.MovieBoardModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
+import com.kyletung.simplebookmovie.ui.moviedetail.MovieDetailActivity;
 
 import java.util.ArrayList;
 
@@ -24,15 +26,15 @@ import java.util.ArrayList;
  * <br>
  * 北美票房榜 Fragment
  */
-public class MovieBoardBoardFragment extends BaseFragment implements IMovieBoardView {
+public class MovieBoardFragment extends BaseFragment implements IMovieBoardView {
 
     private MovieBoardAdapter mAdapter;
     private MovieBoardModel mModel;
     private SwipeRefreshLayout mRefreshLayout;
 
-    public static MovieBoardBoardFragment newInstance() {
+    public static MovieBoardFragment newInstance() {
         Bundle args = new Bundle();
-        MovieBoardBoardFragment fragment = new MovieBoardBoardFragment();
+        MovieBoardFragment fragment = new MovieBoardFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,6 +63,14 @@ public class MovieBoardBoardFragment extends BaseFragment implements IMovieBoard
     }
 
     private void setListener() {
+        mAdapter.setOnItemClickListener(new MovieBoardAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, String movieId) {
+                Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+                intent.putExtra("movieId", movieId);
+                startActivity(intent);
+            }
+        });
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

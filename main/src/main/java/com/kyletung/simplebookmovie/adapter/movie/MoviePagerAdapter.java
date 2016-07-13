@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.kyletung.simplebookmovie.ui.movie.MovieBoardBoardFragment;
-import com.kyletung.simplebookmovie.ui.movie.MovieBoardTopFragment;
+import com.kyletung.simplebookmovie.ui.movie.MovieBoardFragment;
+import com.kyletung.simplebookmovie.ui.movie.MovieTopFragment;
 
 /**
  * All rights reserved by Author<br>
@@ -19,8 +19,8 @@ import com.kyletung.simplebookmovie.ui.movie.MovieBoardTopFragment;
 public class MoviePagerAdapter extends FragmentPagerAdapter {
 
     // Fragments
-    private MovieBoardTopFragment mMovieTop;
-    private MovieBoardBoardFragment mMovieBoard;
+    private MovieTopFragment mMovieTop;
+    private MovieBoardFragment mMovieBoard;
 
     // Titles
     private String[] titles = {"北美票房榜", "Top 250"};
@@ -39,12 +39,12 @@ public class MoviePagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 if (mMovieBoard == null) {
-                    mMovieBoard = MovieBoardBoardFragment.newInstance();
+                    mMovieBoard = MovieBoardFragment.newInstance();
                 }
                 return mMovieBoard;
             case 1:
                 if (mMovieTop == null) {
-                    mMovieTop = MovieBoardTopFragment.newInstance();
+                    mMovieTop = MovieTopFragment.newInstance();
                 }
                 return mMovieTop;
         }

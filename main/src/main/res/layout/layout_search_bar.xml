@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/search_bar"
+             android:layout_width="match_parent"
+             android:layout_height="?android:attr/actionBarSize">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_margin="@dimen/base_dimen_8dp"
+                  android:background="@drawable/search_bar_background"
+                  android:elevation="@dimen/base_dimen_4dp"
+                  android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="@dimen/search_icon_size"
+            android:layout_height="@dimen/search_icon_size"
+            android:layout_marginLeft="@dimen/base_dimen_8dp"
+            android:layout_marginRight="@dimen/base_dimen_8dp"
+            android:src="@drawable/search_icon"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:maxLines="1"/>
+
+    </LinearLayout>
+
+</FrameLayout>

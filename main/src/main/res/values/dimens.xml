@@ -24,6 +24,9 @@
     <dimen name="base_text_24sp">24sp</dimen>
     <dimen name="base_text_32sp">32sp</dimen>
 
+    <!-- Main Activity -->
+    <dimen name="search_icon_size">28dp</dimen>
+
     <!-- User Fragment -->
     <dimen name="user_head_image">96dp</dimen>
 

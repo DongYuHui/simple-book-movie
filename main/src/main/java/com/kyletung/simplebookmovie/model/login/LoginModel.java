@@ -1,10 +1,11 @@
-package com.kyletung.simplebookmovie.model;
+package com.kyletung.simplebookmovie.model.login;
 
 import android.content.Context;
 
 import com.kyletung.simplebookmovie.config.Constants;
-import com.kyletung.simplebookmovie.data.LoginData;
-import com.kyletung.simplebookmovie.ui.ILoginView;
+import com.kyletung.simplebookmovie.data.login.LoginData;
+import com.kyletung.simplebookmovie.model.BaseModel;
+import com.kyletung.simplebookmovie.ui.login.ILoginView;
 import com.kyletung.simplebookmovie.util.HttpUtil;
 
 /**

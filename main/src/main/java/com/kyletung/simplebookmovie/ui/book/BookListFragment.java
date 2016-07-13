@@ -1,5 +1,6 @@
 package com.kyletung.simplebookmovie.ui.book;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +13,7 @@ import com.kyletung.simplebookmovie.adapter.book.BookAdapter;
 import com.kyletung.simplebookmovie.data.book.BookItem;
 import com.kyletung.simplebookmovie.model.book.BookModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
+import com.kyletung.simplebookmovie.ui.bookdetail.BookDetailActivity;
 import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.view.recycler.LinearOnScrollListener;
 
@@ -27,6 +29,8 @@ import java.util.ArrayList;
  * FixMe
  */
 public class BookListFragment extends BaseFragment implements IBookView {
+
+    private String mUserId;
 
     private BookModel mModel;
     private BookAdapter mAdapter;
@@ -51,13 +55,13 @@ public class BookListFragment extends BaseFragment implements IBookView {
     protected void init(View view) {
         // init data
         Bundle bundle = getArguments();
-        String userId = bundle.getString("userId");
+        mUserId = bundle.getString("userId");
         String status = bundle.getString("status");
         // init recycler
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         // init model
         mModel = new BookModel(getActivity());
-        mModel.setInterface(this, status, userId);
+        mModel.setInterface(this, status, mUserId);
         // init recycler
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -72,6 +76,15 @@ public class BookListFragment extends BaseFragment implements IBookView {
     }
 
     private void setListener() {
+        mAdapter.setOnItemClickListener(new BookAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, String bookId) {
+                Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+                intent.putExtra("userId", mUserId);
+                intent.putExtra("bookId", bookId);
+                startActivity(intent);
+            }
+        });
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

@@ -1,4 +1,4 @@
-package com.kyletung.simplebookmovie.data;
+package com.kyletung.simplebookmovie.data.login;
 
 /**
  * All rights reserved by Author<br>

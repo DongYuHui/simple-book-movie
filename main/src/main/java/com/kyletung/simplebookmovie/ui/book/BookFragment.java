@@ -13,7 +13,7 @@ import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.book.BookPagerAdapter;
 import com.kyletung.simplebookmovie.event.UserEvent;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
-import com.kyletung.simplebookmovie.ui.LoginActivity;
+import com.kyletung.simplebookmovie.ui.login.LoginActivity;
 import com.kyletung.simplebookmovie.view.TabViewPager;
 
 import org.greenrobot.eventbus.EventBus;

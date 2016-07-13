@@ -26,6 +26,8 @@ import com.kyletung.simplebookmovie.view.recycler.MoreRecyclerAdapter;
  */
 public class BookAdapter extends MoreRecyclerAdapter<BookItem, BookAdapter.BookViewHolder> {
 
+    private OnItemClickListener mOnItemClickListener;
+
     public BookAdapter(Context context, int resource, Fragment fragment) {
         super(context, resource, fragment);
     }
@@ -35,10 +37,14 @@ public class BookAdapter extends MoreRecyclerAdapter<BookItem, BookAdapter.BookV
         return new BookViewHolder(createView(parent));
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
     @Override
     public void onBindDataViewHolder(BookViewHolder holder, int position) {
         final int itemPosition = position;
-        ImageLoader.load(mFragment, holder.mImage, mListData.get(itemPosition).getBook().getImages().getSmall());
+        ImageLoader.load(mFragment, holder.mImage, mListData.get(itemPosition).getBook().getImages().getLarge());
         holder.mTitle.setText(mListData.get(itemPosition).getBook().getTitle());
         holder.mPoints.setText(mListData.get(itemPosition).getBook().getRating().getAverage());
         StringBuilder authors = new StringBuilder();
@@ -60,6 +66,9 @@ public class BookAdapter extends MoreRecyclerAdapter<BookItem, BookAdapter.BookV
             @Override
             public void onClick(View view) {
                 BaseToast.toast(mContext, "Position " + itemPosition);
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(itemPosition, mListData.get(itemPosition).getBook_id());
+                }
             }
         });
     }
@@ -89,6 +98,10 @@ public class BookAdapter extends MoreRecyclerAdapter<BookItem, BookAdapter.BookV
             mPrice = (TextView) itemView.findViewById(R.id.book_price);
         }
 
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position, String bookId);
     }
 
 }
