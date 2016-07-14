@@ -4,9 +4,12 @@ import android.content.Context;
 import android.support.v4.util.ArrayMap;
 
 import com.kyletung.simplebookmovie.data.book.BookData;
+import com.kyletung.simplebookmovie.data.book.BookItem;
 import com.kyletung.simplebookmovie.model.BaseModel;
 import com.kyletung.simplebookmovie.ui.book.IBookView;
 import com.kyletung.simplebookmovie.util.HttpUtil;
+
+import java.util.ArrayList;
 
 /**
  * All rights reserved by Author<br>
@@ -24,6 +27,8 @@ public class BookModel extends BaseModel {
 
     private IBookView mView;
 
+    private boolean mHasMore = true;
+
     /**
      * 构造方法
      *
@@ -40,6 +45,8 @@ public class BookModel extends BaseModel {
     }
 
     public void getData() {
+
+        mHasMore = true;
 
         ArrayMap<String, String> params = new ArrayMap<>();
         params.put("status", status);
@@ -66,6 +73,11 @@ public class BookModel extends BaseModel {
     }
 
     public void getMore(int start) {
+
+        if (!mHasMore) {
+            mView.onMoreSuccess(new ArrayList<BookItem>());
+        }
+
         ArrayMap<String, String> params = new ArrayMap<>();
         params.put("status", status);
         params.put("start", String.valueOf(start));
@@ -77,6 +89,9 @@ public class BookModel extends BaseModel {
                 if (mView != null) {
                     BookData data = getJsonUtil().fromJson(result, BookData.class);
                     mView.onMoreSuccess(data.getCollections());
+                    if (data.getCollections().size() == 0) {
+                        mHasMore = false;
+                    }
                 }
             }
 

@@ -191,6 +191,7 @@
                 android:textSize="18sp"/>
 
             <android.support.v7.widget.RecyclerView
+                android:padding="@dimen/base_dimen_4dp"
                 android:id="@+id/movie_detail_directors"
                 android:layout_width="match_parent"
                 android:layout_height="216dp"
@@ -205,6 +206,7 @@
                 android:textSize="18sp"/>
 
             <android.support.v7.widget.RecyclerView
+                android:padding="@dimen/base_dimen_4dp"
                 android:id="@+id/movie_detail_casts"
                 android:layout_width="match_parent"
                 android:layout_height="216dp"

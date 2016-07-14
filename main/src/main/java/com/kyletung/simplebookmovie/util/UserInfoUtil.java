@@ -49,4 +49,8 @@ public class UserInfoUtil {
         return mSPUtil.read(mContext, Constants.SP_LOGIN_INFO, "user_id", "");
     }
 
+    public void removeInfo() {
+        mSPUtil.removeAll(mContext, Constants.SP_LOGIN_INFO);
+    }
+
 }

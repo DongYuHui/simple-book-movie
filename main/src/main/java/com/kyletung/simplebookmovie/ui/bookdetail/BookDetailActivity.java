@@ -1,7 +1,9 @@
 package com.kyletung.simplebookmovie.ui.bookdetail;
 
 import android.content.Intent;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,6 +51,17 @@ public class BookDetailActivity extends BaseActivity implements IBookDetailView 
 
     @Override
     protected void init() {
+        // init toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.movie_detail_title);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.tool_bar_arrow_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         // init data
         Intent intent = getIntent();
         String bookId = intent.getStringExtra("bookId");

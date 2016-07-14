@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.book.BookPagerAdapter;
+import com.kyletung.simplebookmovie.event.LogoutEvent;
 import com.kyletung.simplebookmovie.event.UserEvent;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.ui.login.LoginActivity;
@@ -101,6 +102,11 @@ public class BookFragment extends BaseFragment {
         BookPagerAdapter adapter = new BookPagerAdapter(getChildFragmentManager(), event.getUserId());
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLogoutEvent(LogoutEvent event) {
+        mLoginContainer.setVisibility(View.VISIBLE);
     }
 
     @Override

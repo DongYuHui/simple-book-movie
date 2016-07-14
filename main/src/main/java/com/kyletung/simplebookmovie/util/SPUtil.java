@@ -131,4 +131,18 @@ public class SPUtil {
         return sp.getLong(key, defaultValue);
     }
 
+    public void remove(Context context, String name, String key) {
+        SharedPreferences sp = context.getSharedPreferences(name, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.remove(key);
+        editor.apply();
+    }
+
+    public void removeAll(Context context, String name) {
+        SharedPreferences sp = context.getSharedPreferences(name, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.apply();
+    }
+
 }

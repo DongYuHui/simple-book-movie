@@ -1,5 +1,6 @@
 package com.kyletung.simplebookmovie.ui.user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -10,9 +11,11 @@ import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.data.user.UserData;
+import com.kyletung.simplebookmovie.event.LogoutEvent;
 import com.kyletung.simplebookmovie.event.UserEvent;
 import com.kyletung.simplebookmovie.model.user.UserModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
+import com.kyletung.simplebookmovie.ui.settings.SettingsActivity;
 import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.util.HeadBackUtil;
 import com.kyletung.simplebookmovie.util.ImageLoader;
@@ -99,7 +102,8 @@ public class UserFragment extends BaseFragment implements IUserView {
         mSettingContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BaseToast.toast(getActivity(), "Setting");
+                Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -122,6 +126,15 @@ public class UserFragment extends BaseFragment implements IUserView {
     public void onUserIdEvent(UserEvent event) {
         mUserId = event.getUserId();
         mModel.getUserInfo(mUserId);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLogoutEvent(LogoutEvent event) {
+        ImageLoader.load(this, mUserHead, R.drawable.image_load_error);
+        mUserName.setText("");
+        mUserLocation.setText(getString(R.string.user_location_hint));
+        mUserSignature.setText(getString(R.string.user_signature_hint));
+        mUserDescription.setText(getString(R.string.user_description_hint));
     }
 
     @Override

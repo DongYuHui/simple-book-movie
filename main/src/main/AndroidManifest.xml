@@ -12,6 +12,7 @@
         android:theme="@style/AppTheme">
 
         <activity
+            android:theme="@style/StartTheme"
             android:name=".ui.StartActivity"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -31,6 +32,9 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.moviedetail.MovieDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.settings.SettingsActivity"
             android:screenOrientation="portrait"/>
 
     </application>

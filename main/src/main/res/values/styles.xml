@@ -8,4 +8,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
+    <!-- Start Activity -->
+    <style name="StartTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/launcher_screen</item>
+    </style>
+
 </resources>

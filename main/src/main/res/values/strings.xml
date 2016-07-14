@@ -15,6 +15,12 @@
     <string name="login">登录</string>
     <string name="login_first">请先登录</string>
 
+    <!-- Book Detail -->
+    <string name="book_detail_title">书籍详情</string>
+
+    <!-- Movie Detail -->
+    <string name="movie_detail_title">影视详情</string>
+
     <!-- User Fragment -->
     <string name="user_name">昵称</string>
     <string name="user_head">头像</string>
@@ -25,5 +31,11 @@
     <string name="user_location_hint">用户所在地点</string>
     <string name="user_signature_hint">用户个人签名</string>
     <string name="user_description_hint">用户自身描述</string>
+
+    <!-- Setting Activity -->
+    <string name="settings_title">设置</string>
+    <string name="settings_logout">登出</string>
+    <string name="settings_about">关于</string>
+    <string name="settings_about_content">发了大家都是佛啊手机的</string>
 
 </resources>
