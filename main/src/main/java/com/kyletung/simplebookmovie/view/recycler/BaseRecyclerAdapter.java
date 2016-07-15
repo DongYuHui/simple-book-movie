@@ -56,6 +56,7 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
      * @param list 列表内容
      */
     public void putList(ArrayList<T> list) {
+        if (list == null) return;
         mListData.clear();
         notifyDataSetChanged();
         for (int i = 0; i < list.size(); i++) {

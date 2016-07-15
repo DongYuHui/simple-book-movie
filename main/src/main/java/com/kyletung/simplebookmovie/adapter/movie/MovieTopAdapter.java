@@ -53,16 +53,20 @@ public class MovieTopAdapter extends MoreRecyclerAdapter<MovieSubject, MovieTopA
             ImageLoader.load(mContext, holder.mMovieImage, mListData.get(itemPosition).getImages().getLarge());
         }
         holder.mMovieTitle.setText(mListData.get(itemPosition).getTitle());
-        StringBuilder directors = new StringBuilder();
-        for (Staff director : mListData.get(itemPosition).getDirectors()) {
-            directors.append(director.getName()).append("、");
+        if (mListData.get(itemPosition).getDirectors() != null && mListData.get(itemPosition).getDirectors().size() > 0) {
+            StringBuilder directors = new StringBuilder();
+            for (Staff director : mListData.get(itemPosition).getDirectors()) {
+                directors.append(director.getName()).append("、");
+            }
+            holder.mMovieDirector.setText(directors.substring(0, directors.length() - 1));
         }
-        holder.mMovieDirector.setText(directors.substring(0, directors.length() - 1));
-        StringBuilder casts = new StringBuilder();
-        for (Staff cast : mListData.get(itemPosition).getCasts()) {
-            casts.append(cast.getName()).append("、");
+        if (mListData.get(itemPosition).getCasts() != null && mListData.get(itemPosition).getCasts().size() > 0) {
+            StringBuilder casts = new StringBuilder();
+            for (Staff cast : mListData.get(itemPosition).getCasts()) {
+                casts.append(cast.getName()).append("、");
+            }
+            holder.mMovieCast.setText(casts.substring(0, casts.length() - 1));
         }
-        holder.mMovieCast.setText(casts.substring(0, casts.length() - 1));
         holder.mMovieYear.setText(mListData.get(itemPosition).getYear());
         holder.mMovieCollections.setText(String.valueOf(mListData.get(itemPosition).getCollect_count()));
         holder.mMovieContainer.setOnClickListener(new View.OnClickListener() {

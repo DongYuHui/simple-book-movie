@@ -6,14 +6,19 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.main.TabPagerAdapter;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
+import com.kyletung.simplebookmovie.ui.search.SearchActivity;
 import com.kyletung.simplebookmovie.view.TabViewPager;
 
 /**
@@ -30,6 +35,7 @@ public class MainActivity extends BaseActivity {
     // Search Bar
     private int mSearchBarHeight;
     private FrameLayout mSearchBar;
+    private EditText mSearchContent;
 
     // Tabs and Statement
     private TabViewPager mTabViewPager;
@@ -68,6 +74,26 @@ public class MainActivity extends BaseActivity {
         });
         // init search bar
         mSearchBar = (FrameLayout) findViewById(R.id.search_bar);
+        mSearchContent = (EditText) findViewById(R.id.search_content);
+        // set listener
+        setListener();
+    }
+
+    private void setListener() {
+        mSearchContent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH) {
+                    String content = textView.getText().toString();
+                    mSearchContent.setText("");
+                    Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                    intent.putExtra("content", content);
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void hideSearchBar() {

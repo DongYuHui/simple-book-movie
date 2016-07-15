@@ -25,6 +25,10 @@ public class Constants {
     // SharedPreference Name
     public static final String SP_LOGIN_INFO = "LoginInfo";
 
+    // Search Type
+    public static final int SEARCH_TYPE_BOOK = 1;
+    public static final int SEARCH_TYPE_MOVIE = 2;
+
     // Login RequestCode
     public static final int REQUEST_LOGIN = 123;
 

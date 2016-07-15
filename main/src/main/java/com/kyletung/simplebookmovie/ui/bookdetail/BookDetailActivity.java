@@ -53,7 +53,7 @@ public class BookDetailActivity extends BaseActivity implements IBookDetailView 
     protected void init() {
         // init toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.movie_detail_title);
+        toolbar.setTitle(R.string.book_detail_title);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.tool_bar_arrow_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

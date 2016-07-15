@@ -8,7 +8,7 @@
 
     <!-- Main Activity -->
     <string name="main_tab_book">书籍</string>
-    <string name="main_tab_movie">电影</string>
+    <string name="main_tab_movie">影视</string>
     <string name="main_tab_user">用户</string>
 
     <!-- Login -->
@@ -20,6 +20,10 @@
 
     <!-- Movie Detail -->
     <string name="movie_detail_title">影视详情</string>
+
+    <!-- Search -->
+    <string name="search_type_book">书籍</string>
+    <string name="search_type_movie">影视</string>
 
     <!-- User Fragment -->
     <string name="user_name">昵称</string>

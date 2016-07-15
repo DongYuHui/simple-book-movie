@@ -1,4 +1,4 @@
-package com.kyletung.simplebookmovie.adapter.book;
+package com.kyletung.simplebookmovie.adapter.search;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
-import com.kyletung.simplebookmovie.data.book.BookItem;
+import com.kyletung.simplebookmovie.data.book.BookSubject;
 import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.util.ImageLoader;
 import com.kyletung.simplebookmovie.view.recycler.MoreRecyclerAdapter;
@@ -20,21 +20,16 @@ import com.kyletung.simplebookmovie.view.recycler.MoreRecyclerAdapter;
  * Author: Dong YuHui<br>
  * Email: <a href="mailto:dyh920827@gmail.com">dyh920827@gmail.com</a><br>
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
- * Create Time: 2016/07/07 at 18:57<br>
+ * Create Time: 2016/07/14 at 21:47<br>
  * <br>
  * FixMe
  */
-public class BookAdapter extends MoreRecyclerAdapter<BookItem, BookAdapter.BookViewHolder> {
+public class SearchBookAdapter extends MoreRecyclerAdapter<BookSubject, SearchBookAdapter.BookViewHolder> {
 
     private OnItemClickListener mOnItemClickListener;
 
-    public BookAdapter(Context context, int resource, Fragment fragment) {
+    public SearchBookAdapter(Context context, int resource, Fragment fragment) {
         super(context, resource, fragment);
-    }
-
-    @Override
-    public BookViewHolder onCreateDataViewHolder(ViewGroup parent, int viewType) {
-        return new BookViewHolder(createView(parent));
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -42,34 +37,39 @@ public class BookAdapter extends MoreRecyclerAdapter<BookItem, BookAdapter.BookV
     }
 
     @Override
+    public BookViewHolder onCreateDataViewHolder(ViewGroup parent, int viewType) {
+        return new BookViewHolder(createView(parent));
+    }
+
+    @Override
     public void onBindDataViewHolder(BookViewHolder holder, int position) {
         final int itemPosition = position;
-        ImageLoader.load(mFragment, holder.mImage, mListData.get(itemPosition).getBook().getImages().getLarge());
-        holder.mTitle.setText(mListData.get(itemPosition).getBook().getTitle());
-        holder.mPoints.setText(mListData.get(itemPosition).getBook().getRating().getAverage());
-        if (mListData.get(itemPosition).getBook().getAuthor() != null && mListData.get(itemPosition).getBook().getAuthor().size() > 0) {
+        ImageLoader.load(mFragment, holder.mImage, mListData.get(itemPosition).getImages().getLarge());
+        holder.mTitle.setText(mListData.get(itemPosition).getTitle());
+        holder.mPoints.setText(mListData.get(itemPosition).getRating().getAverage());
+        if (mListData.get(itemPosition).getTranslator() != null && mListData.get(itemPosition).getTranslator().size() > 0) {
             StringBuilder authors = new StringBuilder();
-            for (String author : mListData.get(itemPosition).getBook().getAuthor()) {
+            for (String author : mListData.get(itemPosition).getAuthor()) {
                 authors.append(author).append("、");
             }
             holder.mAuthor.setText(authors.substring(0, authors.length() - 1));
         }
-        if (mListData.get(itemPosition).getBook().getTranslator().size() > 0) {
+        if (mListData.get(itemPosition).getTranslator() != null && mListData.get(itemPosition).getTranslator().size() > 0) {
             StringBuilder translators = new StringBuilder();
-            for (String translator : mListData.get(itemPosition).getBook().getTranslator()) {
+            for (String translator : mListData.get(itemPosition).getTranslator()) {
                 translators.append(translator).append("、");
             }
             holder.mTranslator.setText(translators.substring(0, translators.length() - 1));
         }
-        holder.mPublisher.setText(mListData.get(itemPosition).getBook().getPublisher());
-        holder.mPubDate.setText(mListData.get(itemPosition).getBook().getPubdate());
-        holder.mPrice.setText(mListData.get(itemPosition).getBook().getPrice());
+        holder.mPublisher.setText(mListData.get(itemPosition).getPublisher());
+        holder.mPubDate.setText(mListData.get(itemPosition).getPubdate());
+        holder.mPrice.setText(mListData.get(itemPosition).getPrice());
         holder.mContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 BaseToast.toast(mContext, "Position " + itemPosition);
                 if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onItemClick(itemPosition, mListData.get(itemPosition).getBook_id());
+                    mOnItemClickListener.onItemClick(itemPosition, mListData.get(itemPosition).getId());
                 }
             }
         });
@@ -105,5 +105,5 @@ public class BookAdapter extends MoreRecyclerAdapter<BookItem, BookAdapter.BookV
     public interface OnItemClickListener {
         void onItemClick(int position, String bookId);
     }
-
+    
 }
