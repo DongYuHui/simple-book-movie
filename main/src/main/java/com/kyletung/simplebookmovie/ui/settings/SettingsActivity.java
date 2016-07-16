@@ -1,13 +1,16 @@
 package com.kyletung.simplebookmovie.ui.settings;
 
+import android.content.pm.PackageManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.event.LogoutEvent;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.util.UserInfoUtil;
+import com.kyletung.simplebookmovie.util.VersionUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -24,6 +27,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
     private LinearLayout mSettingsLogout;
     private LinearLayout mSettingsAbout;
+
+    private TextView mSettingsVersion;
 
     @Override
     protected int getContentLayout() {
@@ -46,6 +51,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         // init views
         mSettingsLogout = (LinearLayout) findViewById(R.id.settings_logout);
         mSettingsAbout = (LinearLayout) findViewById(R.id.settings_about);
+        mSettingsVersion = (TextView) findViewById(R.id.settings_version_number);
         // set listener
         setListener();
     }
@@ -53,19 +59,27 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     private void setListener() {
         mSettingsLogout.setOnClickListener(this);
         mSettingsAbout.setOnClickListener(this);
+        mSettingsVersion.post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mSettingsVersion.setText(VersionUtil.getInstance().getVersion(SettingsActivity.this));
+                } catch (PackageManager.NameNotFoundException e) {
+                    mSettingsVersion.setText(String.valueOf(0));
+                }
+            }
+        });
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.settings_logout:
-//                BaseToast.toast(this, "Logout");
                 new UserInfoUtil(this).removeInfo();
                 EventBus.getDefault().post(new LogoutEvent());
                 finish();
                 break;
             case R.id.settings_about:
-//                BaseToast.toast(this, "About");
                 AboutFragment aboutFragment = AboutFragment.newInstance();
                 aboutFragment.show(getSupportFragmentManager(), "About");
                 break;
