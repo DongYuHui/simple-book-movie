@@ -27,21 +27,3 @@
 2015-09-22 添加友盟 SDK，实现打开应用检查更新的功能
 
 2015-10-11 修改了应用图标，增加了启动画面
-
----
-
-下面是应用主要界面的截图：
-
-![NavigationView](https://github.com/KyleTung/douban-book-movie/blob/master/doubanbookmovie_1.png)
-
-![Home](https://github.com/KyleTung/douban-book-movie/blob/master/doubanbookmovie_2.png)
-
-![Movie](https://github.com/KyleTung/douban-book-movie/blob/master/doubanbookmovie_3.png)
-
-![Book](https://github.com/KyleTung/douban-book-movie/blob/master/doubanbookmovie_4.png)
-
-![Search](https://github.com/KyleTung/douban-book-movie/blob/master/doubanbookmovie_5.png)
-
-![BookDetail](https://github.com/KyleTung/douban-book-movie/blob/master/doubanbookmovie_6.png)
-
-![MovieDetail](https://github.com/KyleTung/douban-book-movie/blob/master/doubanbookmovie_8.png)

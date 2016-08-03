@@ -96,6 +96,9 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 隐藏搜索条
+     */
     private void hideSearchBar() {
         if (mSearchBar.getVisibility() == View.VISIBLE) {
             mSearchBarHeight = mSearchBar.getMeasuredHeight();
@@ -114,6 +117,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 显示搜索条
+     */
     private void showSearchBar() {
         if (mSearchBar.getVisibility() == View.GONE) {
             ObjectAnimator alpha = ObjectAnimator.ofFloat(mSearchBar, "alpha", 0f, 1.0f);
