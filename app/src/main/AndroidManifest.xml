@@ -1,0 +1,45 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.kyletung.simplebookmovie">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:name=".BaseApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/launcher_icon"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".ui.StartActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/StartTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.bookdetail.BookDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.moviedetail.MovieDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:screenOrientation="portrait"/>
+
+    </application>
+
+</manifest>
