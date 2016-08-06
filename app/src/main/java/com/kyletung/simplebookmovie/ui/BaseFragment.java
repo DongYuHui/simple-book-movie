@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 
 import com.kyletung.simplebookmovie.util.HttpUtil;
 
+import butterknife.ButterKnife;
+
 /**
  * All rights reserved by Author<br>
  * Author: Dong YuHui<br>
@@ -32,6 +34,7 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mView == null) {
             mView = inflater.inflate(getContentLayout(), container, false);
+            ButterKnife.bind(this, mView);
             init(mView);
         }
         return mView;

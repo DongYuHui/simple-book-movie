@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+// ButterKnife
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 24
@@ -36,4 +38,7 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     // Bottom Bar
     compile 'com.aurelhubert:ahbottomnavigation:1.3.3'
+    // ButterKnife
+    compile 'com.jakewharton:butterknife:8.2.1'
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
 }

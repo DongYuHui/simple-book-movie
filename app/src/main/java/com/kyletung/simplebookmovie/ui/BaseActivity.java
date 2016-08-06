@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.kyletung.simplebookmovie.util.HttpUtil;
 
+import butterknife.ButterKnife;
+
 /**
  * All rights reserved by Author<br>
  * Author: Dong YuHui<br>
@@ -26,6 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentLayout());
+        ButterKnife.bind(this);
         init();
     }
 
