@@ -49,6 +49,15 @@ public class UserInfoUtil {
         return mSPUtil.read(mContext, Constants.SP_LOGIN_INFO, "user_id", "");
     }
 
+    /**
+     * 读取用户 refresh token
+     *
+     * @return 返回用户 refresh token
+     */
+    public String readRefreshToken() {
+        return mSPUtil.read(mContext, Constants.SP_LOGIN_INFO, "refresh_token", "");
+    }
+
     public void removeInfo() {
         mSPUtil.removeAll(mContext, Constants.SP_LOGIN_INFO);
     }

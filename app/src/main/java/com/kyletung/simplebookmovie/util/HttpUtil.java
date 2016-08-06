@@ -46,7 +46,7 @@ public class HttpUtil {
      * @param url              请求地址
      * @param onResultListener 请求回调
      */
-    public void get(Object tag, String url, final OnResultListener onResultListener) {
+    public void get(final Object tag, final String url, final OnResultListener onResultListener) {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -55,7 +55,19 @@ public class HttpUtil {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onResultListener.onError(error.getMessage());
+                OauthErrorUtil.handleError(error, new OauthErrorUtil.OnOauthListener() {
+
+                    @Override
+                    public void onRefreshSuccess(String result) {
+                        get(tag, url, onResultListener);
+                    }
+
+                    @Override
+                    public void onOauthError(String error) {
+                        onResultListener.onError(error);
+                    }
+
+                });
             }
         });
         stringRequest.setTag(tag);
@@ -70,7 +82,7 @@ public class HttpUtil {
      * @param onResultListener 请求回调
      * @param body             请求体，可以为空
      */
-    public void post(Object tag, String url, final OnResultListener onResultListener, @Nullable final Map<String, String> body) {
+    public void post(final Object tag, final String url, final OnResultListener onResultListener, @Nullable final Map<String, String> body) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -80,6 +92,19 @@ public class HttpUtil {
             @Override
             public void onErrorResponse(VolleyError error) {
                 onResultListener.onError(error.getMessage());
+                OauthErrorUtil.handleError(error, new OauthErrorUtil.OnOauthListener() {
+
+                    @Override
+                    public void onRefreshSuccess(String result) {
+                        post(tag, url, onResultListener, body);
+                    }
+
+                    @Override
+                    public void onOauthError(String error) {
+                        onResultListener.onError(error);
+                    }
+
+                });
             }
         }) {
             @Override
