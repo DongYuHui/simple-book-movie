@@ -69,7 +69,14 @@ public class HttpUtil {
 
                 });
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map = super.getHeaders();
+//                map.put("Authorization", "Bearer " + new UserInfoUtil(BaseApplication.getInstance()).readAccessToken());
+                return map;
+            }
+        };
         stringRequest.setTag(tag);
         mRequestQueue.add(stringRequest);
     }
@@ -91,7 +98,6 @@ public class HttpUtil {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onResultListener.onError(error.getMessage());
                 OauthErrorUtil.handleError(error, new OauthErrorUtil.OnOauthListener() {
 
                     @Override
@@ -107,6 +113,7 @@ public class HttpUtil {
                 });
             }
         }) {
+
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 if (body != null) {
@@ -114,6 +121,14 @@ public class HttpUtil {
                 }
                 return super.getParams();
             }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map = super.getHeaders();
+//                map.put("Authorization", "Bearer " + new UserInfoUtil(BaseApplication.getInstance()).readAccessToken());
+                return map;
+            }
+
         };
         stringRequest.setTag(tag);
         mRequestQueue.add(stringRequest);

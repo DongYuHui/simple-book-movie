@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.data.movie.MovieItem;
@@ -72,7 +71,6 @@ public class MovieBoardAdapter extends BaseRecyclerAdapter<MovieItem, MovieBoard
         holder.mMovieContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "Detail " + itemPosition, Toast.LENGTH_SHORT).show();
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemClick(itemPosition, String.valueOf(mListData.get(itemPosition).getSubject().getId()));
                 }

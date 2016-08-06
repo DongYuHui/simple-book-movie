@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.data.book.BookItem;
-import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.util.ImageLoader;
 import com.kyletung.simplebookmovie.view.recycler.MoreRecyclerAdapter;
 
@@ -67,7 +66,6 @@ public class BookAdapter extends MoreRecyclerAdapter<BookItem, BookAdapter.BookV
         holder.mContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BaseToast.toast(mContext, "Position " + itemPosition);
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemClick(itemPosition, mListData.get(itemPosition).getBook_id());
                 }

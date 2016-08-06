@@ -58,6 +58,15 @@ public class UserInfoUtil {
         return mSPUtil.read(mContext, Constants.SP_LOGIN_INFO, "refresh_token", "");
     }
 
+    /**
+     * 获取用户 access token
+     *
+     * @return 返回用户 access token
+     */
+    public String readAccessToken() {
+        return mSPUtil.read(mContext, Constants.SP_LOGIN_INFO, "access_token", "");
+    }
+
     public void removeInfo() {
         mSPUtil.removeAll(mContext, Constants.SP_LOGIN_INFO);
     }

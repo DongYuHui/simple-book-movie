@@ -3,6 +3,7 @@ package com.kyletung.simplebookmovie.util;
 import com.android.volley.VolleyError;
 import com.kyletung.simplebookmovie.BaseApplication;
 import com.kyletung.simplebookmovie.config.Constants;
+import com.kyletung.simplebookmovie.data.login.LoginData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,8 +56,13 @@ public class OauthErrorUtil {
                 if (onOauthListener != null) onOauthListener.onOauthError("未知网络错误");
             }
         } else {
-            if (onOauthListener != null)
-                onOauthListener.onOauthError(new String(error.networkResponse.data));
+            if (onOauthListener != null) {
+                if (error.networkResponse != null) {
+                    onOauthListener.onOauthError(new String(error.networkResponse.data));
+                } else {
+                    onOauthListener.onOauthError(error.getMessage());
+                }
+            }
         }
     }
 
@@ -72,6 +78,12 @@ public class OauthErrorUtil {
 
             @Override
             public void onSuccess(String result) {
+                LoginData data = JsonUtil.getInstance().fromJson(result, LoginData.class);
+                new UserInfoUtil(BaseApplication.getInstance()).save(
+                        data.getAccess_token(),
+                        data.getDouban_user_id(),
+                        data.getRefresh_token()
+                );
                 if (onOauthListener != null) onOauthListener.onRefreshSuccess(result);
             }
 
