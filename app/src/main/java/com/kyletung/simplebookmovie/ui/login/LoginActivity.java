@@ -7,7 +7,8 @@ import android.webkit.WebViewClient;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.config.Constants;
 import com.kyletung.simplebookmovie.data.login.LoginData;
-import com.kyletung.simplebookmovie.event.UserEvent;
+import com.kyletung.simplebookmovie.event.BaseEvent;
+import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.model.login.LoginModel;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.util.BaseToast;
@@ -69,7 +70,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     public void onLoginSuccess(LoginData data) {
 //        cancelProgress();
         mUserInfoUtil.save(data.getAccess_token(), data.getDouban_user_id(), data.getRefresh_token());
-        EventBus.getDefault().post(new UserEvent(data.getDouban_user_id()));
+        EventBus.getDefault().post(new BaseEvent(EventCode.WHAT_USER, EventCode.CODE_USER_ID, data.getDouban_user_id()));
         finish();
     }
 

@@ -7,7 +7,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
-import com.kyletung.simplebookmovie.event.LogoutEvent;
+import com.kyletung.simplebookmovie.event.EventCode;
+import com.kyletung.simplebookmovie.event.BaseEvent;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.util.UserInfoUtil;
 import com.kyletung.simplebookmovie.util.VersionUtil;
@@ -76,7 +77,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         switch (view.getId()) {
             case R.id.settings_logout:
                 new UserInfoUtil(this).removeInfo();
-                EventBus.getDefault().post(new LogoutEvent());
+                EventBus.getDefault().post(new BaseEvent(EventCode.WHAT_LOGIN, EventCode.CODE_LOGIN_LOGOUT));
                 finish();
                 break;
             case R.id.settings_about:

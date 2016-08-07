@@ -40,6 +40,15 @@ public class HttpUtil {
     }
 
     /**
+     * 获取当前的请求队列
+     *
+     * @return 返回请求队列
+     */
+    public RequestQueue getRequestQueue() {
+        return mRequestQueue;
+    }
+
+    /**
      * Get 请求
      *
      * @param tag              Tag，便于取消请求
@@ -55,7 +64,7 @@ public class HttpUtil {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                OauthErrorUtil.handleError(error, new OauthErrorUtil.OnOauthListener() {
+                VolleyErrorHandler.handleError(error, new VolleyErrorHandler.OnOauthListener() {
 
                     @Override
                     public void onRefreshSuccess(String result) {
@@ -98,7 +107,7 @@ public class HttpUtil {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                OauthErrorUtil.handleError(error, new OauthErrorUtil.OnOauthListener() {
+                VolleyErrorHandler.handleError(error, new VolleyErrorHandler.OnOauthListener() {
 
                     @Override
                     public void onRefreshSuccess(String result) {

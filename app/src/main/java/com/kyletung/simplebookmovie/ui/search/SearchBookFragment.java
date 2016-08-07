@@ -12,7 +12,8 @@ import android.view.View;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.search.SearchBookAdapter;
 import com.kyletung.simplebookmovie.data.book.BookSubject;
-import com.kyletung.simplebookmovie.event.SearchEvent;
+import com.kyletung.simplebookmovie.event.BaseEvent;
+import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.model.search.SearchBookModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.ui.bookdetail.BookDetailActivity;
@@ -139,10 +140,12 @@ public class SearchBookFragment extends BaseFragment implements ISearchBookView 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSearchEvent(SearchEvent event) {
-        mContent = event.getContent();
-        mRefreshLayout.setRefreshing(true);
-        mModel.search(mContent);
+    public void onEvent(BaseEvent event) {
+        if (event.getWhat() == EventCode.WHAT_SEARCH && event.getCode() == EventCode.CODE_SEARCH_ALL) {
+            mContent = (String) event.getObject();
+            mRefreshLayout.setRefreshing(true);
+            mModel.search(mContent);
+        }
     }
 
     @Override

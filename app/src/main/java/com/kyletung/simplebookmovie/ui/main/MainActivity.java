@@ -77,6 +77,7 @@ public class MainActivity extends BaseActivity {
         mSearchContent = (EditText) findViewById(R.id.search_content);
         // set listener
         setListener();
+//        new TestModel(this);
     }
 
     private void setListener() {

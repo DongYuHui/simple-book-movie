@@ -11,8 +11,8 @@ import android.widget.RelativeLayout;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.book.BookPagerAdapter;
-import com.kyletung.simplebookmovie.event.LogoutEvent;
-import com.kyletung.simplebookmovie.event.UserEvent;
+import com.kyletung.simplebookmovie.event.BaseEvent;
+import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.ui.login.LoginActivity;
 import com.kyletung.simplebookmovie.view.TabViewPager;
@@ -80,7 +80,7 @@ public class BookFragment extends BaseFragment {
         } else {
             System.out.println("book userId: has userId");
             mLoginContainer.setVisibility(View.GONE);
-            onUserIdEvent(new UserEvent(mUserId));
+            onEvent(new BaseEvent(EventCode.WHAT_USER, EventCode.CODE_USER_ID, mUserId));
         }
         // set listener
         setListener();
@@ -97,16 +97,15 @@ public class BookFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onUserIdEvent(UserEvent event) {
-        mLoginContainer.setVisibility(View.GONE);
-        BookPagerAdapter adapter = new BookPagerAdapter(getChildFragmentManager(), event.getUserId());
-        mViewPager.setAdapter(adapter);
-        mTabLayout.setupWithViewPager(mViewPager);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLogoutEvent(LogoutEvent event) {
-        mLoginContainer.setVisibility(View.VISIBLE);
+    public void onEvent(BaseEvent event) {
+        if (event.getWhat() == EventCode.WHAT_LOGIN && event.getCode() == EventCode.CODE_LOGIN_LOGOUT) {
+            mLoginContainer.setVisibility(View.VISIBLE);
+        } else if (event.getWhat() == EventCode.WHAT_USER && event.getCode() == EventCode.CODE_USER_ID) {
+            mLoginContainer.setVisibility(View.GONE);
+            BookPagerAdapter adapter = new BookPagerAdapter(getChildFragmentManager(), (String) event.getObject());
+            mViewPager.setAdapter(adapter);
+            mTabLayout.setupWithViewPager(mViewPager);
+        }
     }
 
     @Override

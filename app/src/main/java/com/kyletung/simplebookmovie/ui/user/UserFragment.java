@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.data.user.UserData;
-import com.kyletung.simplebookmovie.event.LogoutEvent;
-import com.kyletung.simplebookmovie.event.UserEvent;
+import com.kyletung.simplebookmovie.event.BaseEvent;
+import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.model.user.UserModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.ui.settings.SettingsActivity;
@@ -123,18 +123,17 @@ public class UserFragment extends BaseFragment implements IUserView {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onUserIdEvent(UserEvent event) {
-        mUserId = event.getUserId();
-        mModel.getUserInfo(mUserId);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLogoutEvent(LogoutEvent event) {
-        ImageLoader.load(this, mUserHead, R.drawable.image_load_error);
-        mUserName.setText("");
-        mUserLocation.setText(getString(R.string.user_location_hint));
-        mUserSignature.setText(getString(R.string.user_signature_hint));
-        mUserDescription.setText(getString(R.string.user_description_hint));
+    public void onEvent(BaseEvent event) {
+        if (event.getWhat() == EventCode.WHAT_LOGIN && event.getCode() == EventCode.CODE_LOGIN_LOGOUT) {
+            ImageLoader.load(this, mUserHead, R.drawable.image_load_error);
+            mUserName.setText("");
+            mUserLocation.setText(getString(R.string.user_location_hint));
+            mUserSignature.setText(getString(R.string.user_signature_hint));
+            mUserDescription.setText(getString(R.string.user_description_hint));
+        } else if (event.getWhat() == EventCode.WHAT_USER && event.getCode() == EventCode.CODE_USER_ID) {
+            mUserId = (String) event.getObject();
+            mModel.getUserInfo(mUserId);
+        }
     }
 
     @Override

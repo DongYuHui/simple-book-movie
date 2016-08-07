@@ -9,7 +9,8 @@ import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.search.SearchPagerAdapter;
-import com.kyletung.simplebookmovie.event.SearchEvent;
+import com.kyletung.simplebookmovie.event.BaseEvent;
+import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.view.TabViewPager;
 
@@ -57,7 +58,7 @@ public class SearchActivity extends BaseActivity {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_SEARCH) {
-                    EventBus.getDefault().post(new SearchEvent(textView.getText().toString()));
+                    EventBus.getDefault().post(new BaseEvent(EventCode.WHAT_SEARCH, EventCode.CODE_SEARCH_ALL, textView.getText().toString()));
                 }
                 return false;
             }

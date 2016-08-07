@@ -17,7 +17,7 @@ import org.json.JSONObject;
  * <br>
  * 错误处理工具类
  */
-public class OauthErrorUtil {
+public class VolleyErrorHandler {
 
     private static final String REFRESH_URL = "https://www.douban.com/service/auth2/token?client_id=%s&client_secret=%s&redirect_uri=http://www.douban.com&grant_type=refresh_token&refresh_token=%s";
 
