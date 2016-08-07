@@ -1,8 +1,5 @@
 <resources>
 
-    <!-- Test -->
-    <string name="test">Test</string>
-
     <!-- Application Name -->
     <string name="app_name">简单书影</string>
 
@@ -10,6 +7,9 @@
     <string name="main_tab_book">书籍</string>
     <string name="main_tab_movie">影视</string>
     <string name="main_tab_user">用户</string>
+    <string name="main_menu_search">搜索</string>
+    <string name="main_menu_settings">设置</string>
+    <string name="main_menu_about">关于</string>
 
     <!-- Login -->
     <string name="login">登录</string>

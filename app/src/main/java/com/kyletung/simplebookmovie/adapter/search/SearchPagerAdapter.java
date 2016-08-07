@@ -18,16 +18,13 @@ import com.kyletung.simplebookmovie.ui.search.SearchMovieFragment;
  */
 public class SearchPagerAdapter extends FragmentPagerAdapter {
 
-    private String mContent;
-
     private SearchBookFragment mBookFragment;
     private SearchMovieFragment mMovieFragment;
 
     private static final String[] titles = {"书籍", "影视"};
 
-    public SearchPagerAdapter(FragmentManager fm, String content) {
+    public SearchPagerAdapter(FragmentManager fm) {
         super(fm);
-        mContent = content;
     }
 
     @Override
@@ -39,10 +36,10 @@ public class SearchPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                if (mBookFragment == null) mBookFragment = SearchBookFragment.newInstance(mContent);
+                if (mBookFragment == null) mBookFragment = SearchBookFragment.newInstance();
                 return mBookFragment;
             case 1:
-                if (mMovieFragment == null) mMovieFragment = SearchMovieFragment.newInstance(mContent);
+                if (mMovieFragment == null) mMovieFragment = SearchMovieFragment.newInstance();
                 return mMovieFragment;
         }
         return null;

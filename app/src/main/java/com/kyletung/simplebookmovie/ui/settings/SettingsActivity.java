@@ -1,14 +1,13 @@
 package com.kyletung.simplebookmovie.ui.settings;
 
 import android.content.pm.PackageManager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
-import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.event.BaseEvent;
+import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.util.UserInfoUtil;
 import com.kyletung.simplebookmovie.util.VersionUtil;
@@ -39,16 +38,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void init() {
         // init toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.settings_title);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.tool_bar_arrow_back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        setToolbar(getString(R.string.settings_title), true);
         // init views
         mSettingsLogout = (LinearLayout) findViewById(R.id.settings_logout);
         mSettingsAbout = (LinearLayout) findViewById(R.id.settings_about);

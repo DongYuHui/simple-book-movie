@@ -1,6 +1,5 @@
 package com.kyletung.simplebookmovie.ui.search;
 
-import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
@@ -36,16 +35,12 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        // init data
-        Intent intent = getIntent();
-        String searchContent = intent.getStringExtra("content");
         // init search
         mSearch = (EditText) findViewById(R.id.search_content);
-        mSearch.setText(searchContent);
         // init view
         TabLayout tabLayout = (TabLayout) findViewById(R.id.search_tab);
         TabViewPager viewPager = (TabViewPager) findViewById(R.id.search_viewpager);
-        SearchPagerAdapter adapter = new SearchPagerAdapter(getSupportFragmentManager(), searchContent);
+        SearchPagerAdapter adapter = new SearchPagerAdapter(getSupportFragmentManager());
         viewPager.setSwipeEnabled(true);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

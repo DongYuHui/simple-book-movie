@@ -44,12 +44,8 @@ public class SearchBookFragment extends BaseFragment implements ISearchBookView 
     private SwipeRefreshLayout mRefreshLayout;
     private LinearOnScrollListener mOnScrollListener;
 
-    public static SearchBookFragment newInstance(String content) {
-        Bundle args = new Bundle();
-        args.putString("content", content);
-        SearchBookFragment fragment = new SearchBookFragment();
-        fragment.setArguments(args);
-        return fragment;
+    public static SearchBookFragment newInstance() {
+        return new SearchBookFragment();
     }
 
     @Override
@@ -65,8 +61,6 @@ public class SearchBookFragment extends BaseFragment implements ISearchBookView 
 
     @Override
     protected void init(View view) {
-        // init data
-        mContent = getArguments().getString("content");
         // init views
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
@@ -104,13 +98,6 @@ public class SearchBookFragment extends BaseFragment implements ISearchBookView 
             @Override
             public void onLoadMore() {
                 mModel.getMore(mContent, mAdapter.getItemCount());
-            }
-        });
-        mRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mRefreshLayout.setRefreshing(true);
-                mModel.search(mContent);
             }
         });
     }

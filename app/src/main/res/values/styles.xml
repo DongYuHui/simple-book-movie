@@ -13,4 +13,12 @@
         <item name="android:windowBackground">@drawable/launcher_screen</item>
     </style>
 
+    <!-- ToolBar Theme -->
+    <style name="ToolBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    </style>
+
+    <!-- ToolBar PopupMenu Theme -->
+    <style name="ToolBarPopupTheme" parent="ThemeOverlay.AppCompat.Light">
+    </style>
+
 </resources>

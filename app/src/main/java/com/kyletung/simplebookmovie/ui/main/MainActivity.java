@@ -1,17 +1,9 @@
 package com.kyletung.simplebookmovie.ui.main;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
@@ -19,6 +11,8 @@ import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.main.TabPagerAdapter;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.ui.search.SearchActivity;
+import com.kyletung.simplebookmovie.ui.settings.SettingsActivity;
+import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.view.TabViewPager;
 
 /**
@@ -32,12 +26,6 @@ import com.kyletung.simplebookmovie.view.TabViewPager;
  */
 public class MainActivity extends BaseActivity {
 
-    // Search Bar
-    private int mSearchBarHeight;
-    private FrameLayout mSearchBar;
-    private EditText mSearchContent;
-
-    // Tabs and Statement
     private TabViewPager mTabViewPager;
 
     @Override
@@ -47,6 +35,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        // init toolbar
+        setToolbar(getString(R.string.app_name), false);
         // init data
         Intent intent = getIntent();
         String userId = intent.getStringExtra("userId");
@@ -64,78 +54,36 @@ public class MainActivity extends BaseActivity {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
                 mTabViewPager.setCurrentItem(position);
-                if (position == 2) {
-                    hideSearchBar();
-                } else {
-                    showSearchBar();
-                }
                 return true;
             }
         });
-        // init search bar
-        mSearchBar = (FrameLayout) findViewById(R.id.search_bar);
-        mSearchContent = (EditText) findViewById(R.id.search_content);
-        // set listener
-        setListener();
 //        new TestModel(this);
     }
 
-    private void setListener() {
-        mSearchContent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_SEARCH) {
-                    String content = textView.getText().toString();
-                    mSearchContent.setText("");
-                    Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                    intent.putExtra("content", content);
-                    startActivity(intent);
-                    return true;
-                }
-                return false;
-            }
-        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return true;
     }
 
-    /**
-     * 隐藏搜索条
-     */
-    private void hideSearchBar() {
-        if (mSearchBar.getVisibility() == View.VISIBLE) {
-            mSearchBarHeight = mSearchBar.getMeasuredHeight();
-            ObjectAnimator alpha = ObjectAnimator.ofFloat(mSearchBar, "alpha", 1.0f, 0f);
-            ObjectAnimator translation = ObjectAnimator.ofFloat(mSearchBar, "translationY", 0f, -mSearchBarHeight);
-            AnimatorSet set = new AnimatorSet();
-            set.playTogether(alpha, translation);
-            set.setDuration(250);
-            set.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mSearchBar.setVisibility(View.GONE);
-                }
-            });
-            set.start();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.main_menu_search:
+                Intent intentSearch = new Intent(this, SearchActivity.class);
+                intentSearch.putExtra("content", "");
+                startActivity(intentSearch);
+                break;
+            case R.id.main_menu_settings:
+                Intent intentSettings = new Intent(this, SettingsActivity.class);
+                startActivity(intentSettings);
+                break;
+            case R.id.main_menu_about:
+                // TODO: 2016/08/07 About
+                BaseToast.toast(this, "About");
+                break;
         }
-    }
-
-    /**
-     * 显示搜索条
-     */
-    private void showSearchBar() {
-        if (mSearchBar.getVisibility() == View.GONE) {
-            ObjectAnimator alpha = ObjectAnimator.ofFloat(mSearchBar, "alpha", 0f, 1.0f);
-            ObjectAnimator translation = ObjectAnimator.ofFloat(mSearchBar, "translationY", -mSearchBarHeight, 0f);
-            AnimatorSet set = new AnimatorSet();
-            set.playTogether(alpha, translation);
-            set.setDuration(250);
-            set.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    mSearchBar.setVisibility(View.VISIBLE);
-                }
-            });
-            set.start();
-        }
+        return true;
     }
 
 }

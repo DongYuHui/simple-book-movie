@@ -5,7 +5,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
+import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.util.HttpUtil;
 
 import butterknife.ButterKnife;
@@ -43,6 +46,27 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 提供一个方法供子类实现
      */
     protected abstract void init();
+
+    /**
+     * 设置 ToolBar
+     *
+     * @param title 标题
+     * @param back  是否显示返回按钮
+     */
+    protected void setToolbar(String title, boolean back) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(title);
+        setSupportActionBar(toolbar);
+        if (back && getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+        }
+    }
 
     /**
      * Init Progress Dialog

@@ -30,4 +30,6 @@
     <!-- User Fragment -->
     <dimen name="user_head_image">96dp</dimen>
 
+    <dimen name="toolbar_elevation">2dp</dimen>
+
 </resources>

@@ -44,12 +44,8 @@ public class SearchMovieFragment extends BaseFragment implements ISearchMovieVie
     private SwipeRefreshLayout mRefreshLayout;
     private LinearOnScrollListener mOnScrollListener;
 
-    public static SearchMovieFragment newInstance(String content) {
-        Bundle args = new Bundle();
-        args.putString("content", content);
-        SearchMovieFragment fragment = new SearchMovieFragment();
-        fragment.setArguments(args);
-        return fragment;
+    public static SearchMovieFragment newInstance() {
+        return new SearchMovieFragment();
     }
 
     @Override
@@ -65,8 +61,6 @@ public class SearchMovieFragment extends BaseFragment implements ISearchMovieVie
 
     @Override
     protected void init(View view) {
-        // init data
-        mContent = getArguments().getString("content");
         // init views
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
@@ -103,13 +97,6 @@ public class SearchMovieFragment extends BaseFragment implements ISearchMovieVie
             @Override
             public void onLoadMore() {
                 mModel.getMore(mContent, mAdapter.getItemCount());
-            }
-        });
-        mRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mRefreshLayout.setRefreshing(true);
-                mModel.search(mContent);
             }
         });
     }
