@@ -1,5 +1,6 @@
 package com.kyletung.simplebookmovie.ui.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.text.Editable;
@@ -38,6 +39,12 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     Button mLoginButton;
 
     private LoginModel mLoginModel;
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 
     @Override
     protected int getContentLayout() {
