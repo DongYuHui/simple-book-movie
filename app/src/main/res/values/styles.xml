@@ -8,6 +8,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
+    <!-- Login Activity -->
+    <style name="LoginTheme" parent="AppTheme">
+        <item name="colorAccent">@color/login_view_color</item>
+    </style>
+
     <!-- Start Activity -->
     <style name="StartTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/launcher_screen</item>

@@ -3,6 +3,8 @@
     <!-- Application Name -->
     <string name="app_name">简单书影</string>
 
+    <string name="default_image_description">Image</string>
+
     <!-- Main Activity -->
     <string name="main_tab_book">书籍</string>
     <string name="main_tab_movie">影视</string>
@@ -42,5 +44,12 @@
     <string name="settings_about">关于</string>
     <string name="settings_version">版本</string>
     <string name="settings_about_content">该项目是个人练习所做，利用豆瓣的 API 简单实现书籍影视的查询。同时由于豆瓣 API 的限制，实现的的特性较少，也引起了体验上的缺陷。\n\n开源地址：https://github.com/DongYuHui/simple-book-movie</string>
+
+    <!-- 一条莫名所以的分割线 -->
+
+    <!-- Login -->
+    <string name="login_button_action">登录</string>
+    <string name="login_hint_account">请输入您的账号</string>
+    <string name="login_hint_password">请输入您的密码</string>
 
 </resources>

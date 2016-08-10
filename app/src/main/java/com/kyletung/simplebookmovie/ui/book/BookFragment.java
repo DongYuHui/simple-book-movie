@@ -1,6 +1,5 @@
 package com.kyletung.simplebookmovie.ui.book;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -14,7 +13,6 @@ import com.kyletung.simplebookmovie.adapter.book.BookPagerAdapter;
 import com.kyletung.simplebookmovie.event.BaseEvent;
 import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
-import com.kyletung.simplebookmovie.ui.login.LoginActivity;
 import com.kyletung.simplebookmovie.view.TabViewPager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -90,8 +88,6 @@ public class BookFragment extends BaseFragment {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
             }
         });
     }

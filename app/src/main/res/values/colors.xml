@@ -19,4 +19,8 @@
     <color name="top_bar_text_selected_color">#FFFFFF</color>
     <color name="top_bar_text_unselected_color">#0F864A</color>
 
+    <!-- Login -->
+    <color name="login_view_color">#EEE</color>
+    <color name="login_hint_color">#AAA</color>
+
 </resources>
