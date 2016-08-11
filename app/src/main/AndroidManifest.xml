@@ -29,6 +29,9 @@
             android:name=".ui.main.MainActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".ui.about.AboutActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ui.bookdetail.BookDetailActivity"
             android:screenOrientation="portrait"/>
         <activity

@@ -10,8 +10,8 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.main.TabPagerAdapter;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
+import com.kyletung.simplebookmovie.ui.about.AboutActivity;
 import com.kyletung.simplebookmovie.ui.search.SearchActivity;
-import com.kyletung.simplebookmovie.ui.settings.AboutFragment;
 import com.kyletung.simplebookmovie.ui.settings.SettingsActivity;
 import com.kyletung.simplebookmovie.view.TabViewPager;
 
@@ -75,8 +75,8 @@ public class MainActivity extends BaseActivity {
                 startActivity(intentSettings);
                 break;
             case R.id.main_menu_about:
-                AboutFragment aboutFragment = AboutFragment.newInstance();
-                aboutFragment.show(getSupportFragmentManager(), "About");
+                Intent intentAbout = new Intent(this, AboutActivity.class);
+                startActivity(intentAbout);
                 break;
         }
         return true;
