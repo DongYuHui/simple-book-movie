@@ -9,7 +9,6 @@
         android:id="@+id/movie_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/toolbar_elevation"
         android:background="@color/colorPrimary"
         app:tabIndicatorColor="@color/base_color_white"
         app:tabSelectedTextColor="@color/top_bar_text_selected_color"

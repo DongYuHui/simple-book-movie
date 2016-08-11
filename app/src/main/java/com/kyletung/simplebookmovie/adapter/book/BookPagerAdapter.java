@@ -23,11 +23,8 @@ public class BookPagerAdapter extends FragmentPagerAdapter {
 
     private static final String[] titles = {"未读", "已读", "在读"};
 
-    private String mUserId;
-
-    public BookPagerAdapter(FragmentManager fm, String userId) {
+    public BookPagerAdapter(FragmentManager fm) {
         super(fm);
-        mUserId = userId;
     }
 
     @Override
@@ -39,13 +36,13 @@ public class BookPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                if (mBookWish == null) mBookWish = BookListFragment.newInstance(mUserId, "wish");
+                if (mBookWish == null) mBookWish = BookListFragment.newInstance("wish");
                 return mBookWish;
             case 1:
-                if (mBookRead == null) mBookRead = BookListFragment.newInstance(mUserId, "read");
+                if (mBookRead == null) mBookRead = BookListFragment.newInstance("read");
                 return mBookRead;
             case 2:
-                if (mBookReading == null) mBookReading = BookListFragment.newInstance(mUserId, "reading");
+                if (mBookReading == null) mBookReading = BookListFragment.newInstance("reading");
                 return mBookReading;
         }
         return null;

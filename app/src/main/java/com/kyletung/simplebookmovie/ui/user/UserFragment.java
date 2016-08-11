@@ -1,7 +1,5 @@
 package com.kyletung.simplebookmovie.ui.user;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,18 +7,13 @@ import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.data.user.UserData;
-import com.kyletung.simplebookmovie.event.BaseEvent;
-import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.model.user.UserModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.util.HeadBackUtil;
 import com.kyletung.simplebookmovie.util.ImageLoader;
+import com.kyletung.simplebookmovie.util.UserInfoUtil;
 import com.kyletung.simplebookmovie.view.CircleImageView;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * All rights reserved by Author<br>
@@ -44,18 +37,8 @@ public class UserFragment extends BaseFragment implements IUserView {
     private String mUserId;
     private UserModel mModel;
 
-    public static UserFragment newInstance(String userId) {
-        Bundle args = new Bundle();
-        args.putString("userId", userId);
-        UserFragment fragment = new UserFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
+    public static UserFragment newInstance() {
+        return new UserFragment();
     }
 
     @Override
@@ -66,8 +49,7 @@ public class UserFragment extends BaseFragment implements IUserView {
     @Override
     protected void init(View view) {
         // init data;;
-        Bundle bundle = getArguments();
-        mUserId = bundle.getString("userId");
+        mUserId = new UserInfoUtil(getActivity()).readUserId();
         // init views
         mUserHeadBack = (ImageView) view.findViewById(R.id.user_head_back);
         mUserHead = (CircleImageView) view.findViewById(R.id.user_head);
@@ -103,26 +85,6 @@ public class UserFragment extends BaseFragment implements IUserView {
     @Override
     public void onGetInfoError(String error) {
         BaseToast.toast(getActivity(), error);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(BaseEvent event) {
-        if (event.getWhat() == EventCode.WHAT_LOGIN && event.getCode() == EventCode.CODE_LOGIN_LOGOUT) {
-            ImageLoader.load(this, mUserHead, R.drawable.image_load_error);
-            mUserName.setText("");
-            mUserLocation.setText(getString(R.string.user_location_hint));
-            mUserSignature.setText(getString(R.string.user_signature_hint));
-            mUserDescription.setText(getString(R.string.user_description_hint));
-        } else if (event.getWhat() == EventCode.WHAT_USER && event.getCode() == EventCode.CODE_USER_ID) {
-            mUserId = (String) event.getObject();
-            mModel.getUserInfo(mUserId);
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
 }

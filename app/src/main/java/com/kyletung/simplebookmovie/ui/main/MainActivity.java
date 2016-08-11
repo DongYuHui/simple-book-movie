@@ -37,12 +37,9 @@ public class MainActivity extends BaseActivity {
     protected void init() {
         // init toolbar
         setToolbar(getString(R.string.app_name), false);
-        // init data
-        Intent intent = getIntent();
-        String userId = intent.getStringExtra("userId");
         // init ViewPager
         mTabViewPager = (TabViewPager) findViewById(R.id.main_content);
-        TabPagerAdapter tabAdapter = new TabPagerAdapter(getSupportFragmentManager(), userId);
+        TabPagerAdapter tabAdapter = new TabPagerAdapter(getSupportFragmentManager());
         mTabViewPager.setAdapter(tabAdapter);
         // init bottom bar
         AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);

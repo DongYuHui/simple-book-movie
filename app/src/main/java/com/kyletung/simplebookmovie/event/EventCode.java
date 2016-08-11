@@ -11,16 +11,8 @@ package com.kyletung.simplebookmovie.event;
  */
 public class EventCode {
 
-    // Login
-    public static final int WHAT_LOGIN = 200;
-    public static final int CODE_LOGIN_LOGOUT = 201;
-
     // Search
     public static final int WHAT_SEARCH = 300;
     public static final int CODE_SEARCH_ALL = 301;
-
-    // User Info
-    public static final int WHAT_USER = 400;
-    public static final int CODE_USER_ID = 401;
 
 }
