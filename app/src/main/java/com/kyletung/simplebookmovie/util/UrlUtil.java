@@ -49,8 +49,7 @@ public class UrlUtil {
         for (Map.Entry<String, String> entry : params.entrySet()) {
             stringBuilder.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
         }
-        stringBuilder.substring(0, stringBuilder.length() - 1);
-        return String.format(Constants.BASE_URL, stringBuilder);
+        return String.format(Constants.BASE_URL, stringBuilder.substring(0, stringBuilder.length() - 1));
     }
 
 }

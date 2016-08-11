@@ -15,6 +15,7 @@ import com.kyletung.simplebookmovie.model.book.BookModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.ui.bookdetail.BookDetailActivity;
 import com.kyletung.simplebookmovie.util.BaseToast;
+import com.kyletung.simplebookmovie.util.UserInfoUtil;
 import com.kyletung.simplebookmovie.view.recycler.LinearOnScrollListener;
 
 import java.util.ArrayList;
@@ -37,9 +38,8 @@ public class BookListFragment extends BaseFragment implements IBookView {
     private SwipeRefreshLayout mRefreshLayout;
     private LinearOnScrollListener mOnScrollListener;
 
-    public static BookListFragment newInstance(String userId, String status) {
+    public static BookListFragment newInstance(String status) {
         Bundle args = new Bundle();
-        args.putString("userId", userId);
         args.putString("status", status);
         BookListFragment fragment = new BookListFragment();
         fragment.setArguments(args);
@@ -55,7 +55,7 @@ public class BookListFragment extends BaseFragment implements IBookView {
     protected void init(View view) {
         // init data
         Bundle bundle = getArguments();
-        mUserId = bundle.getString("userId");
+        mUserId = new UserInfoUtil(getActivity()).readUserId();
         String status = bundle.getString("status");
         // init recycler
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);

@@ -23,11 +23,8 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
     private BookFragment mFragmentBook;
     private MovieFragment mFragmentMovie;
 
-    private String mUserId;
-
-    public TabPagerAdapter(FragmentManager fm, String userId) {
+    public TabPagerAdapter(FragmentManager fm) {
         super(fm);
-        mUserId = userId;
     }
 
     @Override
@@ -37,10 +34,10 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
                 if (mFragmentMovie == null) mFragmentMovie = MovieFragment.newInstance();
                 return mFragmentMovie;
             case 1:
-                if (mFragmentBook == null) mFragmentBook = BookFragment.newInstance(mUserId);
+                if (mFragmentBook == null) mFragmentBook = BookFragment.newInstance();
                 return mFragmentBook;
             case 2:
-                if (mFragmentMine == null) mFragmentMine = UserFragment.newInstance(mUserId);
+                if (mFragmentMine == null) mFragmentMine = UserFragment.newInstance();
                 return mFragmentMine;
         }
         return null;

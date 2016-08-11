@@ -40,13 +40,22 @@ public class HttpUtil {
     }
 
     /**
+     * 获取当前的请求队列
+     *
+     * @return 返回请求队列
+     */
+    public RequestQueue getRequestQueue() {
+        return mRequestQueue;
+    }
+
+    /**
      * Get 请求
      *
      * @param tag              Tag，便于取消请求
      * @param url              请求地址
      * @param onResultListener 请求回调
      */
-    public void get(Object tag, String url, final OnResultListener onResultListener) {
+    public void get(final Object tag, final String url, final OnResultListener onResultListener) {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -55,9 +64,28 @@ public class HttpUtil {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onResultListener.onError(error.getMessage());
+                VolleyErrorHandler.handleError(error, new VolleyErrorHandler.OnOauthListener() {
+
+                    @Override
+                    public void onRefreshSuccess(String result) {
+                        get(tag, url, onResultListener);
+                    }
+
+                    @Override
+                    public void onOauthError(String error) {
+                        onResultListener.onError(error);
+                    }
+
+                });
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map = super.getHeaders();
+//                map.put("Authorization", "Bearer " + new UserInfoUtil(BaseApplication.getInstance()).readAccessToken());
+                return map;
+            }
+        };
         stringRequest.setTag(tag);
         mRequestQueue.add(stringRequest);
     }
@@ -70,7 +98,7 @@ public class HttpUtil {
      * @param onResultListener 请求回调
      * @param body             请求体，可以为空
      */
-    public void post(Object tag, String url, final OnResultListener onResultListener, @Nullable final Map<String, String> body) {
+    public void post(final Object tag, final String url, final OnResultListener onResultListener, @Nullable final Map<String, String> body) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -79,9 +107,22 @@ public class HttpUtil {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                onResultListener.onError(error.getMessage());
+                VolleyErrorHandler.handleError(error, new VolleyErrorHandler.OnOauthListener() {
+
+                    @Override
+                    public void onRefreshSuccess(String result) {
+                        post(tag, url, onResultListener, body);
+                    }
+
+                    @Override
+                    public void onOauthError(String error) {
+                        onResultListener.onError(error);
+                    }
+
+                });
             }
         }) {
+
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 if (body != null) {
@@ -89,6 +130,14 @@ public class HttpUtil {
                 }
                 return super.getParams();
             }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map = super.getHeaders();
+//                map.put("Authorization", "Bearer " + new UserInfoUtil(BaseApplication.getInstance()).readAccessToken());
+                return map;
+            }
+
         };
         stringRequest.setTag(tag);
         mRequestQueue.add(stringRequest);

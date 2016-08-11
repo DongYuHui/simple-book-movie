@@ -13,4 +13,17 @@
         <item name="android:windowBackground">@drawable/launcher_screen</item>
     </style>
 
+    <!-- Login Activity -->
+    <style name="LoginTheme" parent="AppTheme">
+        <item name="colorAccent">@color/login_view_color</item>
+    </style>
+
+    <!-- ToolBar Theme -->
+    <style name="ToolBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    </style>
+
+    <!-- ToolBar PopupMenu Theme -->
+    <style name="ToolBarPopupTheme" parent="ThemeOverlay.AppCompat.Light">
+    </style>
+
 </resources>

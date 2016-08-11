@@ -8,15 +8,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/settings_about"
-        android:textColor="@color/base_color_black"
-        android:textSize="@dimen/base_text_24sp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/base_dimen_16dp"
         android:text="@string/settings_about_content"/>
 
 </LinearLayout>

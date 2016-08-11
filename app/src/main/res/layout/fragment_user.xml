@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/base_color_white"
-            android:elevation="@dimen/base_dimen_2dp"
+            android:elevation="@dimen/base_dimen_1dp"
             app:scaleHeight="9"
             app:scaleOrientation="vertical"
             app:scaleWidth="16">
@@ -53,8 +53,9 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/base_dimen_16dp"
             android:layout_marginTop="@dimen/base_dimen_16dp"
-            app:cardElevation="@dimen/base_dimen_2dp">
+            app:cardElevation="@dimen/base_dimen_1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -105,36 +106,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/user_description_hint"
                     android:textColor="@color/base_color_gray"/>
-
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/base_dimen_16dp"
-            android:layout_marginTop="@dimen/base_dimen_16dp"
-            app:cardElevation="@dimen/base_dimen_2dp">
-
-            <LinearLayout
-                android:id="@+id/setting_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:padding="@dimen/base_dimen_8dp">
-
-                <ImageView
-                    android:layout_width="@dimen/base_dimen_24dp"
-                    android:layout_height="@dimen/base_dimen_24dp"
-                    android:layout_marginLeft="@dimen/base_dimen_8dp"
-                    android:layout_marginRight="@dimen/base_dimen_8dp"
-                    android:src="@drawable/setting_icon"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/user_settings"/>
 
             </LinearLayout>
 

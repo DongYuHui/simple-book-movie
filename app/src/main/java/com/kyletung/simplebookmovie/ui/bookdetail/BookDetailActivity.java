@@ -1,9 +1,7 @@
 package com.kyletung.simplebookmovie.ui.bookdetail;
 
 import android.content.Intent;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +12,8 @@ import com.kyletung.simplebookmovie.model.bookdetail.BookDetailModel;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.util.ImageLoader;
+
+import butterknife.BindView;
 
 /**
  * All rights reserved by Author<br>
@@ -27,19 +27,32 @@ import com.kyletung.simplebookmovie.util.ImageLoader;
 public class BookDetailActivity extends BaseActivity implements IBookDetailView {
 
     // views
-    private ImageView mBookImage;
-    private TextView mBookTitle;
-    private TextView mBookSubtitle;
-    private TextView mBookPoints;
-    private TextView mBookOriginalName;
-    private TextView mBookAuthor;
-    private TextView mBookPublisher;
-    private TextView mBookTranslator;
-    private TextView mBookPubDate;
-    private TextView mBookPrice;
-    private TextView mBookAuthorSummary;
-    private TextView mBookSummary;
-    private TextView mBookCatalog;
+    @BindView(R.id.book_detail_image)
+    ImageView mBookImage;
+    @BindView(R.id.book_detail_title)
+    TextView mBookTitle;
+    @BindView(R.id.book_detail_subtitle)
+    TextView mBookSubtitle;
+    @BindView(R.id.book_detail_points)
+    TextView mBookPoints;
+    @BindView(R.id.book_detail_real_name)
+    TextView mBookOriginalName;
+    @BindView(R.id.book_detail_author)
+    TextView mBookAuthor;
+    @BindView(R.id.book_detail_publisher)
+    TextView mBookPublisher;
+    @BindView(R.id.book_detail_translator)
+    TextView mBookTranslator;
+    @BindView(R.id.book_detail_pub_date)
+    TextView mBookPubDate;
+    @BindView(R.id.book_detail_price)
+    TextView mBookPrice;
+    @BindView(R.id.book_detail_author_summary)
+    TextView mBookAuthorSummary;
+    @BindView(R.id.book_detail_summary)
+    TextView mBookSummary;
+    @BindView(R.id.book_detail_catalog)
+    TextView mBookCatalog;
 
     // model
     private BookDetailModel mModel;
@@ -52,34 +65,25 @@ public class BookDetailActivity extends BaseActivity implements IBookDetailView 
     @Override
     protected void init() {
         // init toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.book_detail_title);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.tool_bar_arrow_back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        setToolbar(getString(R.string.book_detail_title), true);
         // init data
         Intent intent = getIntent();
         String bookId = intent.getStringExtra("bookId");
         String userId = intent.getStringExtra("userId");
         // init views
-        mBookImage = (ImageView) findViewById(R.id.book_detail_image);
-        mBookTitle = (TextView) findViewById(R.id.book_detail_title);
-        mBookSubtitle = (TextView) findViewById(R.id.book_detail_subtitle);
-        mBookPoints = (TextView) findViewById(R.id.book_detail_points);
-        mBookOriginalName = (TextView) findViewById(R.id.book_detail_real_name);
-        mBookAuthor = (TextView) findViewById(R.id.book_detail_author);
-        mBookPublisher = (TextView) findViewById(R.id.book_detail_publisher);
-        mBookTranslator = (TextView) findViewById(R.id.book_detail_translator);
-        mBookPubDate = (TextView) findViewById(R.id.book_detail_pub_date);
-        mBookPrice = (TextView) findViewById(R.id.book_detail_price);
-        mBookAuthorSummary = (TextView) findViewById(R.id.book_detail_author_summary);
-        mBookSummary = (TextView) findViewById(R.id.book_detail_summary);
-        mBookCatalog = (TextView) findViewById(R.id.book_detail_catalog);
+//        mBookImage = (ImageView) findViewById(R.id.book_detail_image);
+//        mBookTitle = (TextView) findViewById(R.id.book_detail_title);
+//        mBookSubtitle = (TextView) findViewById(R.id.book_detail_subtitle);
+//        mBookPoints = (TextView) findViewById(R.id.book_detail_points);
+//        mBookOriginalName = (TextView) findViewById(R.id.book_detail_real_name);
+//        mBookAuthor = (TextView) findViewById(R.id.book_detail_author);
+//        mBookPublisher = (TextView) findViewById(R.id.book_detail_publisher);
+//        mBookTranslator = (TextView) findViewById(R.id.book_detail_translator);
+//        mBookPubDate = (TextView) findViewById(R.id.book_detail_pub_date);
+//        mBookPrice = (TextView) findViewById(R.id.book_detail_price);
+//        mBookAuthorSummary = (TextView) findViewById(R.id.book_detail_author_summary);
+//        mBookSummary = (TextView) findViewById(R.id.book_detail_summary);
+//        mBookCatalog = (TextView) findViewById(R.id.book_detail_catalog);
         // init model
         mModel = new BookDetailModel(this);
         mModel.setInterface(this);

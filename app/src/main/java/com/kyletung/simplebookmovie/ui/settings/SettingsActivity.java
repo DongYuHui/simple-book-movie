@@ -1,18 +1,16 @@
 package com.kyletung.simplebookmovie.ui.settings;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
-import com.kyletung.simplebookmovie.event.LogoutEvent;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
+import com.kyletung.simplebookmovie.ui.login.LoginActivity;
 import com.kyletung.simplebookmovie.util.UserInfoUtil;
 import com.kyletung.simplebookmovie.util.VersionUtil;
-
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * All rights reserved by Author<br>
@@ -26,7 +24,6 @@ import org.greenrobot.eventbus.EventBus;
 public class SettingsActivity extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout mSettingsLogout;
-    private LinearLayout mSettingsAbout;
 
     private TextView mSettingsVersion;
 
@@ -38,19 +35,9 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void init() {
         // init toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.settings_title);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.tool_bar_arrow_back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        setToolbar(getString(R.string.settings_title), true);
         // init views
         mSettingsLogout = (LinearLayout) findViewById(R.id.settings_logout);
-        mSettingsAbout = (LinearLayout) findViewById(R.id.settings_about);
         mSettingsVersion = (TextView) findViewById(R.id.settings_version_number);
         // set listener
         setListener();
@@ -58,17 +45,11 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
     private void setListener() {
         mSettingsLogout.setOnClickListener(this);
-        mSettingsAbout.setOnClickListener(this);
-        mSettingsVersion.post(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mSettingsVersion.setText(VersionUtil.getInstance().getVersion(SettingsActivity.this));
-                } catch (PackageManager.NameNotFoundException e) {
-                    mSettingsVersion.setText(String.valueOf(0));
-                }
-            }
-        });
+        try {
+            mSettingsVersion.setText(VersionUtil.getInstance().getVersion(SettingsActivity.this));
+        } catch (PackageManager.NameNotFoundException e) {
+            mSettingsVersion.setText(String.valueOf(0));
+        }
     }
 
     @Override
@@ -76,12 +57,9 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         switch (view.getId()) {
             case R.id.settings_logout:
                 new UserInfoUtil(this).removeInfo();
-                EventBus.getDefault().post(new LogoutEvent());
-                finish();
-                break;
-            case R.id.settings_about:
-                AboutFragment aboutFragment = AboutFragment.newInstance();
-                aboutFragment.show(getSupportFragmentManager(), "About");
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 break;
         }
     }

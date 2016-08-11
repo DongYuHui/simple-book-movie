@@ -1,10 +1,9 @@
 package com.kyletung.simplebookmovie.ui.settings;
 
-import android.os.Bundle;
 import android.view.View;
 
 import com.kyletung.simplebookmovie.R;
-import com.kyletung.simplebookmovie.ui.BaseDialogFragment;
+import com.kyletung.simplebookmovie.ui.BaseFragment;
 
 /**
  * All rights reserved by Author<br>
@@ -15,23 +14,19 @@ import com.kyletung.simplebookmovie.ui.BaseDialogFragment;
  * <br>
  * FixMe
  */
-public class AboutFragment extends BaseDialogFragment {
+public class AboutFragment extends BaseFragment {
 
     public static AboutFragment newInstance() {
-        Bundle args = new Bundle();
-        AboutFragment fragment = new AboutFragment();
-        fragment.setArguments(args);
-        return fragment;
+        return new AboutFragment();
     }
 
     @Override
-    protected int setContentLayout() {
+    protected int getContentLayout() {
         return R.layout.fragment_about;
     }
 
     @Override
-    protected void initView(View view) {
+    protected void init(View view) {
 
     }
-
 }

@@ -12,7 +12,8 @@ import android.view.View;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.search.SearchBookAdapter;
 import com.kyletung.simplebookmovie.data.book.BookSubject;
-import com.kyletung.simplebookmovie.event.SearchEvent;
+import com.kyletung.simplebookmovie.event.BaseEvent;
+import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.model.search.SearchBookModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.ui.bookdetail.BookDetailActivity;
@@ -43,12 +44,8 @@ public class SearchBookFragment extends BaseFragment implements ISearchBookView 
     private SwipeRefreshLayout mRefreshLayout;
     private LinearOnScrollListener mOnScrollListener;
 
-    public static SearchBookFragment newInstance(String content) {
-        Bundle args = new Bundle();
-        args.putString("content", content);
-        SearchBookFragment fragment = new SearchBookFragment();
-        fragment.setArguments(args);
-        return fragment;
+    public static SearchBookFragment newInstance() {
+        return new SearchBookFragment();
     }
 
     @Override
@@ -64,8 +61,6 @@ public class SearchBookFragment extends BaseFragment implements ISearchBookView 
 
     @Override
     protected void init(View view) {
-        // init data
-        mContent = getArguments().getString("content");
         // init views
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
@@ -105,13 +100,6 @@ public class SearchBookFragment extends BaseFragment implements ISearchBookView 
                 mModel.getMore(mContent, mAdapter.getItemCount());
             }
         });
-        mRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mRefreshLayout.setRefreshing(true);
-                mModel.search(mContent);
-            }
-        });
     }
 
     @Override
@@ -139,10 +127,12 @@ public class SearchBookFragment extends BaseFragment implements ISearchBookView 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSearchEvent(SearchEvent event) {
-        mContent = event.getContent();
-        mRefreshLayout.setRefreshing(true);
-        mModel.search(mContent);
+    public void onEvent(BaseEvent event) {
+        if (event.getWhat() == EventCode.WHAT_SEARCH && event.getCode() == EventCode.CODE_SEARCH_ALL) {
+            mContent = (String) event.getObject();
+            mRefreshLayout.setRefreshing(true);
+            mModel.search(mContent);
+        }
     }
 
     @Override

@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
+import butterknife.ButterKnife;
+
 /**
  * All rights reserved by <a href="http://www.yanze.com">YanZe</a>
  * Created by DongYuhui on 2016/3/7.
@@ -34,6 +36,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (mView == null) {
             mView = inflater.inflate(setContentLayout(), container, false);
+            ButterKnife.bind(this, mView);
             initView(mView);
         }
         return mView;

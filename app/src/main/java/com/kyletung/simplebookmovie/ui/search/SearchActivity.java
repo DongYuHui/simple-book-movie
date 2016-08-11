@@ -1,6 +1,5 @@
 package com.kyletung.simplebookmovie.ui.search;
 
-import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
@@ -9,7 +8,8 @@ import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.search.SearchPagerAdapter;
-import com.kyletung.simplebookmovie.event.SearchEvent;
+import com.kyletung.simplebookmovie.event.BaseEvent;
+import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.view.TabViewPager;
 
@@ -35,16 +35,12 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        // init data
-        Intent intent = getIntent();
-        String searchContent = intent.getStringExtra("content");
         // init search
         mSearch = (EditText) findViewById(R.id.search_content);
-        mSearch.setText(searchContent);
         // init view
         TabLayout tabLayout = (TabLayout) findViewById(R.id.search_tab);
         TabViewPager viewPager = (TabViewPager) findViewById(R.id.search_viewpager);
-        SearchPagerAdapter adapter = new SearchPagerAdapter(getSupportFragmentManager(), searchContent);
+        SearchPagerAdapter adapter = new SearchPagerAdapter(getSupportFragmentManager());
         viewPager.setSwipeEnabled(true);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -57,7 +53,7 @@ public class SearchActivity extends BaseActivity {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_SEARCH) {
-                    EventBus.getDefault().post(new SearchEvent(textView.getText().toString()));
+                    EventBus.getDefault().post(new BaseEvent(EventCode.WHAT_SEARCH, EventCode.CODE_SEARCH_ALL, textView.getText().toString()));
                 }
                 return false;
             }
