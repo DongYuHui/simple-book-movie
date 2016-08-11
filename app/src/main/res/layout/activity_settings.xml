@@ -31,30 +31,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/settings_about"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/base_dimen_16dp"
-        android:background="@color/base_color_white"
-        android:elevation="@dimen/base_dimen_1dp"
-        android:gravity="center_vertical"
-        android:padding="@dimen/base_dimen_8dp">
-
-        <ImageView
-            android:layout_width="@dimen/base_dimen_24dp"
-            android:layout_height="@dimen/base_dimen_24dp"
-            android:layout_marginLeft="@dimen/base_dimen_8dp"
-            android:layout_marginRight="@dimen/base_dimen_8dp"
-            android:src="@drawable/settings_about"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_about"/>
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/settings_version"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

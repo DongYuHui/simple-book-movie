@@ -11,8 +11,8 @@ import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.main.TabPagerAdapter;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.ui.search.SearchActivity;
+import com.kyletung.simplebookmovie.ui.settings.AboutFragment;
 import com.kyletung.simplebookmovie.ui.settings.SettingsActivity;
-import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.view.TabViewPager;
 
 /**
@@ -54,7 +54,6 @@ public class MainActivity extends BaseActivity {
                 return true;
             }
         });
-//        new TestModel(this);
     }
 
     @Override
@@ -76,8 +75,8 @@ public class MainActivity extends BaseActivity {
                 startActivity(intentSettings);
                 break;
             case R.id.main_menu_about:
-                // TODO: 2016/08/07 About
-                BaseToast.toast(this, "About");
+                AboutFragment aboutFragment = AboutFragment.newInstance();
+                aboutFragment.show(getSupportFragmentManager(), "About");
                 break;
         }
         return true;

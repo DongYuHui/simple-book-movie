@@ -40,7 +40,7 @@
 
     <!-- Setting Activity -->
     <string name="settings_title">设置</string>
-    <string name="settings_logout">登出</string>
+    <string name="settings_logout">注销</string>
     <string name="settings_about">关于</string>
     <string name="settings_version">版本</string>
     <string name="settings_about_content">该项目是个人练习所做，利用豆瓣的 API 简单实现书籍影视的查询。同时由于豆瓣 API 的限制，实现的的特性较少，也引起了体验上的缺陷。\n\n开源地址：https://github.com/DongYuHui/simple-book-movie</string>
