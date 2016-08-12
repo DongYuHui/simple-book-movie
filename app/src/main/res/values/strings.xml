@@ -52,4 +52,11 @@
     <string name="login_hint_account">请输入您的账号</string>
     <string name="login_hint_password">请输入您的密码</string>
 
+    <!-- About -->
+    <string name="about_title">关于</string>
+    <string name="about_version">版本：%s</string>
+    <string name="about_version_error">版本未知</string>
+    <string name="about_author_title">作者简介</string>
+    <string name="about_author_content">Blog : www.kyletung.com\nEmail : dyh920827@gmail.com\nGitHub : github.com/DongYuHui/simple-book-movie</string>
+
 </resources>

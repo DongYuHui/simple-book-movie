@@ -2,10 +2,14 @@ package com.kyletung.simplebookmovie.ui.about;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
-import com.kyletung.simplebookmovie.ui.settings.AboutFragment;
+import com.kyletung.simplebookmovie.util.VersionUtil;
+
+import butterknife.BindView;
 
 /**
  * All rights reserved by Author<br>
@@ -17,6 +21,9 @@ import com.kyletung.simplebookmovie.ui.settings.AboutFragment;
  * 关于页面
  */
 public class AboutActivity extends BaseActivity {
+
+    @BindView(R.id.version)
+    TextView mVersion;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, AboutActivity.class);
@@ -31,8 +38,16 @@ public class AboutActivity extends BaseActivity {
     @Override
     protected void init() {
         // set action bar
-        setToolbar(getString(R.string.settings_about), true);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content, AboutFragment.newInstance()).commit();
+        setToolbar(getString(R.string.about_title), true);
+        // set version
+        try {
+            mVersion.setText(String.format(
+                    getString(R.string.about_version),
+                    String.valueOf(VersionUtil.getInstance().getVersion(this))
+            ));
+        } catch (PackageManager.NameNotFoundException e) {
+            mVersion.setText(getString(R.string.about_version_error));
+        }
     }
 
 }

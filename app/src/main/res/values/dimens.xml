@@ -33,9 +33,14 @@
     <!-- Main -->
     <dimen name="toolbar_elevation">2dp</dimen>
 
+    <!-- 一条奇奇怪怪的分割线 -->
+
     <!-- Login -->
     <dimen name="login_text_size">16sp</dimen>
     <dimen name="login_view_height">40dp</dimen>
     <dimen name="login_icon_height">24dp</dimen>
+
+    <!-- About -->
+    <dimen name="about_icon_size">80dp</dimen>
 
 </resources>

@@ -19,8 +19,16 @@
     <color name="top_bar_text_selected_color">#FFFFFF</color>
     <color name="top_bar_text_unselected_color">#0F864A</color>
 
+    <!-- 一条傻傻呼呼的分割线 -->
+
     <!-- Login -->
     <color name="login_view_color">#EEE</color>
     <color name="login_hint_color">#AAA</color>
+
+    <!-- About -->
+    <color name="about_color_text_title">#EEEE</color>
+    <color name="about_color_text_content">#DDDD</color>
+    <color name="about_color_background_title">#A333</color>
+    <color name="about_color_background_content">#A555</color>
 
 </resources>
