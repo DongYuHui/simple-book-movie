@@ -27,7 +27,9 @@ public class ImageLoader {
      * @param url     地址
      */
     public static void load(Context context, ImageView view, String url) {
-        Glide.with(context).load(url).placeholder(R.drawable.image_load_progress).error(R.drawable.image_load_error).into(view);
+        Glide.with(context).load(url)
+                .placeholder(R.drawable.image_load_progress_small)
+                .error(R.drawable.image_load_error_small).into(view);
     }
 
     /**
@@ -38,7 +40,9 @@ public class ImageLoader {
      * @param resource 资源
      */
     public static void load(Context context, ImageView view, int resource) {
-        Glide.with(context).load(resource).placeholder(R.drawable.image_load_progress).error(R.drawable.image_load_error).into(view);
+        Glide.with(context).load(resource)
+                .placeholder(R.drawable.image_load_progress_small)
+                .error(R.drawable.image_load_error_small).into(view);
     }
 
     /**
@@ -49,7 +53,9 @@ public class ImageLoader {
      * @param url      地址
      */
     public static void load(Activity activity, ImageView view, String url) {
-        Glide.with(activity).load(url).placeholder(R.drawable.image_load_progress).error(R.drawable.image_load_error).into(view);
+        Glide.with(activity).load(url)
+                .placeholder(R.drawable.image_load_progress_small)
+                .error(R.drawable.image_load_error_small).into(view);
     }
 
     /**
@@ -60,7 +66,9 @@ public class ImageLoader {
      * @param resource 资源
      */
     public static void load(Activity activity, ImageView view, int resource) {
-        Glide.with(activity).load(resource).placeholder(R.drawable.image_load_progress).error(R.drawable.image_load_error).into(view);
+        Glide.with(activity).load(resource)
+                .placeholder(R.drawable.image_load_progress_small)
+                .error(R.drawable.image_load_error_small).into(view);
     }
 
     /**
@@ -71,7 +79,9 @@ public class ImageLoader {
      * @param url      地址
      */
     public static void load(Fragment fragment, ImageView view, String url) {
-        Glide.with(fragment).load(url).placeholder(R.drawable.image_load_progress).error(R.drawable.image_load_error).into(view);
+        Glide.with(fragment).load(url)
+                .placeholder(R.drawable.image_load_progress_small)
+                .error(R.drawable.image_load_error_small).into(view);
     }
 
     /**
@@ -82,7 +92,9 @@ public class ImageLoader {
      * @param resource 资源
      */
     public static void load(Fragment fragment, ImageView view, int resource) {
-        Glide.with(fragment).load(resource).placeholder(R.drawable.image_load_progress).error(R.drawable.image_load_error).into(view);
+        Glide.with(fragment).load(resource)
+                .placeholder(R.drawable.image_load_progress_small)
+                .error(R.drawable.image_load_error_small).into(view);
     }
 
     public static void load(Fragment fragment, ImageView view, String url, boolean showProgress) {
