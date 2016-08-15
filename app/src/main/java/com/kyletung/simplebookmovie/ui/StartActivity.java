@@ -37,14 +37,15 @@ public class StartActivity extends BaseActivity {
         // init data
         UserInfoUtil userInfoUtil = new UserInfoUtil(this);
         String userId = userInfoUtil.readUserId();
-        if (TextUtils.isEmpty(userInfoUtil.readUserId())) {
+        if (TextUtils.isEmpty(userId)) {
             LoginActivity.start(this);
         } else {
             Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             intent.putExtra("userId", userId);
             startActivity(intent);
         }
+        finish();
     }
 
 }

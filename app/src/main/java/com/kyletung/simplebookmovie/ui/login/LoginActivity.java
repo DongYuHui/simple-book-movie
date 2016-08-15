@@ -42,7 +42,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 
     public static void start(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         context.startActivity(intent);
     }
 
@@ -125,10 +125,11 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         stopProgress();
         // TODO: 2016/08/10 Login Success
         Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         String userId = new UserInfoUtil(this).readUserId();
         intent.putExtra("userId", userId);
         startActivity(intent);
+        finish();
     }
 
     @Override
