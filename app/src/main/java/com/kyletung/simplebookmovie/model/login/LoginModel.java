@@ -71,7 +71,6 @@ public class LoginModel extends BaseModel {
             public void onErrorResponse(VolleyError error) {
                 if (error.networkResponse != null) {
                     String url = new String(error.networkResponse.data);
-                    System.out.println("test : " + url);
                     if (url.contains("www.kyletung.com?code=")) {
                         String authorizationCode = url.substring(url.indexOf("=") + 1);
                         getToken(authorizationCode);

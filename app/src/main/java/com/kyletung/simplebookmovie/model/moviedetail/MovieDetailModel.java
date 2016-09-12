@@ -2,6 +2,7 @@ package com.kyletung.simplebookmovie.model.moviedetail;
 
 import android.content.Context;
 
+import com.kyletung.simplebookmovie.client.MovieClient;
 import com.kyletung.simplebookmovie.data.moviedetail.MovieDetailData;
 import com.kyletung.simplebookmovie.model.BaseModel;
 import com.kyletung.simplebookmovie.ui.moviedetail.IMovieDetailView;
@@ -50,6 +51,7 @@ public class MovieDetailModel extends BaseModel {
                 }
             }
         });
+        MovieClient.getInstance().getMovieDetail(movieId);
     }
 
 }
