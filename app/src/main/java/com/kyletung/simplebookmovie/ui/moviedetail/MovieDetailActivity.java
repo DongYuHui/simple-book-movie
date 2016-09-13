@@ -9,11 +9,14 @@ import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.moviedetail.StaffAdapter;
+import com.kyletung.simplebookmovie.client.IResponse;
+import com.kyletung.simplebookmovie.client.MovieClient;
 import com.kyletung.simplebookmovie.data.moviedetail.MovieDetailData;
-import com.kyletung.simplebookmovie.model.moviedetail.MovieDetailModel;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.util.ImageLoader;
+
+import butterknife.BindView;
 
 /**
  * All rights reserved by Author<br>
@@ -22,22 +25,28 @@ import com.kyletung.simplebookmovie.util.ImageLoader;
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
  * Create Time: 2016/07/13 at 22:19<br>
  * <br>
- * FixMe
+ * 影视详情页面
  */
-public class MovieDetailActivity extends BaseActivity implements IMovieDetailView {
+public class MovieDetailActivity extends BaseActivity {
 
     // views
-    private ImageView mMovieImage;
-    private TextView mMovieTitle;
-    private TextView mMoviePoints;
-    private TextView mMovieOriginalName;
-    private TextView mMovieYear;
-    private TextView mMovieCountry;
-    private TextView mMovieSummary;
+    @BindView(R.id.movie_detail_image)
+    ImageView mMovieImage;
+    @BindView(R.id.movie_detail_title)
+    TextView mMovieTitle;
+    @BindView(R.id.movie_detail_points)
+    TextView mMoviePoints;
+    @BindView(R.id.movie_detail_real_name)
+    TextView mMovieOriginalName;
+    @BindView(R.id.movie_detail_year)
+    TextView mMovieYear;
+    @BindView(R.id.movie_detail_country)
+    TextView mMovieCountry;
+    @BindView(R.id.movie_detail_summary)
+    TextView mMovieSummary;
 
-    private MovieDetailModel mModel;
-    private StaffAdapter mDirectorAdapter;
-    private StaffAdapter mCastAdapter;
+    private StaffAdapter mCastAdapter; // 卡司适配器
+    private StaffAdapter mDirectorAdapter; // 导演适配器
 
     @Override
     protected int getContentLayout() {
@@ -51,14 +60,6 @@ public class MovieDetailActivity extends BaseActivity implements IMovieDetailVie
         // init data
         Intent intent = getIntent();
         String movieId = intent.getStringExtra("movieId");
-        // init views
-        mMovieImage = (ImageView) findViewById(R.id.movie_detail_image);
-        mMovieTitle = (TextView) findViewById(R.id.movie_detail_title);
-        mMoviePoints = (TextView) findViewById(R.id.movie_detail_points);
-        mMovieOriginalName = (TextView) findViewById(R.id.movie_detail_real_name);
-        mMovieYear = (TextView) findViewById(R.id.movie_detail_year);
-        mMovieCountry = (TextView) findViewById(R.id.movie_detail_country);
-        mMovieSummary = (TextView) findViewById(R.id.movie_detail_summary);
         // set directors
         RecyclerView movieDirectors = (RecyclerView) findViewById(R.id.movie_detail_directors);
         movieDirectors.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -72,13 +73,36 @@ public class MovieDetailActivity extends BaseActivity implements IMovieDetailVie
         mCastAdapter = new StaffAdapter(this, R.layout.recycler_staff_item, this);
         movieCasts.setAdapter(mCastAdapter);
         // init model
-        mModel = new MovieDetailModel(this);
-        mModel.setInterface(this);
-        mModel.getData(movieId);
+        getData(movieId);
     }
 
-    @Override
-    public void onGetDataSuccess(MovieDetailData data) {
+    /**
+     * 获取详情数据
+     *
+     * @param movieId 影视 Id
+     */
+    private void getData(String movieId) {
+        MovieClient.getInstance().getMovieDetail(movieId, new IResponse<MovieDetailData>() {
+
+            @Override
+            public void onResponse(MovieDetailData result) {
+                getDataSuccess(result);
+            }
+
+            @Override
+            public void onError(int code, String reason) {
+                getDataError(reason);
+            }
+
+        });
+    }
+
+    /**
+     * 获取内容成功
+     *
+     * @param data 内容
+     */
+    public void getDataSuccess(MovieDetailData data) {
         ImageLoader.load(this, mMovieImage, data.getImages().getLarge());
         mMovieTitle.setText(data.getTitle());
         mMoviePoints.setText(String.valueOf(data.getRating().getAverage()));
@@ -96,8 +120,12 @@ public class MovieDetailActivity extends BaseActivity implements IMovieDetailVie
         mCastAdapter.putList(data.getCasts());
     }
 
-    @Override
-    public void onGetDataError(String error) {
+    /**
+     * 获取内容失败
+     *
+     * @param error 失败信息
+     */
+    public void getDataError(String error) {
         BaseToast.toast(this, error);
     }
 

@@ -13,7 +13,7 @@ import retrofit2.http.Path;
  */
 public interface MovieApi {
 
-    @GET("/movie/subject/{movieId}")
+    @GET("movie/subject/{movieId}")
     Call<MovieDetailData> getMovieDetail(@Path("movieId") String movieId);
 
 }

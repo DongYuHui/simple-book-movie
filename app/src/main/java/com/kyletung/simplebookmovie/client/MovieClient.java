@@ -2,10 +2,6 @@ package com.kyletung.simplebookmovie.client;
 
 import com.kyletung.simplebookmovie.data.moviedetail.MovieDetailData;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 /**
  * All Rights Reserved by Company.
  * Created by DongYuHui on 2016/9/12.
@@ -24,20 +20,14 @@ public class MovieClient extends SimpleClient {
         return new MovieClient();
     }
 
-    public void getMovieDetail(String movieId) {
-        mMovieApi.getMovieDetail(movieId).enqueue(new Callback<MovieDetailData>() {
-
-            @Override
-            public void onResponse(Call<MovieDetailData> call, Response<MovieDetailData> response) {
-                System.out.println("test success");
-            }
-
-            @Override
-            public void onFailure(Call<MovieDetailData> call, Throwable t) {
-                System.out.println("test error");
-            }
-
-        });
+    /**
+     * 获取影视详情
+     *
+     * @param movieId      影视 Id
+     * @param responseImpl 返回接口实现
+     */
+    public void getMovieDetail(String movieId, IResponse<MovieDetailData> responseImpl) {
+        mMovieApi.getMovieDetail(movieId).enqueue(newCallback(responseImpl));
     }
 
 }
