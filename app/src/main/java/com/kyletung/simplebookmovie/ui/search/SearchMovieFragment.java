@@ -16,7 +16,7 @@ import com.kyletung.simplebookmovie.event.BaseEvent;
 import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.model.search.SearchMovieModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
-import com.kyletung.simplebookmovie.ui.moviedetail.MovieDetailActivity;
+import com.kyletung.simplebookmovie.ui.movie.MovieDetailActivity;
 import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.view.recycler.LinearOnScrollListener;
 

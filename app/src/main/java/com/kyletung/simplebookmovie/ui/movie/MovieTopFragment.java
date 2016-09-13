@@ -10,10 +10,12 @@ import android.view.View;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.movie.MovieTopAdapter;
+import com.kyletung.simplebookmovie.client.IResponse;
+import com.kyletung.simplebookmovie.client.MovieClient;
 import com.kyletung.simplebookmovie.data.movie.MovieSubject;
-import com.kyletung.simplebookmovie.model.movie.MovieTopModel;
+import com.kyletung.simplebookmovie.data.movie.MovieTopData;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
-import com.kyletung.simplebookmovie.ui.moviedetail.MovieDetailActivity;
+import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.view.recycler.LinearOnScrollListener;
 
 import java.util.ArrayList;
@@ -27,12 +29,13 @@ import java.util.ArrayList;
  * <br>
  * 电影 Top 排行榜的 Fragment
  */
-public class MovieTopFragment extends BaseFragment implements IMovieTopView {
+public class MovieTopFragment extends BaseFragment {
 
-    private MovieTopModel mModel;
     private MovieTopAdapter mAdapter;
     private SwipeRefreshLayout mRefreshLayout;
     private LinearOnScrollListener mOnScrollListener;
+
+    private boolean mHasMore = true;
 
     public static MovieTopFragment newInstance() {
         Bundle args = new Bundle();
@@ -50,9 +53,6 @@ public class MovieTopFragment extends BaseFragment implements IMovieTopView {
     protected void init(View view) {
         // init refresh
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
-        // init model
-        mModel = new MovieTopModel(getActivity(), this);
-        mModel.setDataInterface(this);
         // init recycler
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -78,44 +78,80 @@ public class MovieTopFragment extends BaseFragment implements IMovieTopView {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mModel.getData();
+                mHasMore = true;
+                getData(0);
             }
         });
         mOnScrollListener.setOnLoadMore(new LinearOnScrollListener.OnLoadMore() {
             @Override
             public void onLoadMore() {
-                mModel.getMore(mAdapter.getItemCount());
+                getData(mAdapter.getItemCount());
             }
         });
         mRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
                 mRefreshLayout.setRefreshing(true);
-                mModel.getData();
+                mHasMore = true;
+                getData(0);
             }
         });
     }
 
-    @Override
     public void onDataSuccess(ArrayList<MovieSubject> list) {
         mRefreshLayout.setRefreshing(false);
         mAdapter.putList(list);
     }
 
-    @Override
     public void onDataError(String error) {
         mRefreshLayout.setRefreshing(false);
+        BaseToast.toast(getActivity(), error);
     }
 
-    @Override
     public void onMoreSuccess(ArrayList<MovieSubject> list) {
         mOnScrollListener.loadComplete();
-        mAdapter.addList(list);
+        if (list.size() > 0) {
+            mAdapter.addList(list);
+        } else {
+            mHasMore = false;
+        }
     }
 
-    @Override
     public void onMoreError(String error) {
         mOnScrollListener.loadComplete();
+        BaseToast.toast(getActivity(), error);
+    }
+
+    private void getData(final int start) {
+        if (!mHasMore) {
+            if (start == 0) {
+                mRefreshLayout.setRefreshing(false);
+            } else {
+                mOnScrollListener.loadComplete();
+            }
+            return;
+        }
+        MovieClient.getInstance().getMovieTop(start, new IResponse<MovieTopData>() {
+
+            @Override
+            public void onResponse(MovieTopData result) {
+                if (start == 0) {
+                    onDataSuccess(result.getSubjects()); // 刷新
+                } else {
+                    onMoreSuccess(result.getSubjects()); // 更多
+                }
+            }
+
+            @Override
+            public void onError(int code, String reason) {
+                if (start == 0) {
+                    onDataError(reason);
+                } else {
+                    onMoreError(reason);
+                }
+            }
+
+        });
     }
 
 }

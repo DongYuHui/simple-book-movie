@@ -10,10 +10,12 @@ import android.view.View;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.movie.MovieBoardAdapter;
+import com.kyletung.simplebookmovie.client.IResponse;
+import com.kyletung.simplebookmovie.client.MovieClient;
+import com.kyletung.simplebookmovie.data.movie.MovieBoardData;
 import com.kyletung.simplebookmovie.data.movie.MovieItem;
-import com.kyletung.simplebookmovie.model.movie.MovieBoardModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
-import com.kyletung.simplebookmovie.ui.moviedetail.MovieDetailActivity;
+import com.kyletung.simplebookmovie.util.BaseToast;
 
 import java.util.ArrayList;
 
@@ -26,10 +28,9 @@ import java.util.ArrayList;
  * <br>
  * 北美票房榜 Fragment
  */
-public class MovieBoardFragment extends BaseFragment implements IMovieBoardView {
+public class MovieBoardFragment extends BaseFragment {
 
     private MovieBoardAdapter mAdapter;
-    private MovieBoardModel mModel;
     private SwipeRefreshLayout mRefreshLayout;
 
     public static MovieBoardFragment newInstance() {
@@ -55,9 +56,6 @@ public class MovieBoardFragment extends BaseFragment implements IMovieBoardView 
         recyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new MovieBoardAdapter(getActivity(), R.layout.recycler_movie_item, this);
         recyclerView.setAdapter(mAdapter);
-        // init model
-        mModel = new MovieBoardModel(getActivity(), this);
-        mModel.setDataInterface(this);
         // set listener
         setListener();
     }
@@ -74,27 +72,42 @@ public class MovieBoardFragment extends BaseFragment implements IMovieBoardView 
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mModel.getData();
+                getData();
             }
         });
         mRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
                 mRefreshLayout.setRefreshing(true);
-                mModel.getData();
+                getData();
             }
         });
     }
 
-    @Override
     public void onDataSuccess(ArrayList<MovieItem> list) {
         mRefreshLayout.setRefreshing(false);
         mAdapter.putList(list);
     }
 
-    @Override
     public void onDataError(String error) {
         mRefreshLayout.setRefreshing(false);
+        BaseToast.toast(getActivity(), error);
+    }
+
+    private void getData() {
+        MovieClient.getInstance().getMovieBoard(new IResponse<MovieBoardData>() {
+
+            @Override
+            public void onResponse(MovieBoardData result) {
+                onDataSuccess(result.getSubjects());
+            }
+
+            @Override
+            public void onError(int code, String reason) {
+                onDataError(reason);
+            }
+
+        });
     }
 
 }

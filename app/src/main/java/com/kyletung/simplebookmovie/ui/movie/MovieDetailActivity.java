@@ -1,4 +1,4 @@
-package com.kyletung.simplebookmovie.ui.moviedetail;
+package com.kyletung.simplebookmovie.ui.movie;
 
 import android.content.Intent;
 import android.support.v7.widget.DefaultItemAnimator;

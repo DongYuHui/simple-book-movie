@@ -103,6 +103,7 @@ public abstract class MoreRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
     public abstract VH onCreateDataViewHolder(ViewGroup parent, int viewType);
 
     @Override
+    @SuppressWarnings("unchecked")
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof FootViewHolder) {
             FootViewHolder viewHolder = (FootViewHolder) holder;
