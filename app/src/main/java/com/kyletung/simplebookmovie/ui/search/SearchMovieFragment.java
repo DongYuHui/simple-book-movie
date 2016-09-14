@@ -1,5 +1,6 @@
 package com.kyletung.simplebookmovie.ui.search;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;

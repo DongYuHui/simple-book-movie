@@ -30,7 +30,7 @@ public class BookClient extends SimpleClient {
      * @param responseImpl 返回接口实现
      */
     public void getBookSearch(String content, int start, IResponse<SearchBookData> responseImpl) {
-        mBookApi.getBookSerach(content, start, REQUEST_COUNT).enqueue(newCallback(responseImpl));
+        mBookApi.getBookSearch(content, start, REQUEST_COUNT).enqueue(newCallback(responseImpl));
     }
 
 }
