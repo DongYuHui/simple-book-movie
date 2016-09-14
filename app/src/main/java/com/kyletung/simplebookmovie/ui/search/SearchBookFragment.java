@@ -11,10 +11,12 @@ import android.view.View;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.search.SearchBookAdapter;
+import com.kyletung.simplebookmovie.client.BookClient;
+import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.data.book.BookSubject;
+import com.kyletung.simplebookmovie.data.search.SearchBookData;
 import com.kyletung.simplebookmovie.event.BaseEvent;
 import com.kyletung.simplebookmovie.event.EventCode;
-import com.kyletung.simplebookmovie.model.search.SearchBookModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.ui.bookdetail.BookDetailActivity;
 import com.kyletung.simplebookmovie.util.BaseToast;
@@ -35,12 +37,12 @@ import java.util.ArrayList;
  * <br>
  * FixMe
  */
-public class SearchBookFragment extends BaseFragment implements ISearchBookView {
+public class SearchBookFragment extends BaseFragment {
 
     private String mContent;
+    private boolean mHasMore = true;
 
     private SearchBookAdapter mAdapter;
-    private SearchBookModel mModel;
     private SwipeRefreshLayout mRefreshLayout;
     private LinearOnScrollListener mOnScrollListener;
 
@@ -71,9 +73,6 @@ public class SearchBookFragment extends BaseFragment implements ISearchBookView 
         recyclerView.setAdapter(mAdapter);
         mOnScrollListener = new LinearOnScrollListener(layoutManager, mAdapter);
         recyclerView.addOnScrollListener(mOnScrollListener);
-        // init model
-        mModel = new SearchBookModel(getActivity());
-        mModel.setInterface(this);
         // set listener
         setListener();
     }
@@ -91,36 +90,36 @@ public class SearchBookFragment extends BaseFragment implements ISearchBookView 
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mModel.search(mContent);
+                mHasMore = true;
+                getData(mContent, 0);
             }
         });
         mOnScrollListener.setOnLoadMore(new LinearOnScrollListener.OnLoadMore() {
             @Override
             public void onLoadMore() {
-                mModel.getMore(mContent, mAdapter.getItemCount());
+                getData(mContent, mAdapter.getItemCount());
             }
         });
     }
 
-    @Override
     public void onBookSuccess(ArrayList<BookSubject> list) {
         mRefreshLayout.setRefreshing(false);
         mAdapter.putList(list);
     }
 
-    @Override
     public void onBookError(String error) {
         mRefreshLayout.setRefreshing(false);
         BaseToast.toast(getActivity(), error);
     }
 
-    @Override
     public void onMoreSuccess(ArrayList<BookSubject> list) {
         mOnScrollListener.loadComplete();
         mAdapter.addList(list);
+        if (list == null || list.size() == 0) {
+            mHasMore = false;
+        }
     }
 
-    @Override
     public void onMoreError(String error) {
         mOnScrollListener.loadComplete();
         BaseToast.toast(getActivity(), error);
@@ -131,8 +130,47 @@ public class SearchBookFragment extends BaseFragment implements ISearchBookView 
         if (event.getWhat() == EventCode.WHAT_SEARCH && event.getCode() == EventCode.CODE_SEARCH_ALL) {
             mContent = (String) event.getObject();
             mRefreshLayout.setRefreshing(true);
-            mModel.search(mContent);
+            getData(mContent, 0);
+            mHasMore = true;
         }
+    }
+
+    /**
+     * 搜索书籍
+     *
+     * @param content 搜索内容
+     * @param start   开始点
+     */
+    private void getData(String content, final int start) {
+        if (!mHasMore) {
+            if (start == 0) {
+                mRefreshLayout.setRefreshing(false);
+            } else {
+                mOnScrollListener.loadComplete();
+            }
+            return;
+        }
+        BookClient.getInstance().getBookSearch(content, start, new IResponse<SearchBookData>() {
+
+            @Override
+            public void onResponse(SearchBookData result) {
+                if (start == 0) {
+                    onBookSuccess(result.getBooks());
+                } else {
+                    onMoreSuccess(result.getBooks());
+                }
+            }
+
+            @Override
+            public void onError(int code, String reason) {
+                if (start == 0) {
+                    onBookError(reason);
+                } else {
+                    onMoreError(reason);
+                }
+            }
+
+        });
     }
 
     @Override

@@ -114,9 +114,7 @@ public class SearchMovieFragment extends BaseFragment {
     public void onMoreSuccess(ArrayList<MovieSubject> list) {
         mOnScrollListener.loadComplete();
         mAdapter.addList(list);
-        if (list == null || list.size() == 0) {
-            mHasMore = false;
-        }
+        if (list == null || list.size() == 0) mHasMore = false;
     }
 
     public void onMoreError(String error) {
@@ -134,12 +132,12 @@ public class SearchMovieFragment extends BaseFragment {
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
+    /**
+     * 搜索影视
+     *
+     * @param content 搜索内容
+     * @param start   开始点
+     */
     private void getData(String content, final int start) {
         if (!mHasMore) {
             if (start == 0) {
@@ -170,6 +168,12 @@ public class SearchMovieFragment extends BaseFragment {
             }
 
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 }
