@@ -25,4 +25,7 @@ public interface MovieApi {
     @GET("movie/us_box")
     Call<MovieBoardData> getMovieBoard();
 
+    @GET("movie/search")
+    Call<MovieTopData> getMovieSearch(@Query("q") String content, @Query("start") int start, @Query("count") int count);
+
 }

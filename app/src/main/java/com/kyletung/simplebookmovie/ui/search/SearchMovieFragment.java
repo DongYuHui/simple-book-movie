@@ -11,10 +11,12 @@ import android.view.View;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.movie.MovieTopAdapter;
+import com.kyletung.simplebookmovie.client.IResponse;
+import com.kyletung.simplebookmovie.client.MovieClient;
 import com.kyletung.simplebookmovie.data.movie.MovieSubject;
+import com.kyletung.simplebookmovie.data.movie.MovieTopData;
 import com.kyletung.simplebookmovie.event.BaseEvent;
 import com.kyletung.simplebookmovie.event.EventCode;
-import com.kyletung.simplebookmovie.model.search.SearchMovieModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.ui.movie.MovieDetailActivity;
 import com.kyletung.simplebookmovie.util.BaseToast;
@@ -33,14 +35,14 @@ import java.util.ArrayList;
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
  * Create Time: 2016/07/14 at 20:52<br>
  * <br>
- * FixMe
+ * 搜索电影页面
  */
-public class SearchMovieFragment extends BaseFragment implements ISearchMovieView {
+public class SearchMovieFragment extends BaseFragment {
 
     private String mContent;
+    private boolean mHasMore = true;
 
     private MovieTopAdapter mAdapter;
-    private SearchMovieModel mModel;
     private SwipeRefreshLayout mRefreshLayout;
     private LinearOnScrollListener mOnScrollListener;
 
@@ -71,9 +73,6 @@ public class SearchMovieFragment extends BaseFragment implements ISearchMovieVie
         recyclerView.setAdapter(mAdapter);
         mOnScrollListener = new LinearOnScrollListener(layoutManager, mAdapter);
         recyclerView.addOnScrollListener(mOnScrollListener);
-        // init model
-        mModel = new SearchMovieModel(getActivity());
-        mModel.setInterface(this);
         // set listener
         setListener();
     }
@@ -90,36 +89,36 @@ public class SearchMovieFragment extends BaseFragment implements ISearchMovieVie
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mModel.search(mContent);
+                mHasMore = true;
+                getData(mContent, 0);
             }
         });
         mOnScrollListener.setOnLoadMore(new LinearOnScrollListener.OnLoadMore() {
             @Override
             public void onLoadMore() {
-                mModel.getMore(mContent, mAdapter.getItemCount());
+                getData(mContent, mAdapter.getItemCount());
             }
         });
     }
 
-    @Override
     public void onMovieSuccess(ArrayList<MovieSubject> list) {
         mRefreshLayout.setRefreshing(false);
         mAdapter.putList(list);
     }
 
-    @Override
     public void onMovieError(String error) {
         mRefreshLayout.setRefreshing(false);
         BaseToast.toast(getActivity(), error);
     }
 
-    @Override
     public void onMoreSuccess(ArrayList<MovieSubject> list) {
         mOnScrollListener.loadComplete();
         mAdapter.addList(list);
+        if (list == null || list.size() == 0) {
+            mHasMore = false;
+        }
     }
 
-    @Override
     public void onMoreError(String error) {
         mOnScrollListener.loadComplete();
         BaseToast.toast(getActivity(), error);
@@ -130,7 +129,8 @@ public class SearchMovieFragment extends BaseFragment implements ISearchMovieVie
         if (event.getWhat() == EventCode.WHAT_SEARCH && event.getCode() == EventCode.CODE_SEARCH_ALL) {
             mContent = (String) event.getObject();
             mRefreshLayout.setRefreshing(true);
-            mModel.search(mContent);
+            getData(mContent, 0);
+            mHasMore = true;
         }
     }
 
@@ -138,6 +138,38 @@ public class SearchMovieFragment extends BaseFragment implements ISearchMovieVie
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    private void getData(String content, final int start) {
+        if (!mHasMore) {
+            if (start == 0) {
+                mRefreshLayout.setRefreshing(false);
+            } else {
+                mOnScrollListener.loadComplete();
+            }
+            return;
+        }
+        MovieClient.getInstance().getMovieSearch(content, start, new IResponse<MovieTopData>() {
+
+            @Override
+            public void onResponse(MovieTopData result) {
+                if (start == 0) {
+                    onMovieSuccess(result.getSubjects());
+                } else {
+                    onMoreSuccess(result.getSubjects());
+                }
+            }
+
+            @Override
+            public void onError(int code, String reason) {
+                if (start == 0) {
+                    onMovieError(reason);
+                } else {
+                    onMoreError(reason);
+                }
+            }
+
+        });
     }
 
 }

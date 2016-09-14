@@ -36,8 +36,9 @@ public class MovieClient extends SimpleClient {
 
     /**
      * 获取影视列表
-     * @param start           开始点
-     * @param responseImpl    返回接口实现
+     *
+     * @param start        开始点
+     * @param responseImpl 返回接口实现
      */
     public void getMovieTop(int start, IResponse<MovieTopData> responseImpl) {
         mMovieApi.getMovieTop(start, REQUEST_COUNT).enqueue(newCallback(responseImpl));
@@ -45,10 +46,22 @@ public class MovieClient extends SimpleClient {
 
     /**
      * 获取影视榜单
-     * @param responseImpl    返回接口实现
+     *
+     * @param responseImpl 返回接口实现
      */
     public void getMovieBoard(IResponse<MovieBoardData> responseImpl) {
         mMovieApi.getMovieBoard().enqueue(newCallback(responseImpl));
+    }
+
+    /**
+     * 获取影视搜索数据
+     *
+     * @param content      搜索内容
+     * @param start        开始点
+     * @param responseImpl 返回接口实现
+     */
+    public void getMovieSearch(String content, int start, IResponse<MovieTopData> responseImpl) {
+        mMovieApi.getMovieSearch(content, start, REQUEST_COUNT).enqueue(newCallback(responseImpl));
     }
 
 }
