@@ -39,20 +39,12 @@ public class TabViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (!mCanSwipe) {
-            return mCanSwipe;
-        } else {
-            return super.onInterceptTouchEvent(ev);
-        }
+        return mCanSwipe && super.onInterceptTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (!mCanSwipe) {
-            return !mCanSwipe;
-        } else {
-            return super.onTouchEvent(ev);
-        }
+        return mCanSwipe && super.onTouchEvent(ev);
     }
 
 }
