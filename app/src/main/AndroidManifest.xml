@@ -32,7 +32,7 @@
             android:name=".ui.about.AboutActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.bookdetail.BookDetailActivity"
+            android:name=".ui.book.BookDetailActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.movie.MovieDetailActivity"

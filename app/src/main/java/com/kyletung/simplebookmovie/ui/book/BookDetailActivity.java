@@ -1,4 +1,4 @@
-package com.kyletung.simplebookmovie.ui.bookdetail;
+package com.kyletung.simplebookmovie.ui.book;
 
 import android.content.Intent;
 import android.text.TextUtils;
@@ -6,9 +6,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
+import com.kyletung.simplebookmovie.client.BookClient;
+import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.data.bookdetail.BookDetailData;
 import com.kyletung.simplebookmovie.model.bookdetail.BookCollectionData;
-import com.kyletung.simplebookmovie.model.bookdetail.BookDetailModel;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.util.ImageLoader;
@@ -22,40 +23,39 @@ import butterknife.BindView;
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
  * Create Time: 2016/07/13 at 18:52<br>
  * <br>
- * FixMe
+ * 书籍详情页面
  */
-public class BookDetailActivity extends BaseActivity implements IBookDetailView {
+public class BookDetailActivity extends BaseActivity {
 
     // views
     @BindView(R.id.book_detail_image)
-    ImageView mBookImage;
+    ImageView mBookImage; // 封面
     @BindView(R.id.book_detail_title)
-    TextView mBookTitle;
+    TextView mBookTitle; // 书籍标题
     @BindView(R.id.book_detail_subtitle)
-    TextView mBookSubtitle;
+    TextView mBookSubtitle; // 书籍副标题
     @BindView(R.id.book_detail_points)
-    TextView mBookPoints;
+    TextView mBookPoints; // 评分
     @BindView(R.id.book_detail_real_name)
-    TextView mBookOriginalName;
+    TextView mBookOriginalName; // 书籍原名
     @BindView(R.id.book_detail_author)
-    TextView mBookAuthor;
+    TextView mBookAuthor; // 作者
     @BindView(R.id.book_detail_publisher)
-    TextView mBookPublisher;
+    TextView mBookPublisher; // 出版社
     @BindView(R.id.book_detail_translator)
-    TextView mBookTranslator;
+    TextView mBookTranslator; // 翻译者
     @BindView(R.id.book_detail_pub_date)
-    TextView mBookPubDate;
+    TextView mBookPubDate; // 出版日期
     @BindView(R.id.book_detail_price)
-    TextView mBookPrice;
+    TextView mBookPrice; // 价格
     @BindView(R.id.book_detail_author_summary)
-    TextView mBookAuthorSummary;
+    TextView mBookAuthorSummary; // 作者简介
     @BindView(R.id.book_detail_summary)
-    TextView mBookSummary;
+    TextView mBookSummary; // 书籍简介
     @BindView(R.id.book_detail_catalog)
-    TextView mBookCatalog;
+    TextView mBookCatalog; // 目录
 
-    // model
-    private BookDetailModel mModel;
+    private String mUserId;
 
     @Override
     protected int getContentLayout() {
@@ -69,29 +69,9 @@ public class BookDetailActivity extends BaseActivity implements IBookDetailView 
         // init data
         Intent intent = getIntent();
         String bookId = intent.getStringExtra("bookId");
-        String userId = intent.getStringExtra("userId");
-        // init views
-//        mBookImage = (ImageView) findViewById(R.id.book_detail_image);
-//        mBookTitle = (TextView) findViewById(R.id.book_detail_title);
-//        mBookSubtitle = (TextView) findViewById(R.id.book_detail_subtitle);
-//        mBookPoints = (TextView) findViewById(R.id.book_detail_points);
-//        mBookOriginalName = (TextView) findViewById(R.id.book_detail_real_name);
-//        mBookAuthor = (TextView) findViewById(R.id.book_detail_author);
-//        mBookPublisher = (TextView) findViewById(R.id.book_detail_publisher);
-//        mBookTranslator = (TextView) findViewById(R.id.book_detail_translator);
-//        mBookPubDate = (TextView) findViewById(R.id.book_detail_pub_date);
-//        mBookPrice = (TextView) findViewById(R.id.book_detail_price);
-//        mBookAuthorSummary = (TextView) findViewById(R.id.book_detail_author_summary);
-//        mBookSummary = (TextView) findViewById(R.id.book_detail_summary);
-//        mBookCatalog = (TextView) findViewById(R.id.book_detail_catalog);
-        // init model
-        mModel = new BookDetailModel(this);
-        mModel.setInterface(this);
-        if (TextUtils.isEmpty(userId)) {
-            mModel.getData(bookId);
-        } else {
-            mModel.getCollection(bookId, userId);
-        }
+        mUserId = intent.getStringExtra("userId");
+        // get data
+        getDetail(bookId);
     }
 
     private void setData(BookDetailData data) {
@@ -120,24 +100,57 @@ public class BookDetailActivity extends BaseActivity implements IBookDetailView 
         mBookCatalog.setText(data.getCatalog());
     }
 
-    @Override
     public void onGetDataSuccess(BookDetailData data) {
         setData(data);
     }
 
-    @Override
     public void onGetDataError(String error) {
         BaseToast.toast(this, error);
     }
 
-    @Override
     public void onGetCollectionSuccess(BookCollectionData data) {
         setData(data.getBook());
     }
 
-    @Override
     public void onGetCollectionError(String error) {
         BaseToast.toast(this, error);
+    }
+
+    /**
+     * 获取书籍详情
+     *
+     * @param bookId 书籍 Id
+     */
+    private void getDetail(String bookId) {
+        if (TextUtils.isEmpty(mUserId)) {
+            BookClient.getInstance().getBookDetail(bookId, new IResponse<BookDetailData>() {
+
+                @Override
+                public void onResponse(BookDetailData result) {
+                    onGetDataSuccess(result);
+                }
+
+                @Override
+                public void onError(int code, String reason) {
+                    onGetDataError(reason);
+                }
+
+            });
+        } else {
+            BookClient.getInstance().getBookDetail(bookId, mUserId, new IResponse<BookCollectionData>() {
+
+                @Override
+                public void onResponse(BookCollectionData result) {
+                    onGetCollectionSuccess(result);
+                }
+
+                @Override
+                public void onError(int code, String reason) {
+                    onGetCollectionError(reason);
+                }
+
+            });
+        }
     }
 
 }

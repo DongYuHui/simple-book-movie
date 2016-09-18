@@ -1,7 +1,9 @@
 package com.kyletung.simplebookmovie.client;
 
 import com.kyletung.simplebookmovie.data.book.BookData;
+import com.kyletung.simplebookmovie.data.bookdetail.BookDetailData;
 import com.kyletung.simplebookmovie.data.search.SearchBookData;
+import com.kyletung.simplebookmovie.model.bookdetail.BookCollectionData;
 
 /**
  * All Rights Reserved by Company.
@@ -44,6 +46,27 @@ public class BookClient extends SimpleClient {
      */
     public void getBookData(String userId, String status, int start, IResponse<BookData> responseImpl) {
         mBookApi.getBookData(userId, status, start, REQUEST_COUNT).enqueue(newCallback(responseImpl));
+    }
+
+    /**
+     * 获取书籍详情
+     *
+     * @param bookId       书籍 Id
+     * @param responseImpl 返回接口实现
+     */
+    public void getBookDetail(String bookId, IResponse<BookDetailData> responseImpl) {
+        mBookApi.getBookDetail(bookId).enqueue(newCallback(responseImpl));
+    }
+
+    /**
+     * 获取书籍详情
+     *
+     * @param bookId       书籍 Id
+     * @param userId       用户 Id
+     * @param responseImpl 返回接口实现
+     */
+    public void getBookDetail(String bookId, String userId, IResponse<BookCollectionData> responseImpl) {
+        mBookApi.getBookDetail(bookId, userId).enqueue(newCallback(responseImpl));
     }
 
 }

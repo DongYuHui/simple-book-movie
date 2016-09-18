@@ -15,7 +15,6 @@ import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.data.book.BookData;
 import com.kyletung.simplebookmovie.data.book.BookItem;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
-import com.kyletung.simplebookmovie.ui.bookdetail.BookDetailActivity;
 import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.util.UserInfoUtil;
 import com.kyletung.simplebookmovie.view.recycler.LinearOnScrollListener;
