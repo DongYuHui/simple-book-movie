@@ -3,7 +3,7 @@ package com.kyletung.simplebookmovie.client;
 import com.kyletung.simplebookmovie.data.book.BookData;
 import com.kyletung.simplebookmovie.data.bookdetail.BookDetailData;
 import com.kyletung.simplebookmovie.data.search.SearchBookData;
-import com.kyletung.simplebookmovie.model.bookdetail.BookCollectionData;
+import com.kyletung.simplebookmovie.data.bookdetail.BookCollectionData;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

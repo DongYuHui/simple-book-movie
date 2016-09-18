@@ -92,6 +92,7 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
     public abstract VH onCreateDataViewHolder(ViewGroup parent, int viewType);
 
     @Override
+    @SuppressWarnings("unchecked")
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         onBindDataViewHolder((VH) holder, position);
     }

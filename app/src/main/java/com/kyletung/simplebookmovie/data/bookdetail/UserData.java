@@ -1,4 +1,4 @@
-package com.kyletung.simplebookmovie.model.bookdetail;
+package com.kyletung.simplebookmovie.data.bookdetail;
 
 /**
  * All rights reserved by Author<br>
