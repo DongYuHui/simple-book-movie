@@ -10,8 +10,10 @@ import android.view.View;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.book.BookAdapter;
+import com.kyletung.simplebookmovie.client.BookClient;
+import com.kyletung.simplebookmovie.client.IResponse;
+import com.kyletung.simplebookmovie.data.book.BookData;
 import com.kyletung.simplebookmovie.data.book.BookItem;
-import com.kyletung.simplebookmovie.model.book.BookModel;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.ui.bookdetail.BookDetailActivity;
 import com.kyletung.simplebookmovie.util.BaseToast;
@@ -27,13 +29,15 @@ import java.util.ArrayList;
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
  * Create Time: 2016/07/07 at 20:17<br>
  * <br>
- * FixMe
+ * 书籍列表页面
  */
-public class BookListFragment extends BaseFragment implements IBookView {
+public class BookListFragment extends BaseFragment {
+
+    private boolean mHasMore = true;
 
     private String mUserId;
+    private String mStatus;
 
-    private BookModel mModel;
     private BookAdapter mAdapter;
     private SwipeRefreshLayout mRefreshLayout;
     private LinearOnScrollListener mOnScrollListener;
@@ -56,12 +60,9 @@ public class BookListFragment extends BaseFragment implements IBookView {
         // init data
         Bundle bundle = getArguments();
         mUserId = new UserInfoUtil(getActivity()).readUserId();
-        String status = bundle.getString("status");
+        mStatus = bundle.getString("status");
         // init recycler
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
-        // init model
-        mModel = new BookModel(getActivity());
-        mModel.setInterface(this, status, mUserId);
         // init recycler
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -88,46 +89,86 @@ public class BookListFragment extends BaseFragment implements IBookView {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mModel.getData();
+                mHasMore = true;
+                getData(0);
             }
         });
         mOnScrollListener.setOnLoadMore(new LinearOnScrollListener.OnLoadMore() {
             @Override
             public void onLoadMore() {
-                mModel.getMore(mAdapter.getItemCount());
+                getData(mAdapter.getItemCount());
             }
         });
         mRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
                 mRefreshLayout.setRefreshing(true);
-                mModel.getData();
+                mHasMore = true;
+                getData(0);
             }
         });
     }
 
-    @Override
-    public void onDataSuccess(ArrayList<BookItem> list) {
+    public void getDataSuccess(ArrayList<BookItem> list) {
         mRefreshLayout.setRefreshing(false);
         mAdapter.putList(list);
     }
 
-    @Override
-    public void onDataError(String error) {
+    public void getDataError(String error) {
         mRefreshLayout.setRefreshing(false);
         BaseToast.toast(getActivity(), error);
     }
 
-    @Override
-    public void onMoreSuccess(ArrayList<BookItem> list) {
+    public void getMoreSuccess(ArrayList<BookItem> list) {
         mOnScrollListener.loadComplete();
         mAdapter.addList(list);
+        if (list.size() == 0) mHasMore = false;
     }
 
-    @Override
-    public void onMoreError(String error) {
+    public void getMoreError(String error) {
         mOnScrollListener.loadComplete();
         BaseToast.toast(getActivity(), error);
+    }
+
+    /**
+     * 获取书籍列表数据
+     *
+     * @param start 开始点
+     */
+    private void getData(final int start) {
+
+        if (mUserId == null || mStatus == null) return;
+
+        if (!mHasMore) {
+            if (start == 0) {
+                mRefreshLayout.setRefreshing(false);
+            } else {
+                mOnScrollListener.loadComplete();
+            }
+            return;
+        }
+
+        BookClient.getInstance().getBookData(mUserId, mStatus, start, new IResponse<BookData>() {
+
+            @Override
+            public void onResponse(BookData result) {
+                if (start == 0) {
+                    getDataSuccess(result.getCollections());
+                } else {
+                    getMoreSuccess(result.getCollections());
+                }
+            }
+
+            @Override
+            public void onError(int code, String reason) {
+                if (start == 0) {
+                    getDataError(reason);
+                } else {
+                    getMoreError(reason);
+                }
+            }
+
+        });
     }
 
 }

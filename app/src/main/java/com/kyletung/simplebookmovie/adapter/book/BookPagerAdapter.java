@@ -13,7 +13,7 @@ import com.kyletung.simplebookmovie.ui.book.BookListFragment;
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
  * Create Time: 2016/07/07 at 21:13<br>
  * <br>
- * FixMe
+ * 书籍页面适配器
  */
 public class BookPagerAdapter extends FragmentPagerAdapter {
 

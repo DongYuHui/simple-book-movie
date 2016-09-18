@@ -1,5 +1,6 @@
 package com.kyletung.simplebookmovie.client;
 
+import com.kyletung.simplebookmovie.data.book.BookData;
 import com.kyletung.simplebookmovie.data.search.SearchBookData;
 
 /**
@@ -31,6 +32,18 @@ public class BookClient extends SimpleClient {
      */
     public void getBookSearch(String content, int start, IResponse<SearchBookData> responseImpl) {
         mBookApi.getBookSearch(content, start, REQUEST_COUNT).enqueue(newCallback(responseImpl));
+    }
+
+    /**
+     * 获取书籍列表
+     *
+     * @param userId       用户 Id
+     * @param status       状态
+     * @param start        开始点
+     * @param responseImpl 返回接口实现
+     */
+    public void getBookData(String userId, String status, int start, IResponse<BookData> responseImpl) {
+        mBookApi.getBookData(userId, status, start, REQUEST_COUNT).enqueue(newCallback(responseImpl));
     }
 
 }
