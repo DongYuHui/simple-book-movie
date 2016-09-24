@@ -14,6 +14,7 @@ import com.kyletung.simplebookmovie.config.Constants;
 import com.kyletung.simplebookmovie.data.login.LoginData;
 import com.kyletung.simplebookmovie.model.BaseModel;
 import com.kyletung.simplebookmovie.ui.login.ILoginView;
+import com.kyletung.simplebookmovie.util.BaseToast;
 import com.kyletung.simplebookmovie.util.HttpUtil;
 import com.kyletung.simplebookmovie.util.UserInfoUtil;
 
@@ -91,6 +92,19 @@ public class LoginModel extends BaseModel {
             }
         };
         getHttpUtil().getRequestQueue().add(stringRequest);
+//        AccountClient.getInstance().getCode(account, password, new IResponse<String>() {
+//
+//            @Override
+//            public void onResponse(String result) {
+//                BaseToast.toast(getContext(), result);
+//            }
+//
+//            @Override
+//            public void onError(int code, String reason) {
+//                BaseToast.toast(getContext(), reason);
+//            }
+//
+//        });
     }
 
     /**

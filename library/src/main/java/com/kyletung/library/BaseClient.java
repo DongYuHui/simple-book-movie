@@ -1,7 +1,14 @@
 package com.kyletung.library;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * All Rights Reserved by Author.
@@ -18,8 +25,19 @@ public abstract class BaseClient {
 
     public Retrofit getRetrofit() {
         Retrofit.Builder builder = new Retrofit.Builder();
+        builder.client(getClient());
         builder.baseUrl(mBaseHost.getHost());
-        builder.addConverterFactory(GsonConverterFactory.create());
+        Gson gson = new GsonBuilder().setLenient().create();
+        builder.addConverterFactory(ScalarsConverterFactory.create());
+        builder.addConverterFactory(GsonConverterFactory.create(gson));
+        return builder.build();
+    }
+
+    private OkHttpClient getClient() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(15, TimeUnit.SECONDS);
+        builder.followRedirects(false);
+        builder.followSslRedirects(false);
         return builder.build();
     }
 

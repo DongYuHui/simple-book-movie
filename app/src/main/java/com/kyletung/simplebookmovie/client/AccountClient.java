@@ -13,6 +13,9 @@ public class AccountClient extends SimpleClient {
 
     private static final String REQUEST_REDIRECT_URI = "http://www.kyletung.com";
     private static final String REQUEST_GRANT_TYPE = "authorization_code";
+    private static final String REQUEST_RESPONSE_TYPE = "code";
+    private static final String REQUEST_SCOPE = "book_basic_r,book_basic_w,douban_basic_common,movie_basic_r";
+    private static final String REQUEST_CONFIRM = "授权";
 
     private AccountApi mAccountApi;
 
@@ -41,6 +44,21 @@ public class AccountClient extends SimpleClient {
         client_id={app_key}&client_secret={app_secret}&redirect_uri=http://www.kyletung.com&grant_type=authorization_code&code={code}
          */
         mAccountApi.getToken(Constants.APP_KEY, Constants.APP_SECRET, REQUEST_REDIRECT_URI, REQUEST_GRANT_TYPE, code).enqueue(newCallback(responseImpl));
+    }
+
+    public void getCode(String account, String password, IResponse<String> responseImpl) {
+        mAccountApi.getCode(
+                Constants.APP_KEY,
+                REQUEST_REDIRECT_URI,
+                REQUEST_RESPONSE_TYPE,
+                REQUEST_SCOPE,
+                REQUEST_CONFIRM,
+                REQUEST_RESPONSE_TYPE,
+                REQUEST_REDIRECT_URI,
+                Constants.APP_KEY,
+                account,
+                password
+        ).enqueue(newCallback(responseImpl));
     }
 
 }
