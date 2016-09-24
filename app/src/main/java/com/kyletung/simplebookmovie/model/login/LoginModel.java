@@ -1,12 +1,15 @@
 package com.kyletung.simplebookmovie.model.login;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.kyletung.simplebookmovie.client.AccountClient;
+import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.config.Constants;
 import com.kyletung.simplebookmovie.data.login.LoginData;
 import com.kyletung.simplebookmovie.model.BaseModel;
@@ -119,6 +122,20 @@ public class LoginModel extends BaseModel {
                 },
                 null
         );
+//        AccountClient.getInstance().getToken(code, new IResponse<LoginData>() {
+//
+//            @Override
+//            public void onResponse(LoginData result) {
+//                new UserInfoUtil(getContext()).save(result.getAccess_token(), result.getDouban_user_id(), result.getRefresh_token());
+//                mView.onLoginSuccess();
+//            }
+//
+//            @Override
+//            public void onError(int code, String reason) {
+//                mView.onLoginError(reason);
+//            }
+//
+//        });
     }
 
 }

@@ -50,7 +50,7 @@ public class MainActivity extends BaseActivity {
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
-                mTabViewPager.setCurrentItem(position);
+                mTabViewPager.setCurrentItem(position, false);
                 return true;
             }
         });
