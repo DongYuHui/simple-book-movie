@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * All Rights Reserved by Author.
@@ -28,7 +27,6 @@ public abstract class BaseClient {
         builder.client(getClient());
         builder.baseUrl(mBaseHost.getHost());
         Gson gson = new GsonBuilder().setLenient().create();
-        builder.addConverterFactory(ScalarsConverterFactory.create());
         builder.addConverterFactory(GsonConverterFactory.create(gson));
         return builder.build();
     }

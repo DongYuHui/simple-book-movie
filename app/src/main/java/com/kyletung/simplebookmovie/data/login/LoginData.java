@@ -14,6 +14,24 @@ public class LoginData {
     private String access_token;
     private String douban_user_id;
     private String refresh_token;
+    private String douban_user_name;
+    private int  expires_in;
+
+    public String getDouban_user_name() {
+        return douban_user_name;
+    }
+
+    public void setDouban_user_name(String douban_user_name) {
+        this.douban_user_name = douban_user_name;
+    }
+
+    public int getExpires_in() {
+        return expires_in;
+    }
+
+    public void setExpires_in(int expires_in) {
+        this.expires_in = expires_in;
+    }
 
     public String getAccess_token() {
         return access_token;
@@ -45,6 +63,8 @@ public class LoginData {
                 "access_token='" + access_token + '\'' +
                 ", douban_user_id='" + douban_user_id + '\'' +
                 ", refresh_token='" + refresh_token + '\'' +
+                ", douban_user_name='" + douban_user_name + '\'' +
+                ", expires_in=" + expires_in +
                 '}';
     }
 

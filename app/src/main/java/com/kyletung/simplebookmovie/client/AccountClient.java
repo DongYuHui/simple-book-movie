@@ -38,14 +38,13 @@ public class AccountClient extends SimpleClient {
         mAccountApi.getUserData(userId).enqueue(newCallback(responseImpl));
     }
 
-    public void getToken(String code, IResponse<LoginData> responseImpl) {
-//        mAccountApi.getToken(Constants.APP_KEY, Constants.APP_SECRET, code).enqueue(newCallback(responseImpl));
-        /*
-        client_id={app_key}&client_secret={app_secret}&redirect_uri=http://www.kyletung.com&grant_type=authorization_code&code={code}
-         */
-        mAccountApi.getToken(Constants.APP_KEY, Constants.APP_SECRET, REQUEST_REDIRECT_URI, REQUEST_GRANT_TYPE, code).enqueue(newCallback(responseImpl));
-    }
-
+    /**
+     * 获取 AuthorizationCode
+     *
+     * @param account      账号
+     * @param password     密码
+     * @param responseImpl 返回接口实现
+     */
     public void getCode(String account, String password, IResponse<String> responseImpl) {
         mAccountApi.getCode(
                 Constants.APP_KEY,
@@ -59,6 +58,16 @@ public class AccountClient extends SimpleClient {
                 account,
                 password
         ).enqueue(newCallback(responseImpl));
+    }
+
+    /**
+     * 根据 AuthorizationCode 获取 AccessToken
+     *
+     * @param code         AuthorizationCode
+     * @param responseImpl 返回接口实现
+     */
+    public void getToken(String code, IResponse<LoginData> responseImpl) {
+        mAccountApi.getToken(Constants.APP_KEY, Constants.APP_SECRET, REQUEST_REDIRECT_URI, REQUEST_GRANT_TYPE, code).enqueue(newCallback(responseImpl));
     }
 
 }

@@ -11,7 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.kyletung.simplebookmovie.R;
-import com.kyletung.simplebookmovie.model.login.LoginModel;
+import com.kyletung.simplebookmovie.client.AccountClient;
+import com.kyletung.simplebookmovie.client.IResponse;
+import com.kyletung.simplebookmovie.data.login.LoginData;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.ui.main.MainActivity;
 import com.kyletung.simplebookmovie.util.BaseToast;
@@ -29,7 +31,7 @@ import butterknife.OnClick;
  * <br>
  * 登录页面
  */
-public class LoginActivity extends BaseActivity implements ILoginView {
+public class LoginActivity extends BaseActivity {
 
     @BindView(R.id.login_account)
     EditText mLoginAccount;
@@ -37,8 +39,6 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     EditText mLoginPassword;
     @BindView(R.id.login_button)
     Button mLoginButton;
-
-    private LoginModel mLoginModel;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -59,7 +59,6 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION
             );
         }
-        mLoginModel = new LoginModel(this, this);
         // set listener
         setListener();
     }
@@ -105,7 +104,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         showProgress("登录中，请稍后", false, null);
         String account = mLoginAccount.getText().toString();
         String password = mLoginPassword.getText().toString();
-        mLoginModel.login(account, password);
+        getAuthorizationCode(account, password);
     }
 
     private void checkInfo() {
@@ -120,7 +119,6 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         mLoginButton.setEnabled(true);
     }
 
-    @Override
     public void onLoginSuccess() {
         stopProgress();
         // TODO: 2016/08/10 Login Success
@@ -132,11 +130,63 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         finish();
     }
 
-    @Override
     public void onLoginError(String error) {
         stopProgress();
         // TODO: 2016/08/10 Login Error
         BaseToast.toast(this, "登录失败：" + error);
+    }
+
+    /**
+     * 调用登录接口
+     *
+     * @param account  账户
+     * @param password 密码
+     */
+    private void getAuthorizationCode(String account, String password) {
+        AccountClient.getInstance().getCode(account, password, new IResponse<String>() {
+
+            @Override
+            public void onResponse(String result) {
+                onLoginError(result);
+            }
+
+            @Override
+            public void onError(int code, String reason) {
+                if (code == 302) {
+                    if (reason.contains("www.kyletung.com?code=")) {
+                        String authorizationCode = reason.substring(reason.indexOf("=") + 1);
+                        getToken(authorizationCode);
+                    } else {
+                        onLoginError(reason);
+                    }
+                } else {
+                    onLoginError(reason);
+                }
+            }
+
+        });
+    }
+
+    /**
+     * 获取 Token
+     *
+     * @param code 上一步获取到的 authorization code
+     */
+    private void getToken(String code) {
+        AccountClient.getInstance().getToken(code, new IResponse<LoginData>() {
+
+            @Override
+            public void onResponse(LoginData result) {
+                new UserInfoUtil(LoginActivity.this).save(result.getAccess_token(), result.getDouban_user_id(), result.getRefresh_token());
+                onLoginSuccess();
+            }
+
+            @Override
+            public void onError(int code, String reason) {
+                onLoginError(reason);
+            }
+
+        });
     }
 
 }
