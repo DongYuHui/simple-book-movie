@@ -1,62 +1,60 @@
 <resources>
 
     <!-- Application Name -->
-    <string name="app_name">简单书影</string>
+    <string name="app_name">SimpleBookMovie</string>
 
     <string name="default_image_description">Image</string>
 
     <!-- Main Activity -->
-    <string name="main_tab_book">书籍</string>
-    <string name="main_tab_movie">影视</string>
-    <string name="main_tab_user">用户</string>
-    <string name="main_menu_search">搜索</string>
-    <string name="main_menu_settings">设置</string>
-    <string name="main_menu_about">关于</string>
+    <string name="main_tab_book">Book</string>
+    <string name="main_tab_movie">Movie</string>
+    <string name="main_tab_user">Mine</string>
+    <string name="main_menu_search">Search</string>
+    <string name="main_menu_settings">Settings</string>
+    <string name="main_menu_about">About</string>
 
     <!-- Login -->
-    <string name="login">登录</string>
-    <string name="login_first">请先登录</string>
+    <string name="login">Login</string>
+    <string name="login_first">Please login first</string>
 
     <!-- Book Detail -->
-    <string name="book_detail_title">书籍详情</string>
+    <string name="book_detail_title">Book Detail</string>
 
     <!-- Movie Detail -->
-    <string name="movie_detail_title">影视详情</string>
+    <string name="movie_detail_title">Movie Detail</string>
 
     <!-- Search -->
-    <string name="search_type_book">书籍</string>
-    <string name="search_type_movie">影视</string>
+    <string name="search_type_book">Book</string>
+    <string name="search_type_movie">Detail</string>
 
     <!-- User Fragment -->
-    <string name="user_name">昵称</string>
-    <string name="user_head">头像</string>
-    <string name="user_location">地点</string>
-    <string name="user_signature">签名</string>
-    <string name="user_description">描述</string>
-    <string name="user_settings">设置</string>
-    <string name="user_location_hint">用户所在地点</string>
-    <string name="user_signature_hint">用户个人签名</string>
-    <string name="user_description_hint">用户自身描述</string>
+    <string name="user_name">Nickname</string>
+    <string name="user_head">Avatar</string>
+    <string name="user_location">Location</string>
+    <string name="user_signature">Signature</string>
+    <string name="user_description">Description</string>
+    <string name="user_location_hint">User Location</string>
+    <string name="user_signature_hint">User Signature</string>
+    <string name="user_description_hint">User Description</string>
 
     <!-- Setting Activity -->
-    <string name="settings_title">设置</string>
-    <string name="settings_logout">注销</string>
-    <string name="settings_about">关于</string>
-    <string name="settings_version">版本</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_logout">Logout</string>
+    <string name="settings_version">Version</string>
     <string name="settings_about_content">该项目是个人练习所做，利用豆瓣的 API 简单实现书籍影视的查询。同时由于豆瓣 API 的限制，实现的的特性较少，也引起了体验上的缺陷。\n\n开源地址：https://github.com/DongYuHui/simple-book-movie</string>
 
     <!-- 一条莫名所以的分割线 -->
 
     <!-- Login -->
-    <string name="login_button_action">登录</string>
-    <string name="login_hint_account">请输入您的账号</string>
-    <string name="login_hint_password">请输入您的密码</string>
+    <string name="login_button_action">Login</string>
+    <string name="login_hint_account">Please input your account</string>
+    <string name="login_hint_password">Please input your password</string>
 
     <!-- About -->
-    <string name="about_title">关于</string>
-    <string name="about_version">版本：%s</string>
-    <string name="about_version_error">版本未知</string>
-    <string name="about_author_title">作者简介</string>
+    <string name="about_title">About</string>
+    <string name="about_version">Version: %s</string>
+    <string name="about_version_error">Unknown Version</string>
+    <string name="about_author_title">Author Summary</string>
     <string name="about_author_content">Blog : www.kyletung.com\nEmail : dyh920827@gmail.com\nGitHub : github.com/DongYuHui/simple-book-movie</string>
 
 </resources>
