@@ -1,4 +1,4 @@
-package com.kyletung.simplebookmovie.util;
+package com.kyletung.simplebookmovie.utils;
 
 import android.app.Activity;
 import android.content.Context;

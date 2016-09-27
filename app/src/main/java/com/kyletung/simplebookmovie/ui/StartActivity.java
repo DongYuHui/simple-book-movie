@@ -8,7 +8,7 @@ import android.view.WindowManager;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.ui.login.LoginActivity;
 import com.kyletung.simplebookmovie.ui.main.MainActivity;
-import com.kyletung.simplebookmovie.util.UserInfoUtil;
+import com.kyletung.simplebookmovie.utils.UserInfoUtil;
 
 /**
  * All rights reserved by Author<br>

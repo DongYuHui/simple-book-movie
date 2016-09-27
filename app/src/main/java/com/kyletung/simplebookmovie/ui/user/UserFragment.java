@@ -10,10 +10,10 @@ import com.kyletung.simplebookmovie.client.AccountClient;
 import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.data.user.UserData;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
-import com.kyletung.simplebookmovie.util.BaseToast;
-import com.kyletung.simplebookmovie.util.HeadBackUtil;
-import com.kyletung.simplebookmovie.util.ImageLoader;
-import com.kyletung.simplebookmovie.util.UserInfoUtil;
+import com.kyletung.simplebookmovie.utils.BaseToast;
+import com.kyletung.simplebookmovie.utils.HeadBackUtil;
+import com.kyletung.simplebookmovie.utils.ImageLoader;
+import com.kyletung.simplebookmovie.utils.UserInfoUtil;
 import com.kyletung.simplebookmovie.view.CircleImageView;
 
 import butterknife.BindView;

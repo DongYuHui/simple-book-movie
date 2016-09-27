@@ -1,4 +1,4 @@
-package com.kyletung.simplebookmovie.util;
+package com.kyletung.simplebookmovie.utils;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -11,7 +11,7 @@ import android.content.pm.PackageManager;
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
  * Create Time: 2016/07/16 at 18:20<br>
  * <br>
- * FixMe
+ * 版本工具类
  */
 public class VersionUtil {
 

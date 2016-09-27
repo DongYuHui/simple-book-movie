@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.kyletung.simplebookmovie.R;
-import com.kyletung.simplebookmovie.util.HttpUtil;
 
 import butterknife.ButterKnife;
 
@@ -90,12 +89,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        HttpUtil.getInstance().cancel(this);
     }
 
 }

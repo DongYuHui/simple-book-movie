@@ -1,5 +1,6 @@
 package com.kyletung.simplebookmovie.client;
 
+import com.kyletung.simplebookmovie.client.api.MovieApi;
 import com.kyletung.simplebookmovie.data.movie.MovieBoardData;
 import com.kyletung.simplebookmovie.data.movie.MovieTopData;
 import com.kyletung.simplebookmovie.data.moviedetail.MovieDetailData;

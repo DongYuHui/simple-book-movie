@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.data.movie.Staff;
-import com.kyletung.simplebookmovie.util.ImageLoader;
+import com.kyletung.simplebookmovie.utils.ImageLoader;
 import com.kyletung.simplebookmovie.view.recycler.BaseRecyclerAdapter;
 
 /**

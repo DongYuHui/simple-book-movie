@@ -11,8 +11,8 @@ import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.data.bookdetail.BookDetailData;
 import com.kyletung.simplebookmovie.data.bookdetail.BookCollectionData;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
-import com.kyletung.simplebookmovie.util.BaseToast;
-import com.kyletung.simplebookmovie.util.ImageLoader;
+import com.kyletung.simplebookmovie.utils.BaseToast;
+import com.kyletung.simplebookmovie.utils.ImageLoader;
 
 import butterknife.BindView;
 

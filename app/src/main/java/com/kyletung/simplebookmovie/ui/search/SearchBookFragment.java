@@ -19,7 +19,7 @@ import com.kyletung.simplebookmovie.event.BaseEvent;
 import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.ui.book.BookDetailActivity;
-import com.kyletung.simplebookmovie.util.BaseToast;
+import com.kyletung.simplebookmovie.utils.BaseToast;
 import com.kyletung.simplebookmovie.view.recycler.LinearOnScrollListener;
 
 import org.greenrobot.eventbus.EventBus;

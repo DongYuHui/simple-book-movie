@@ -1,4 +1,4 @@
-package com.kyletung.simplebookmovie.util;
+package com.kyletung.simplebookmovie.utils;
 
 import android.content.Context;
 import android.support.v4.util.ArrayMap;

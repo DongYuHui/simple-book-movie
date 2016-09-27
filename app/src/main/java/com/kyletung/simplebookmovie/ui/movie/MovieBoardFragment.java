@@ -15,7 +15,7 @@ import com.kyletung.simplebookmovie.client.MovieClient;
 import com.kyletung.simplebookmovie.data.movie.MovieBoardData;
 import com.kyletung.simplebookmovie.data.movie.MovieItem;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
-import com.kyletung.simplebookmovie.util.BaseToast;
+import com.kyletung.simplebookmovie.utils.BaseToast;
 
 import java.util.ArrayList;
 

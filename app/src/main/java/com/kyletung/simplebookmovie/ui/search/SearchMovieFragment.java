@@ -1,6 +1,5 @@
 package com.kyletung.simplebookmovie.ui.search;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +19,7 @@ import com.kyletung.simplebookmovie.event.BaseEvent;
 import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.ui.movie.MovieDetailActivity;
-import com.kyletung.simplebookmovie.util.BaseToast;
+import com.kyletung.simplebookmovie.utils.BaseToast;
 import com.kyletung.simplebookmovie.view.recycler.LinearOnScrollListener;
 
 import org.greenrobot.eventbus.EventBus;

@@ -9,8 +9,8 @@ import android.widget.TextView;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.ui.login.LoginActivity;
-import com.kyletung.simplebookmovie.util.UserInfoUtil;
-import com.kyletung.simplebookmovie.util.VersionUtil;
+import com.kyletung.simplebookmovie.utils.UserInfoUtil;
+import com.kyletung.simplebookmovie.utils.VersionUtil;
 
 /**
  * All rights reserved by Author<br>

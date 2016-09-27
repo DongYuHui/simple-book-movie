@@ -9,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kyletung.simplebookmovie.util.HttpUtil;
-
 import butterknife.ButterKnife;
 
 /**
@@ -76,12 +74,6 @@ public abstract class BaseFragment extends Fragment {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        HttpUtil.getInstance().cancel(this);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.kyletung.simplebookmovie.client;
+package com.kyletung.simplebookmovie.client.api;
 
 import com.kyletung.simplebookmovie.data.login.LoginData;
 import com.kyletung.simplebookmovie.data.user.UserData;

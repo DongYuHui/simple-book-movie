@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
-import com.kyletung.simplebookmovie.util.VersionUtil;
+import com.kyletung.simplebookmovie.utils.VersionUtil;
 
 import butterknife.BindView;
 
