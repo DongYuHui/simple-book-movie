@@ -1,10 +1,11 @@
 package com.kyletung.simplebookmovie.client;
 
 import com.kyletung.simplebookmovie.client.api.BookApi;
+import com.kyletung.simplebookmovie.config.Constants;
 import com.kyletung.simplebookmovie.data.book.BookData;
+import com.kyletung.simplebookmovie.data.bookdetail.BookCollectionData;
 import com.kyletung.simplebookmovie.data.bookdetail.BookDetailData;
 import com.kyletung.simplebookmovie.data.search.SearchBookData;
-import com.kyletung.simplebookmovie.data.bookdetail.BookCollectionData;
 
 /**
  * All Rights Reserved by Company.
@@ -34,7 +35,7 @@ public class BookClient extends SimpleClient {
      * @param responseImpl 返回接口实现
      */
     public void getBookSearch(String content, int start, IResponse<SearchBookData> responseImpl) {
-        mBookApi.getBookSearch(content, start, REQUEST_COUNT).enqueue(newCallback(responseImpl));
+        mBookApi.getBookSearch(content, start, REQUEST_COUNT, Constants.APP_KEY).enqueue(newCallback(responseImpl));
     }
 
     /**
@@ -46,7 +47,7 @@ public class BookClient extends SimpleClient {
      * @param responseImpl 返回接口实现
      */
     public void getBookData(String userId, String status, int start, IResponse<BookData> responseImpl) {
-        mBookApi.getBookData(userId, status, start, REQUEST_COUNT).enqueue(newCallback(responseImpl));
+        mBookApi.getBookData(userId, status, start, REQUEST_COUNT, Constants.APP_KEY).enqueue(newCallback(responseImpl));
     }
 
     /**
@@ -56,7 +57,7 @@ public class BookClient extends SimpleClient {
      * @param responseImpl 返回接口实现
      */
     public void getBookDetail(String bookId, IResponse<BookDetailData> responseImpl) {
-        mBookApi.getBookDetail(bookId).enqueue(newCallback(responseImpl));
+        mBookApi.getBookDetail(bookId, Constants.APP_KEY).enqueue(newCallback(responseImpl));
     }
 
     /**
@@ -67,7 +68,7 @@ public class BookClient extends SimpleClient {
      * @param responseImpl 返回接口实现
      */
     public void getBookDetail(String bookId, String userId, IResponse<BookCollectionData> responseImpl) {
-        mBookApi.getBookDetail(bookId, userId).enqueue(newCallback(responseImpl));
+        mBookApi.getBookDetail(bookId, userId, Constants.APP_KEY).enqueue(newCallback(responseImpl));
     }
 
 }

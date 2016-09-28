@@ -29,7 +29,7 @@ public interface AccountApi {
      */
 
     @GET("user/{userId}")
-    Call<UserData> getUserData(@Path("userId") String userId);
+    Call<UserData> getUserData(@Path("userId") String userId, @Query("apiKey") String appKey);
 
     @Headers({"Content-Type: application/x-www-form-urlencoded"})
     @POST("https://www.douban.com/service/auth2/token")

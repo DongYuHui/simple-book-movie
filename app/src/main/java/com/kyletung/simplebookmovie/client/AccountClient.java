@@ -38,7 +38,7 @@ public class AccountClient extends SimpleClient {
      * @param responseImpl 返回接口实现
      */
     public void getUserData(String userId, IResponse<UserData> responseImpl) {
-        mAccountApi.getUserData(userId).enqueue(newCallback(responseImpl));
+        mAccountApi.getUserData(userId, Constants.APP_KEY).enqueue(newCallback(responseImpl));
     }
 
     /**

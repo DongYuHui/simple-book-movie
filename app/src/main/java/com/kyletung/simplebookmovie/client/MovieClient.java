@@ -1,6 +1,7 @@
 package com.kyletung.simplebookmovie.client;
 
 import com.kyletung.simplebookmovie.client.api.MovieApi;
+import com.kyletung.simplebookmovie.config.Constants;
 import com.kyletung.simplebookmovie.data.movie.MovieBoardData;
 import com.kyletung.simplebookmovie.data.movie.MovieTopData;
 import com.kyletung.simplebookmovie.data.moviedetail.MovieDetailData;
@@ -32,7 +33,7 @@ public class MovieClient extends SimpleClient {
      * @param responseImpl 返回接口实现
      */
     public void getMovieDetail(String movieId, IResponse<MovieDetailData> responseImpl) {
-        mMovieApi.getMovieDetail(movieId).enqueue(newCallback(responseImpl));
+        mMovieApi.getMovieDetail(movieId, Constants.APP_KEY).enqueue(newCallback(responseImpl));
     }
 
     /**
@@ -42,7 +43,7 @@ public class MovieClient extends SimpleClient {
      * @param responseImpl 返回接口实现
      */
     public void getMovieTop(int start, IResponse<MovieTopData> responseImpl) {
-        mMovieApi.getMovieTop(start, REQUEST_COUNT).enqueue(newCallback(responseImpl));
+        mMovieApi.getMovieTop(start, REQUEST_COUNT, Constants.APP_KEY).enqueue(newCallback(responseImpl));
     }
 
     /**
@@ -51,7 +52,7 @@ public class MovieClient extends SimpleClient {
      * @param responseImpl 返回接口实现
      */
     public void getMovieBoard(IResponse<MovieBoardData> responseImpl) {
-        mMovieApi.getMovieBoard().enqueue(newCallback(responseImpl));
+        mMovieApi.getMovieBoard(Constants.APP_KEY).enqueue(newCallback(responseImpl));
     }
 
     /**
@@ -62,7 +63,7 @@ public class MovieClient extends SimpleClient {
      * @param responseImpl 返回接口实现
      */
     public void getMovieSearch(String content, int start, IResponse<MovieTopData> responseImpl) {
-        mMovieApi.getMovieSearch(content, start, REQUEST_COUNT).enqueue(newCallback(responseImpl));
+        mMovieApi.getMovieSearch(content, start, REQUEST_COUNT, Constants.APP_KEY).enqueue(newCallback(responseImpl));
     }
 
 }
