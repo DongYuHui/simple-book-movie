@@ -11,7 +11,7 @@ import android.view.View;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.movie.MovieBoardAdapter;
 import com.kyletung.simplebookmovie.client.IResponse;
-import com.kyletung.simplebookmovie.client.MovieClient;
+import com.kyletung.simplebookmovie.client.request.MovieClient;
 import com.kyletung.simplebookmovie.data.movie.MovieBoardData;
 import com.kyletung.simplebookmovie.data.movie.MovieItem;
 import com.kyletung.simplebookmovie.ui.BaseFragment;

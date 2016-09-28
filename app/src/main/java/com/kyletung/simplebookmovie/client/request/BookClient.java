@@ -1,5 +1,7 @@
-package com.kyletung.simplebookmovie.client;
+package com.kyletung.simplebookmovie.client.request;
 
+import com.kyletung.simplebookmovie.client.IResponse;
+import com.kyletung.simplebookmovie.client.SimpleClient;
 import com.kyletung.simplebookmovie.client.api.BookApi;
 import com.kyletung.simplebookmovie.config.Constants;
 import com.kyletung.simplebookmovie.data.book.BookData;

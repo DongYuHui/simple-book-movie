@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.moviedetail.StaffAdapter;
 import com.kyletung.simplebookmovie.client.IResponse;
-import com.kyletung.simplebookmovie.client.MovieClient;
+import com.kyletung.simplebookmovie.client.request.MovieClient;
 import com.kyletung.simplebookmovie.data.moviedetail.MovieDetailData;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.utils.BaseToast;

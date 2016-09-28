@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.book.BookAdapter;
-import com.kyletung.simplebookmovie.client.BookClient;
+import com.kyletung.simplebookmovie.client.request.BookClient;
 import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.data.book.BookData;
 import com.kyletung.simplebookmovie.data.book.BookItem;

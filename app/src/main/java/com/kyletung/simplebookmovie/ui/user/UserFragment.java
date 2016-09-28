@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
-import com.kyletung.simplebookmovie.client.AccountClient;
+import com.kyletung.simplebookmovie.client.request.AccountClient;
 import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.data.user.UserData;
 import com.kyletung.simplebookmovie.ui.BaseFragment;

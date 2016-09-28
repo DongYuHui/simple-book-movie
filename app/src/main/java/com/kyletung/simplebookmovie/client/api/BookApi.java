@@ -18,15 +18,33 @@ import retrofit2.http.Query;
 public interface BookApi {
 
     @GET("book/search")
-    Call<SearchBookData> getBookSearch(@Query("q") String content, @Query("start") int start, @Query("count") int count, @Query("apiKey") String appKey);
+    Call<SearchBookData> getBookSearch(
+            @Query("q") String content,
+            @Query("start") int start,
+            @Query("count") int count,
+            @Query("apiKey") String appKey
+    );
 
     @GET("book/user/{userId}/collections")
-    Call<BookData> getBookData(@Path("userId") String userId, @Query("status") String status, @Query("start") int start, @Query("count") int count, @Query("apiKey") String appKey);
+    Call<BookData> getBookData(
+            @Path("userId") String userId,
+            @Query("status") String status,
+            @Query("start") int start,
+            @Query("count") int count,
+            @Query("apiKey") String appKey
+    );
 
     @GET("book/{bookId}")
-    Call<BookDetailData> getBookDetail(@Path("bookId") String bookId, @Query("apiKey") String appKey);
+    Call<BookDetailData> getBookDetail(
+            @Path("bookId") String bookId,
+            @Query("apiKey") String appKey
+    );
 
     @GET("book/{bookId}/collection")
-    Call<BookCollectionData> getBookDetail(@Path("bookId") String bookId, @Query("user_id") String userId, @Query("apiKey") String appKey);
+    Call<BookCollectionData> getBookDetail(
+            @Path("bookId") String bookId,
+            @Query("user_id") String userId,
+            @Query("apiKey") String appKey
+    );
 
 }

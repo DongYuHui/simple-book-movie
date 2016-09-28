@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.kyletung.simplebookmovie.R;
-import com.kyletung.simplebookmovie.client.AccountClient;
+import com.kyletung.simplebookmovie.client.request.AccountClient;
 import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.data.login.LoginData;
 import com.kyletung.simplebookmovie.ui.BaseActivity;

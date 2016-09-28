@@ -19,17 +19,11 @@ import retrofit2.http.Query;
  */
 public interface AccountApi {
 
-    /*
-    https://www.douban.com/service/auth2/token
-    ?client_id=%s
-    &client_secret=%s
-    &redirect_uri=http://www.douban.com
-    &grant_type=refresh_token
-    &refresh_token=%s
-     */
-
     @GET("user/{userId}")
-    Call<UserData> getUserData(@Path("userId") String userId, @Query("apiKey") String appKey);
+    Call<UserData> getUserData(
+            @Path("userId") String userId,
+            @Query("apiKey") String appKey
+    );
 
     @Headers({"Content-Type: application/x-www-form-urlencoded"})
     @POST("https://www.douban.com/service/auth2/token")

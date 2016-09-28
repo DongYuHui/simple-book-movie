@@ -2,12 +2,9 @@ package com.kyletung.simplebookmovie.utils;
 
 import com.kyletung.library.JsonUtil;
 import com.kyletung.simplebookmovie.BaseApplication;
-import com.kyletung.simplebookmovie.client.AccountClient;
+import com.kyletung.simplebookmovie.client.request.AccountClient;
 import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.data.login.LoginData;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * All rights reserved by Author<br>
