@@ -1,11 +1,11 @@
 package com.kyletung.simplebookmovie.ui.book;
 
-import android.support.design.widget.TabLayout;
 import android.view.View;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.book.BookPagerAdapter;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
+import com.kyletung.simplebookmovie.ui.main.MainActivity;
 import com.kyletung.simplebookmovie.view.TabViewPager;
 
 /**
@@ -19,6 +19,8 @@ import com.kyletung.simplebookmovie.view.TabViewPager;
  */
 public class BookFragment extends BaseFragment {
 
+    private TabViewPager mViewPager;
+
     public static BookFragment newInstance() {
         return new BookFragment();
     }
@@ -31,12 +33,15 @@ public class BookFragment extends BaseFragment {
     @Override
     protected void init(View view) {
         // init content views
-        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.book_tab);
-        TabViewPager viewPager = (TabViewPager) view.findViewById(R.id.book_viewpager);
-        viewPager.setSwipeEnabled(true);
+        mViewPager = (TabViewPager) view.findViewById(R.id.book_viewpager);
+        mViewPager.setSwipeEnabled(true);
         BookPagerAdapter adapter = new BookPagerAdapter(getChildFragmentManager());
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
+        mViewPager.setAdapter(adapter);
+    }
+
+    public void setTabLayout() {
+        ((MainActivity) getActivity()).getTabLayout().setVisibility(View.VISIBLE);
+        ((MainActivity) getActivity()).getTabLayout().setupWithViewPager(mViewPager);
     }
 
 }

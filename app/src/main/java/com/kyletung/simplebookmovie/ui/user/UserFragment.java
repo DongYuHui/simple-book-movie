@@ -6,10 +6,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
-import com.kyletung.simplebookmovie.client.request.AccountClient;
 import com.kyletung.simplebookmovie.client.IResponse;
+import com.kyletung.simplebookmovie.client.request.AccountClient;
 import com.kyletung.simplebookmovie.data.user.UserData;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
+import com.kyletung.simplebookmovie.ui.main.MainActivity;
 import com.kyletung.simplebookmovie.utils.BaseToast;
 import com.kyletung.simplebookmovie.utils.HeadBackUtil;
 import com.kyletung.simplebookmovie.utils.ImageLoader;
@@ -111,6 +112,10 @@ public class UserFragment extends BaseFragment {
      */
     public void getInfoError(String error) {
         BaseToast.toast(getActivity(), error);
+    }
+
+    public void setTabLayout() {
+        ((MainActivity) getActivity()).getTabLayout().setVisibility(View.GONE);
     }
 
 }

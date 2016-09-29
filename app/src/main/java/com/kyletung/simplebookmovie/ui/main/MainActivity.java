@@ -1,6 +1,7 @@
 package com.kyletung.simplebookmovie.ui.main;
 
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +27,9 @@ import com.kyletung.simplebookmovie.view.TabViewPager;
  */
 public class MainActivity extends BaseActivity {
 
+    private TabLayout mTabLayout;
     private TabViewPager mTabViewPager;
+    private TabPagerAdapter mTabAdapter;
 
     @Override
     protected int getContentLayout() {
@@ -37,13 +40,16 @@ public class MainActivity extends BaseActivity {
     protected void init() {
         // init toolbar
         setToolbar(getString(R.string.app_name), false);
+        // temp
+        mTabLayout = (TabLayout) findViewById(R.id.main_tab);
         // init ViewPager
         mTabViewPager = (TabViewPager) findViewById(R.id.main_content);
-        TabPagerAdapter tabAdapter = new TabPagerAdapter(getSupportFragmentManager());
-        mTabViewPager.setAdapter(tabAdapter);
+        mTabAdapter = new TabPagerAdapter(getSupportFragmentManager());
+        mTabViewPager.setAdapter(mTabAdapter);
         // init bottom bar
         AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
         bottomNavigation.setAccentColor(ContextCompat.getColor(this, R.color.colorAccent));
+        bottomNavigation.setBehaviorTranslationEnabled(true);
         bottomNavigation.setForceTint(true);
         AHBottomNavigationAdapter adapter = new AHBottomNavigationAdapter(this, R.menu.main_tab);
         adapter.setupWithBottomNavigation(bottomNavigation);
@@ -51,9 +57,13 @@ public class MainActivity extends BaseActivity {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
                 mTabViewPager.setCurrentItem(position, false);
+                mTabAdapter.setTabLayout(position);
                 return true;
             }
         });
+        // init first page
+        mTabViewPager.setCurrentItem(0, false);
+        mTabAdapter.setTabLayout(0);
     }
 
     @Override
@@ -80,6 +90,15 @@ public class MainActivity extends BaseActivity {
                 break;
         }
         return true;
+    }
+
+    /**
+     * 获取当前页面 TabLayout
+     *
+     * @return 当前页面 TabLayout
+     */
+    public TabLayout getTabLayout() {
+        return mTabLayout;
     }
 
 }
