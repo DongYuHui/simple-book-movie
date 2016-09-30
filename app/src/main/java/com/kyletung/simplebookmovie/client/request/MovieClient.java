@@ -1,5 +1,6 @@
 package com.kyletung.simplebookmovie.client.request;
 
+import com.kyletung.simplebookmovie.BaseApplication;
 import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.client.SimpleClient;
 import com.kyletung.simplebookmovie.client.api.MovieApi;
@@ -21,7 +22,7 @@ public class MovieClient extends SimpleClient {
 
     public MovieClient() {
         super();
-        mMovieApi = getRetrofit().create(MovieApi.class);
+        mMovieApi = getRetrofit(BaseApplication.getInstance()).create(MovieApi.class);
     }
 
     public static MovieClient getInstance() {

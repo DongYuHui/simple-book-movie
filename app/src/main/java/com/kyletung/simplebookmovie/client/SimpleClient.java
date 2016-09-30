@@ -1,7 +1,5 @@
 package com.kyletung.simplebookmovie.client;
 
-import android.util.Log;
-
 import com.kyletung.library.BaseClient;
 import com.kyletung.library.BaseHost;
 
@@ -48,7 +46,6 @@ public abstract class SimpleClient extends BaseClient {
 
             @Override
             public void onResponse(Call<T> call, Response<T> response) {
-                Log.e("request reponse", call.request().toString());
                 if (response.isSuccessful()) {
                     // 接口返回成功
                     responseImpl.onResponse(response.body());
@@ -64,7 +61,6 @@ public abstract class SimpleClient extends BaseClient {
 
             @Override
             public void onFailure(Call<T> call, Throwable t) {
-                Log.e("request error", call.request().toString());
                 responseImpl.onError(-1, t.getMessage());
             }
 

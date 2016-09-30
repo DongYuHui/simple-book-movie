@@ -1,5 +1,6 @@
 package com.kyletung.simplebookmovie.client.request;
 
+import com.kyletung.simplebookmovie.BaseApplication;
 import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.client.SimpleClient;
 import com.kyletung.simplebookmovie.client.api.BookApi;
@@ -22,7 +23,7 @@ public class BookClient extends SimpleClient {
 
     private BookClient() {
         super();
-        mBookApi = getRetrofit().create(BookApi.class);
+        mBookApi = getRetrofit(BaseApplication.getInstance()).create(BookApi.class);
     }
 
     public static BookClient getInstance() {

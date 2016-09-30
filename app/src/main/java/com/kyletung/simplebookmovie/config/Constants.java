@@ -11,8 +11,8 @@ package com.kyletung.simplebookmovie.config;
  */
 public class Constants {
 
-    // Base Url
-    public static final String BASE_URL = "https://api.douban.com/v2%s";
+    // Debuggable
+    public static final boolean DEBUGGABLE = true;
 
     // Application Info
     public static final String APP_KEY = "0208376c6d519a130618a64547f4ce39";
