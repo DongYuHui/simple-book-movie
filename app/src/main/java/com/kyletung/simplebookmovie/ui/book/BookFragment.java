@@ -39,6 +39,9 @@ public class BookFragment extends BaseFragment {
         mViewPager.setAdapter(adapter);
     }
 
+    /**
+     * 设置外部 Activity 的 TabLayout
+     */
     public void setTabLayout() {
         ((MainActivity) getActivity()).getTabLayout().setVisibility(View.VISIBLE);
         ((MainActivity) getActivity()).getTabLayout().setupWithViewPager(mViewPager);

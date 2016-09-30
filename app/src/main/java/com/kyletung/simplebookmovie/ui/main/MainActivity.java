@@ -62,8 +62,13 @@ public class MainActivity extends BaseActivity {
             }
         });
         // init first page
-        mTabViewPager.setCurrentItem(0, false);
-        mTabAdapter.setTabLayout(0);
+        mTabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mTabViewPager.setCurrentItem(0, false);
+                mTabAdapter.setTabLayout(0);
+            }
+        });
     }
 
     @Override

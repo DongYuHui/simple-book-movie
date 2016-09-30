@@ -114,6 +114,9 @@ public class UserFragment extends BaseFragment {
         BaseToast.toast(getActivity(), error);
     }
 
+    /**
+     * 设置外部 Activity 的 TabLayout
+     */
     public void setTabLayout() {
         ((MainActivity) getActivity()).getTabLayout().setVisibility(View.GONE);
     }
