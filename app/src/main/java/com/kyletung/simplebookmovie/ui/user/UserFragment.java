@@ -98,7 +98,7 @@ public class UserFragment extends BaseFragment {
      * @param info 用户信息
      */
     public void getInfoSuccess(UserData info) {
-        ImageLoader.load(this, mUserHead, info.getLarge_avatar(), false);
+        ImageLoader.load(this, mUserHead, info.getLarge_avatar());
         mUserName.setText(info.getName());
         mUserLocation.setText(info.getLoc_name());
         mUserSignature.setText(info.getSignature());
