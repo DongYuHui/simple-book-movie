@@ -62,12 +62,7 @@ public class UserFragment extends BaseFragment {
         ImageLoader.load(this, userHeadBack, new HeadBackUtil(getActivity()).getImage());
         // get info
         if (!TextUtils.isEmpty(mUserId)) {
-            mUserHead.post(new Runnable() {
-                @Override
-                public void run() {
-                    getData(mUserId);
-                }
-            });
+            mUserHead.post(() -> getData(mUserId));
         }
     }
 

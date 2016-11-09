@@ -47,8 +47,8 @@
 
     <!-- Login -->
     <string name="login_button_action">Login</string>
-    <string name="login_hint_account">Please input your account</string>
-    <string name="login_hint_password">Please input your password</string>
+    <string name="login_hint_account">Account</string>
+    <string name="login_hint_password">Password</string>
 
     <!-- About -->
     <string name="about_title">About</string>

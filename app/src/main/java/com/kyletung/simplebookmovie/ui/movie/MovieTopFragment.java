@@ -67,34 +67,20 @@ public class MovieTopFragment extends BaseFragment {
     }
 
     private void setListener() {
-        mAdapter.setOnItemClickListener(new MovieTopAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, String movieId) {
-                Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
-                intent.putExtra("movieId", movieId);
-                startActivity(intent);
-            }
+        mAdapter.setOnItemClickListener((position, movieId) -> {
+            Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+            intent.putExtra("movieId", movieId);
+            startActivity(intent);
         });
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mHasMore = true;
-                getData(0);
-            }
+        mRefreshLayout.setOnRefreshListener(() -> {
+            mHasMore = true;
+            getData(0);
         });
-        mOnScrollListener.setOnLoadMore(new LinearOnScrollListener.OnLoadMore() {
-            @Override
-            public void onLoadMore() {
-                getData(mAdapter.getItemCount());
-            }
-        });
-        mRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mRefreshLayout.setRefreshing(true);
-                mHasMore = true;
-                getData(0);
-            }
+        mOnScrollListener.setOnLoadMore(() -> getData(mAdapter.getItemCount()));
+        mRefreshLayout.post(() -> {
+            mRefreshLayout.setRefreshing(true);
+            mHasMore = true;
+            getData(0);
         });
     }
 

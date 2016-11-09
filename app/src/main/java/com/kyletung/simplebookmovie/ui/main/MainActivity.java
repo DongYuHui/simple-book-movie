@@ -53,21 +53,15 @@ public class MainActivity extends BaseActivity {
         bottomNavigation.setForceTint(true);
         AHBottomNavigationAdapter adapter = new AHBottomNavigationAdapter(this, R.menu.main_tab);
         adapter.setupWithBottomNavigation(bottomNavigation);
-        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
-            @Override
-            public boolean onTabSelected(int position, boolean wasSelected) {
-                mTabViewPager.setCurrentItem(position, false);
-                mTabAdapter.setTabLayout(position);
-                return true;
-            }
+        bottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
+            mTabViewPager.setCurrentItem(position, false);
+            mTabAdapter.setTabLayout(position);
+            return true;
         });
         // init first page
-        mTabLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mTabViewPager.setCurrentItem(0, false);
-                mTabAdapter.setTabLayout(0);
-            }
+        mTabLayout.post(() -> {
+            mTabViewPager.setCurrentItem(0, false);
+            mTabAdapter.setTabLayout(0);
         });
     }
 

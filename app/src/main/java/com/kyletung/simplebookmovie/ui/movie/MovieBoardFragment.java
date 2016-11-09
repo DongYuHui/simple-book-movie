@@ -61,26 +61,15 @@ public class MovieBoardFragment extends BaseFragment {
     }
 
     private void setListener() {
-        mAdapter.setOnItemClickListener(new MovieBoardAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, String movieId) {
-                Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
-                intent.putExtra("movieId", movieId);
-                startActivity(intent);
-            }
+        mAdapter.setOnItemClickListener((position, movieId) -> {
+            Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+            intent.putExtra("movieId", movieId);
+            startActivity(intent);
         });
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getData();
-            }
-        });
-        mRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mRefreshLayout.setRefreshing(true);
-                getData();
-            }
+        mRefreshLayout.setOnRefreshListener(this::getData);
+        mRefreshLayout.post(() -> {
+            mRefreshLayout.setRefreshing(true);
+            getData();
         });
     }
 

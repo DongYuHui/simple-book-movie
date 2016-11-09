@@ -1,11 +1,13 @@
 apply plugin: 'com.android.application'
 // ButterKnife
 apply plugin: 'android-apt'
+// RetroLambda
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
 
     compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         applicationId "com.kyletung.simplebookmovie"
@@ -20,6 +22,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
 }

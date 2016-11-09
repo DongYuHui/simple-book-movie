@@ -76,35 +76,21 @@ public class BookListFragment extends BaseFragment {
     }
 
     private void setListener() {
-        mAdapter.setOnItemClickListener(new BookAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, String bookId) {
-                Intent intent = new Intent(getActivity(), BookDetailActivity.class);
-                intent.putExtra("userId", mUserId);
-                intent.putExtra("bookId", bookId);
-                startActivity(intent);
-            }
+        mAdapter.setOnItemClickListener((position, bookId) -> {
+            Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+            intent.putExtra("userId", mUserId);
+            intent.putExtra("bookId", bookId);
+            startActivity(intent);
         });
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mHasMore = true;
-                getData(0);
-            }
+        mRefreshLayout.setOnRefreshListener(() -> {
+            mHasMore = true;
+            getData(0);
         });
-        mOnScrollListener.setOnLoadMore(new LinearOnScrollListener.OnLoadMore() {
-            @Override
-            public void onLoadMore() {
-                getData(mAdapter.getItemCount());
-            }
-        });
-        mRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mRefreshLayout.setRefreshing(true);
-                mHasMore = true;
-                getData(0);
-            }
+        mOnScrollListener.setOnLoadMore(() -> getData(mAdapter.getItemCount()));
+        mRefreshLayout.post(() -> {
+            mRefreshLayout.setRefreshing(true);
+            mHasMore = true;
+            getData(0);
         });
     }
 
