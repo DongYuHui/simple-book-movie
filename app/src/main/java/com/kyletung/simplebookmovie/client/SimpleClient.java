@@ -5,6 +5,7 @@ import com.kyletung.library.BaseHost;
 
 import java.io.IOException;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,12 +27,7 @@ public abstract class SimpleClient extends BaseClient {
      * @return 返回实现接口
      */
     private static BaseHost getSimpleHost() {
-        return new BaseHost() {
-            @Override
-            public String getHost() {
-                return "https://api.douban.com/v2/";
-            }
-        };
+        return () -> "https://api.douban.com/v2/";
     }
 
     /**

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -32,6 +33,7 @@ public abstract class BaseClient {
         builder.baseUrl(mBaseHost.getHost());
         Gson gson = new GsonBuilder().setLenient().create();
         builder.addConverterFactory(GsonConverterFactory.create(gson));
+//        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         return builder.build();
     }
 
