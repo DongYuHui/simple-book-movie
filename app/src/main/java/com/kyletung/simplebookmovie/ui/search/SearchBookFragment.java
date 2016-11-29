@@ -12,9 +12,7 @@ import android.view.View;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.search.SearchBookAdapter;
 import com.kyletung.simplebookmovie.client.request.BookClient;
-import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.data.book.BookSubject;
-import com.kyletung.simplebookmovie.data.search.SearchBookData;
 import com.kyletung.simplebookmovie.event.BaseEvent;
 import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
@@ -78,28 +76,17 @@ public class SearchBookFragment extends BaseFragment {
     }
 
     private void setListener() {
-        mAdapter.setOnItemClickListener(new SearchBookAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, String bookId) {
-                Intent intent = new Intent(getActivity(), BookDetailActivity.class);
-                intent.putExtra("userId", "");
-                intent.putExtra("bookId", bookId);
-                startActivity(intent);
-            }
+        mAdapter.setOnItemClickListener((position, bookId) -> {
+            Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+            intent.putExtra("userId", "");
+            intent.putExtra("bookId", bookId);
+            startActivity(intent);
         });
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mHasMore = true;
-                getData(mContent, 0);
-            }
+        mRefreshLayout.setOnRefreshListener(() -> {
+            mHasMore = true;
+            getData(mContent, 0);
         });
-        mOnScrollListener.setOnLoadMore(new LinearOnScrollListener.OnLoadMore() {
-            @Override
-            public void onLoadMore() {
-                getData(mContent, mAdapter.getItemCount());
-            }
-        });
+        mOnScrollListener.setOnLoadMore(() -> getData(mContent, mAdapter.getItemCount()));
     }
 
     public void onBookSuccess(ArrayList<BookSubject> list) {
@@ -150,27 +137,19 @@ public class SearchBookFragment extends BaseFragment {
             }
             return;
         }
-        BookClient.getInstance().getBookSearch(content, start, new IResponse<SearchBookData>() {
-
-            @Override
-            public void onResponse(SearchBookData result) {
-                if (start == 0) {
-                    onBookSuccess(result.getBooks());
-                } else {
-                    onMoreSuccess(result.getBooks());
-                }
+        BookClient.getInstance().getBookSearch(content, start).subscribe(newSubscriber(searchBookData -> {
+            if (start == 0) {
+                onBookSuccess(searchBookData.getBooks());
+            } else {
+                onMoreSuccess(searchBookData.getBooks());
             }
-
-            @Override
-            public void onError(int code, String reason) {
-                if (start == 0) {
-                    onBookError(reason);
-                } else {
-                    onMoreError(reason);
-                }
+        }, throwable -> {
+            if (start == 0) {
+                onBookError(throwable.getMessage());
+            } else {
+                onMoreError(throwable.getMessage());
             }
-
-        });
+        }));
     }
 
     @Override

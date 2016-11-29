@@ -3,7 +3,6 @@ package com.kyletung.simplebookmovie.client.api;
 import com.kyletung.simplebookmovie.data.login.LoginData;
 import com.kyletung.simplebookmovie.data.user.UserData;
 
-import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -11,6 +10,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import rx.Observable;
 
 /**
  * All Rights Reserved by Company.
@@ -20,14 +20,14 @@ import retrofit2.http.Query;
 public interface AccountApi {
 
     @GET("user/{userId}")
-    Call<UserData> getUserData(
+    Observable<UserData> getUserData(
             @Path("userId") String userId,
             @Query("apiKey") String appKey
     );
 
     @Headers({"Content-Type: application/x-www-form-urlencoded"})
     @POST("https://www.douban.com/service/auth2/token")
-    Call<LoginData> getToken(
+    Observable<LoginData> getToken(
             @Query("client_id") String clientId,
             @Query("client_secret") String clientSecret,
             @Query("redirect_uri") String redirectUri,
@@ -37,7 +37,7 @@ public interface AccountApi {
 
     @FormUrlEncoded
     @POST("https://www.douban.com/service/auth2/auth")
-    Call<String> getCode(
+    Observable<String> getCode(
             @Query("client_id") String clientId,
             @Query("redirect_uri") String redirectUri,
             @Query("response_type") String responseTypeFirst,
@@ -52,7 +52,7 @@ public interface AccountApi {
 
     @Headers({"Content-Type: application/x-www-form-urlencoded"})
     @POST("https://www.douban.com/service/auth2/token")
-    Call<LoginData> refreshToken(
+    Observable<LoginData> refreshToken(
             @Query("client_id") String clientId,
             @Query("client_secret") String clientSecret,
             @Query("redirect_uri") String redirectUri,

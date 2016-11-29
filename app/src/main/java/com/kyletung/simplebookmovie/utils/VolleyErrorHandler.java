@@ -3,8 +3,9 @@ package com.kyletung.simplebookmovie.utils;
 import com.kyletung.library.JsonUtil;
 import com.kyletung.simplebookmovie.BaseApplication;
 import com.kyletung.simplebookmovie.client.request.AccountClient;
-import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.data.login.LoginData;
+
+import rx.Observer;
 
 /**
  * All rights reserved by Author<br>
@@ -71,42 +72,28 @@ public class VolleyErrorHandler {
      */
     private static void refreshToken(final OnOauthListener onOauthListener) {
         String refreshToken = new UserInfoUtil(BaseApplication.getInstance()).readRefreshToken();
-//        String url = String.format(REFRESH_URL, Constants.APP_KEY, Constants.APP_SECRET, refreshToken);
-//        HttpUtil.getInstance().post(null, url, new HttpUtil.OnResultListener() {
-//
-//            @Override
-//            public void onSuccess(String result) {
-//                LoginData data = JsonUtil.getInstance().fromJson(result, LoginData.class);
-//                new UserInfoUtil(BaseApplication.getInstance()).save(
-//                        data.getAccess_token(),
-//                        data.getDouban_user_id(),
-//                        data.getRefresh_token()
-//                );
-//                if (onOauthListener != null) onOauthListener.onRefreshSuccess(result);
-//            }
-//
-//            @Override
-//            public void onError(String error) {
-//                if (onOauthListener != null) onOauthListener.onOauthError(error);
-//            }
-//
-//        }, null);
-        AccountClient.getInstance().refreshToken(refreshToken, new IResponse<LoginData>() {
+        AccountClient.getInstance().refreshToken(refreshToken).subscribe(new Observer<LoginData>() {
+
             @Override
-            public void onResponse(LoginData result) {
-                new UserInfoUtil(BaseApplication.getInstance()).save(
-                        result.getAccess_token(),
-                        result.getDouban_user_id(),
-                        result.getRefresh_token()
-                );
-                if (onOauthListener != null)
-                    onOauthListener.onRefreshSuccess(JsonUtil.getInstance().toJson(result));
+            public void onCompleted() {
             }
 
             @Override
-            public void onError(int code, String reason) {
-                if (onOauthListener != null) onOauthListener.onOauthError(reason);
+            public void onError(Throwable e) {
+                if (onOauthListener != null) onOauthListener.onOauthError(e.getMessage());
             }
+
+            @Override
+            public void onNext(LoginData loginData) {
+                new UserInfoUtil(BaseApplication.getInstance()).save(
+                        loginData.getAccess_token(),
+                        loginData.getDouban_user_id(),
+                        loginData.getRefresh_token()
+                );
+                if (onOauthListener != null)
+                    onOauthListener.onRefreshSuccess(JsonUtil.getInstance().toJson(loginData));
+            }
+
         });
     }
 

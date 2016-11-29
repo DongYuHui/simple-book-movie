@@ -11,10 +11,8 @@ import android.view.View;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.movie.MovieTopAdapter;
-import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.client.request.MovieClient;
 import com.kyletung.simplebookmovie.data.movie.MovieSubject;
-import com.kyletung.simplebookmovie.data.movie.MovieTopData;
 import com.kyletung.simplebookmovie.event.BaseEvent;
 import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
@@ -78,27 +76,16 @@ public class SearchMovieFragment extends BaseFragment {
     }
 
     private void setListener() {
-        mAdapter.setOnItemClickListener(new MovieTopAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, String movieId) {
-                Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
-                intent.putExtra("movieId", movieId);
-                startActivity(intent);
-            }
+        mAdapter.setOnItemClickListener((position, movieId) -> {
+            Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+            intent.putExtra("movieId", movieId);
+            startActivity(intent);
         });
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mHasMore = true;
-                getData(mContent, 0);
-            }
+        mRefreshLayout.setOnRefreshListener(() -> {
+            mHasMore = true;
+            getData(mContent, 0);
         });
-        mOnScrollListener.setOnLoadMore(new LinearOnScrollListener.OnLoadMore() {
-            @Override
-            public void onLoadMore() {
-                getData(mContent, mAdapter.getItemCount());
-            }
-        });
+        mOnScrollListener.setOnLoadMore(() -> getData(mContent, mAdapter.getItemCount()));
     }
 
     public void onMovieSuccess(ArrayList<MovieSubject> list) {
@@ -147,27 +134,19 @@ public class SearchMovieFragment extends BaseFragment {
             }
             return;
         }
-        MovieClient.getInstance().getMovieSearch(content, start, new IResponse<MovieTopData>() {
-
-            @Override
-            public void onResponse(MovieTopData result) {
-                if (start == 0) {
-                    onMovieSuccess(result.getSubjects());
-                } else {
-                    onMoreSuccess(result.getSubjects());
-                }
+        MovieClient.getInstance().getMovieSearch(content, start).subscribe(newSubscriber(movieTopData -> {
+            if (start == 0) {
+                onMovieSuccess(movieTopData.getSubjects());
+            } else {
+                onMoreSuccess(movieTopData.getSubjects());
             }
-
-            @Override
-            public void onError(int code, String reason) {
-                if (start == 0) {
-                    onMovieError(reason);
-                } else {
-                    onMoreError(reason);
-                }
+        }, throwable -> {
+            if (start == 0) {
+                onMovieError(throwable.getMessage());
+            } else {
+                onMoreError(throwable.getMessage());
             }
-
-        });
+        }));
     }
 
     @Override

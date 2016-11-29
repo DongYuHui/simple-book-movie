@@ -1,14 +1,14 @@
 package com.kyletung.simplebookmovie.client.api;
 
 import com.kyletung.simplebookmovie.data.book.BookData;
+import com.kyletung.simplebookmovie.data.bookdetail.BookCollectionData;
 import com.kyletung.simplebookmovie.data.bookdetail.BookDetailData;
 import com.kyletung.simplebookmovie.data.search.SearchBookData;
-import com.kyletung.simplebookmovie.data.bookdetail.BookCollectionData;
 
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import rx.Observable;
 
 /**
  * All Rights Reserved by Company.
@@ -18,7 +18,7 @@ import retrofit2.http.Query;
 public interface BookApi {
 
     @GET("book/search")
-    Call<SearchBookData> getBookSearch(
+    Observable<SearchBookData> getBookSearch(
             @Query("q") String content,
             @Query("start") int start,
             @Query("count") int count,
@@ -26,7 +26,7 @@ public interface BookApi {
     );
 
     @GET("book/user/{userId}/collections")
-    Call<BookData> getBookData(
+    Observable<BookData> getBookData(
             @Path("userId") String userId,
             @Query("status") String status,
             @Query("start") int start,
@@ -35,13 +35,13 @@ public interface BookApi {
     );
 
     @GET("book/{bookId}")
-    Call<BookDetailData> getBookDetail(
+    Observable<BookDetailData> getBookDetail(
             @Path("bookId") String bookId,
             @Query("apiKey") String appKey
     );
 
     @GET("book/{bookId}/collection")
-    Call<BookCollectionData> getBookDetail(
+    Observable<BookCollectionData> getBookDetail(
             @Path("bookId") String bookId,
             @Query("user_id") String userId,
             @Query("apiKey") String appKey

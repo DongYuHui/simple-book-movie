@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
-import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.client.request.AccountClient;
 import com.kyletung.simplebookmovie.data.user.UserData;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
@@ -72,19 +71,7 @@ public class UserFragment extends BaseFragment {
      * @param userId 用户 Id
      */
     private void getData(String userId) {
-        AccountClient.getInstance().getUserData(userId, new IResponse<UserData>() {
-
-            @Override
-            public void onResponse(UserData result) {
-                getInfoSuccess(result);
-            }
-
-            @Override
-            public void onError(int code, String reason) {
-                getInfoError(reason);
-            }
-
-        });
+        AccountClient.getInstance().getUserData(userId).subscribe(newSubscriber(this::getInfoSuccess, throwable -> getInfoError(throwable.getMessage())));
     }
 
     /**

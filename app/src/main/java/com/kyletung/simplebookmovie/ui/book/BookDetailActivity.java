@@ -7,9 +7,8 @@ import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.client.request.BookClient;
-import com.kyletung.simplebookmovie.client.IResponse;
-import com.kyletung.simplebookmovie.data.bookdetail.BookDetailData;
 import com.kyletung.simplebookmovie.data.bookdetail.BookCollectionData;
+import com.kyletung.simplebookmovie.data.bookdetail.BookDetailData;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.utils.BaseToast;
 import com.kyletung.simplebookmovie.utils.ImageLoader;
@@ -123,33 +122,9 @@ public class BookDetailActivity extends BaseActivity {
      */
     private void getDetail(String bookId) {
         if (TextUtils.isEmpty(mUserId)) {
-            BookClient.getInstance().getBookDetail(bookId, new IResponse<BookDetailData>() {
-
-                @Override
-                public void onResponse(BookDetailData result) {
-                    onGetDataSuccess(result);
-                }
-
-                @Override
-                public void onError(int code, String reason) {
-                    onGetDataError(reason);
-                }
-
-            });
+            BookClient.getInstance().getBookDetail(bookId).subscribe(newSubscriber(this::onGetDataSuccess, throwable -> onGetDataError(throwable.getMessage())));
         } else {
-            BookClient.getInstance().getBookDetail(bookId, mUserId, new IResponse<BookCollectionData>() {
-
-                @Override
-                public void onResponse(BookCollectionData result) {
-                    onGetCollectionSuccess(result);
-                }
-
-                @Override
-                public void onError(int code, String reason) {
-                    onGetCollectionError(reason);
-                }
-
-            });
+            BookClient.getInstance().getBookDetail(bookId, mUserId).subscribe(newSubscriber(this::onGetCollectionSuccess, throwable -> onGetCollectionError(throwable.getMessage())));
         }
     }
 

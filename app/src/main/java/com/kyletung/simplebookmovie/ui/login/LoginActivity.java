@@ -12,15 +12,16 @@ import android.widget.EditText;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.client.request.AccountClient;
-import com.kyletung.simplebookmovie.client.IResponse;
-import com.kyletung.simplebookmovie.data.login.LoginData;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.ui.main.MainActivity;
 import com.kyletung.simplebookmovie.utils.BaseToast;
 import com.kyletung.simplebookmovie.utils.UserInfoUtil;
 
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import retrofit2.adapter.rxjava.HttpException;
 
 /**
  * All rights reserved by Author<br>
@@ -143,28 +144,28 @@ public class LoginActivity extends BaseActivity {
      * @param password 密码
      */
     private void getAuthorizationCode(String account, String password) {
-        AccountClient.getInstance().getCode(account, password, new IResponse<String>() {
-
-            @Override
-            public void onResponse(String result) {
-                onLoginError(result);
-            }
-
-            @Override
-            public void onError(int code, String reason) {
-                if (code == 302) {
-                    if (reason.contains("www.kyletung.com?code=")) {
-                        String authorizationCode = reason.substring(reason.indexOf("=") + 1);
-                        getToken(authorizationCode);
-                    } else {
-                        onLoginError(reason);
+        AccountClient.getInstance().getCode(account, password).subscribe(newSubscriber(this::onLoginError, throwable -> {
+            if (throwable instanceof HttpException) {
+                HttpException exception = (HttpException) throwable;
+                if (exception.code() == 302) {
+                    try {
+                        String result = exception.response().errorBody().string();
+                        if (result.contains("www.kyletung.com?code=")) {
+                            String authorizationCode = result.substring(result.indexOf("=") + 1);
+                            getToken(authorizationCode);
+                        } else {
+                            onLoginError(result);
+                        }
+                    } catch (IOException e) {
+                        onLoginError(e.getMessage());
                     }
                 } else {
-                    onLoginError(reason);
+                    onLoginError(exception.message());
                 }
+            } else {
+                onLoginError(throwable.getMessage());
             }
-
-        });
+        }));
     }
 
     /**
@@ -173,20 +174,13 @@ public class LoginActivity extends BaseActivity {
      * @param code 上一步获取到的 authorization code
      */
     private void getToken(String code) {
-        AccountClient.getInstance().getToken(code, new IResponse<LoginData>() {
-
-            @Override
-            public void onResponse(LoginData result) {
-                new UserInfoUtil(LoginActivity.this).save(result.getAccess_token(), result.getDouban_user_id(), result.getRefresh_token());
-                onLoginSuccess();
-            }
-
-            @Override
-            public void onError(int code, String reason) {
-                onLoginError(reason);
-            }
-
-        });
+        AccountClient.getInstance().getToken(code).subscribe(newSubscriber(loginData -> {
+            new UserInfoUtil(LoginActivity.this).save(
+                    loginData.getAccess_token(),
+                    loginData.getDouban_user_id(),
+                    loginData.getRefresh_token());
+            onLoginSuccess();
+        }, throwable -> onLoginError(throwable.getMessage())));
     }
 
 }

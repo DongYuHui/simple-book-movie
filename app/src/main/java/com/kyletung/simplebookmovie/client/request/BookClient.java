@@ -1,7 +1,8 @@
 package com.kyletung.simplebookmovie.client.request;
 
+import android.support.annotation.Nullable;
+
 import com.kyletung.simplebookmovie.BaseApplication;
-import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.client.SimpleClient;
 import com.kyletung.simplebookmovie.client.api.BookApi;
 import com.kyletung.simplebookmovie.config.Constants;
@@ -9,6 +10,8 @@ import com.kyletung.simplebookmovie.data.book.BookData;
 import com.kyletung.simplebookmovie.data.bookdetail.BookCollectionData;
 import com.kyletung.simplebookmovie.data.bookdetail.BookDetailData;
 import com.kyletung.simplebookmovie.data.search.SearchBookData;
+
+import rx.Observable;
 
 /**
  * All Rights Reserved by Company.
@@ -35,10 +38,9 @@ public class BookClient extends SimpleClient {
      *
      * @param content      搜索内容
      * @param start        开始点
-     * @param responseImpl 返回接口实现
      */
-    public void getBookSearch(String content, int start, IResponse<SearchBookData> responseImpl) {
-        mBookApi.getBookSearch(content, start, REQUEST_COUNT, Constants.APP_KEY).enqueue(newCallback(responseImpl));
+    public Observable<SearchBookData> getBookSearch(String content, int start) {
+        return mBookApi.getBookSearch(content, start, REQUEST_COUNT, Constants.APP_KEY).compose(flatResult());
     }
 
     /**
@@ -47,20 +49,18 @@ public class BookClient extends SimpleClient {
      * @param userId       用户 Id
      * @param status       状态
      * @param start        开始点
-     * @param responseImpl 返回接口实现
      */
-    public void getBookData(String userId, String status, int start, IResponse<BookData> responseImpl) {
-        mBookApi.getBookData(userId, status, start, REQUEST_COUNT, Constants.APP_KEY).enqueue(newCallback(responseImpl));
+    public Observable<BookData> getBookData(String userId, String status, int start) {
+        return mBookApi.getBookData(userId, status, start, REQUEST_COUNT, Constants.APP_KEY).compose(flatResult());
     }
 
     /**
      * 获取书籍详情
      *
      * @param bookId       书籍 Id
-     * @param responseImpl 返回接口实现
      */
-    public void getBookDetail(String bookId, IResponse<BookDetailData> responseImpl) {
-        mBookApi.getBookDetail(bookId, Constants.APP_KEY).enqueue(newCallback(responseImpl));
+    public Observable<BookDetailData> getBookDetail(String bookId) {
+        return mBookApi.getBookDetail(bookId, Constants.APP_KEY).compose(flatResult());
     }
 
     /**
@@ -68,10 +68,9 @@ public class BookClient extends SimpleClient {
      *
      * @param bookId       书籍 Id
      * @param userId       用户 Id
-     * @param responseImpl 返回接口实现
      */
-    public void getBookDetail(String bookId, String userId, IResponse<BookCollectionData> responseImpl) {
-        mBookApi.getBookDetail(bookId, userId, Constants.APP_KEY).enqueue(newCallback(responseImpl));
+    public Observable<BookCollectionData> getBookDetail(String bookId, @Nullable String userId) {
+        return mBookApi.getBookDetail(bookId, userId, Constants.APP_KEY).compose(flatResult());
     }
 
 }

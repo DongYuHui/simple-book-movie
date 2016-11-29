@@ -1,12 +1,13 @@
 package com.kyletung.simplebookmovie.client.request;
 
 import com.kyletung.simplebookmovie.BaseApplication;
-import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.client.SimpleClient;
 import com.kyletung.simplebookmovie.client.api.AccountApi;
 import com.kyletung.simplebookmovie.config.Constants;
 import com.kyletung.simplebookmovie.data.login.LoginData;
 import com.kyletung.simplebookmovie.data.user.UserData;
+
+import rx.Observable;
 
 /**
  * All Rights Reserved by Company.
@@ -38,10 +39,9 @@ public class AccountClient extends SimpleClient {
      * 获取用户资料
      *
      * @param userId       用户 Id
-     * @param responseImpl 返回接口实现
      */
-    public void getUserData(String userId, IResponse<UserData> responseImpl) {
-        mAccountApi.getUserData(userId, Constants.APP_KEY).enqueue(newCallback(responseImpl));
+    public Observable<UserData> getUserData(String userId) {
+        return mAccountApi.getUserData(userId, Constants.APP_KEY).compose(flatResult());
     }
 
     /**
@@ -49,10 +49,9 @@ public class AccountClient extends SimpleClient {
      *
      * @param account      账号
      * @param password     密码
-     * @param responseImpl 返回接口实现
      */
-    public void getCode(String account, String password, IResponse<String> responseImpl) {
-        mAccountApi.getCode(
+    public Observable<String> getCode(String account, String password) {
+        return mAccountApi.getCode(
                 Constants.APP_KEY,
                 REQUEST_REDIRECT_URI_MINE,
                 REQUEST_RESPONSE_TYPE,
@@ -63,38 +62,36 @@ public class AccountClient extends SimpleClient {
                 Constants.APP_KEY,
                 account,
                 password
-        ).enqueue(newCallback(responseImpl));
+        ).compose(flatResult());
     }
 
     /**
      * 根据 AuthorizationCode 获取 AccessToken
      *
      * @param code         AuthorizationCode
-     * @param responseImpl 返回接口实现
      */
-    public void getToken(String code, IResponse<LoginData> responseImpl) {
-        mAccountApi.getToken(
+    public Observable<LoginData> getToken(String code) {
+        return mAccountApi.getToken(
                 Constants.APP_KEY,
                 Constants.APP_SECRET,
                 REQUEST_REDIRECT_URI_MINE,
                 REQUEST_GRANT_TYPE_GET,
                 code
-        ).enqueue(newCallback(responseImpl));
+        ).compose(flatResult());
     }
 
     /**
      * 根据 RefreshToken 获取
      *
      * @param refreshCode  RefreshToken
-     * @param responseImpl 返回接口实现
      */
-    public void refreshToken(String refreshCode, IResponse<LoginData> responseImpl) {
-        mAccountApi.refreshToken(
+    public Observable<LoginData> refreshToken(String refreshCode) {
+        return mAccountApi.refreshToken(
                 Constants.APP_KEY,
                 Constants.APP_SECRET,
                 REQUEST_REDIRECT_URI_OFFICIAL,
                 REQUEST_GRANT_TYPE_REFRESH, refreshCode
-        ).enqueue(newCallback(responseImpl));
+        ).compose(flatResult());
     }
 
 }

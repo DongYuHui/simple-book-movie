@@ -10,10 +10,8 @@ import android.view.View;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.movie.MovieTopAdapter;
-import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.client.request.MovieClient;
 import com.kyletung.simplebookmovie.data.movie.MovieSubject;
-import com.kyletung.simplebookmovie.data.movie.MovieTopData;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.utils.BaseToast;
 import com.kyletung.simplebookmovie.view.recycler.LinearOnScrollListener;
@@ -117,27 +115,21 @@ public class MovieTopFragment extends BaseFragment {
             }
             return;
         }
-        MovieClient.getInstance().getMovieTop(start, new IResponse<MovieTopData>() {
 
-            @Override
-            public void onResponse(MovieTopData result) {
-                if (start == 0) {
-                    onDataSuccess(result.getSubjects()); // 刷新
-                } else {
-                    onMoreSuccess(result.getSubjects()); // 更多
-                }
+        MovieClient.getInstance().getMovieTop(start).subscribe(newSubscriber(movieTopData -> {
+            if (start == 0) {
+                onDataSuccess(movieTopData.getSubjects()); // 刷新
+            } else {
+                onMoreSuccess(movieTopData.getSubjects()); // 更多
             }
-
-            @Override
-            public void onError(int code, String reason) {
-                if (start == 0) {
-                    onDataError(reason);
-                } else {
-                    onMoreError(reason);
-                }
+        }, throwable -> {
+            if (start == 0) {
+                onDataError(throwable.getMessage());
+            } else {
+                onMoreError(throwable.getMessage());
             }
+        }));
 
-        });
     }
 
 }

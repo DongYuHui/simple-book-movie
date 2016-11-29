@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.moviedetail.StaffAdapter;
-import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.client.request.MovieClient;
 import com.kyletung.simplebookmovie.data.moviedetail.MovieDetailData;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
@@ -82,19 +81,7 @@ public class MovieDetailActivity extends BaseActivity {
      * @param movieId 影视 Id
      */
     private void getData(String movieId) {
-        MovieClient.getInstance().getMovieDetail(movieId, new IResponse<MovieDetailData>() {
-
-            @Override
-            public void onResponse(MovieDetailData result) {
-                getDataSuccess(result);
-            }
-
-            @Override
-            public void onError(int code, String reason) {
-                getDataError(reason);
-            }
-
-        });
+        MovieClient.getInstance().getMovieDetail(movieId).subscribe(newSubscriber(this::getDataSuccess, throwable -> getDataError(throwable.getMessage())));
     }
 
     /**

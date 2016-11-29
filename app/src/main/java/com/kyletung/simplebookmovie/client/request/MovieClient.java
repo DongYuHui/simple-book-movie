@@ -1,13 +1,14 @@
 package com.kyletung.simplebookmovie.client.request;
 
 import com.kyletung.simplebookmovie.BaseApplication;
-import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.client.SimpleClient;
 import com.kyletung.simplebookmovie.client.api.MovieApi;
 import com.kyletung.simplebookmovie.config.Constants;
 import com.kyletung.simplebookmovie.data.movie.MovieBoardData;
 import com.kyletung.simplebookmovie.data.movie.MovieTopData;
 import com.kyletung.simplebookmovie.data.moviedetail.MovieDetailData;
+
+import rx.Observable;
 
 /**
  * All Rights Reserved by Company.
@@ -20,7 +21,7 @@ public class MovieClient extends SimpleClient {
 
     private MovieApi mMovieApi;
 
-    public MovieClient() {
+    private MovieClient() {
         super();
         mMovieApi = getRetrofit(BaseApplication.getInstance()).create(MovieApi.class);
     }
@@ -33,29 +34,25 @@ public class MovieClient extends SimpleClient {
      * 获取影视详情
      *
      * @param movieId      影视 Id
-     * @param responseImpl 返回接口实现
      */
-    public void getMovieDetail(String movieId, IResponse<MovieDetailData> responseImpl) {
-        mMovieApi.getMovieDetail(movieId, Constants.APP_KEY).enqueue(newCallback(responseImpl));
+    public Observable<MovieDetailData> getMovieDetail(String movieId) {
+        return mMovieApi.getMovieDetail(movieId, Constants.APP_KEY).compose(flatResult());
     }
 
     /**
      * 获取影视列表
      *
      * @param start        开始点
-     * @param responseImpl 返回接口实现
      */
-    public void getMovieTop(int start, IResponse<MovieTopData> responseImpl) {
-        mMovieApi.getMovieTop(start, REQUEST_COUNT, Constants.APP_KEY).enqueue(newCallback(responseImpl));
+    public Observable<MovieTopData> getMovieTop(int start) {
+        return mMovieApi.getMovieTop(start, REQUEST_COUNT, Constants.APP_KEY).compose(flatResult());
     }
 
     /**
      * 获取影视榜单
-     *
-     * @param responseImpl 返回接口实现
      */
-    public void getMovieBoard(IResponse<MovieBoardData> responseImpl) {
-        mMovieApi.getMovieBoard(Constants.APP_KEY).enqueue(newCallback(responseImpl));
+    public Observable<MovieBoardData> getMovieBoard() {
+        return mMovieApi.getMovieBoard(Constants.APP_KEY).compose(flatResult());
     }
 
     /**
@@ -63,10 +60,9 @@ public class MovieClient extends SimpleClient {
      *
      * @param content      搜索内容
      * @param start        开始点
-     * @param responseImpl 返回接口实现
      */
-    public void getMovieSearch(String content, int start, IResponse<MovieTopData> responseImpl) {
-        mMovieApi.getMovieSearch(content, start, REQUEST_COUNT, Constants.APP_KEY).enqueue(newCallback(responseImpl));
+    public Observable<MovieTopData> getMovieSearch(String content, int start) {
+        return mMovieApi.getMovieSearch(content, start, REQUEST_COUNT, Constants.APP_KEY).compose(flatResult());
     }
 
 }

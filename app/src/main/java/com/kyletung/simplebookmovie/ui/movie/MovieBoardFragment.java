@@ -10,9 +10,7 @@ import android.view.View;
 
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.movie.MovieBoardAdapter;
-import com.kyletung.simplebookmovie.client.IResponse;
 import com.kyletung.simplebookmovie.client.request.MovieClient;
-import com.kyletung.simplebookmovie.data.movie.MovieBoardData;
 import com.kyletung.simplebookmovie.data.movie.MovieItem;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.utils.BaseToast;
@@ -84,19 +82,10 @@ public class MovieBoardFragment extends BaseFragment {
     }
 
     private void getData() {
-        MovieClient.getInstance().getMovieBoard(new IResponse<MovieBoardData>() {
-
-            @Override
-            public void onResponse(MovieBoardData result) {
-                onDataSuccess(result.getSubjects());
-            }
-
-            @Override
-            public void onError(int code, String reason) {
-                onDataError(reason);
-            }
-
-        });
+        MovieClient.getInstance().getMovieBoard().subscribe(newSubscriber(
+                movieBoardData -> onDataSuccess(movieBoardData.getSubjects()),
+                throwable -> onDataError(throwable.getMessage())
+        ));
     }
 
 }

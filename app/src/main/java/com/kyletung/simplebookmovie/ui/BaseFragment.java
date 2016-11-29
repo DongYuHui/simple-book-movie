@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
+import rx.Subscriber;
+import rx.functions.Action1;
 
 /**
  * All rights reserved by Author<br>
@@ -70,10 +72,58 @@ public abstract class BaseFragment extends Fragment {
     /**
      * Dismiss Progress Dialog
      */
-    protected void cancelProgress() {
+    protected void stopProgress() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
+    }
+
+    /**
+     * 统一对网络请求结果做处理
+     *
+     * @param action1 Action
+     * @param <T>     请求的实体结果
+     * @return 返回观察者
+     */
+    protected <T> Subscriber<T> newSubscriber(final Action1<T> action1) {
+        return new Subscriber<T>() {
+
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                stopProgress();
+//                HttpErrorHandler.handle(getApplicationContext(), e);
+            }
+
+            @Override
+            public void onNext(T t) {
+                action1.call(t);
+            }
+
+        };
+    }
+
+    protected <T> Subscriber<T> newSubscriber(Action1<T> action1, Action1<Throwable> error) {
+        return new Subscriber<T>() {
+
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                stopProgress();
+                error.call(e);
+            }
+
+            @Override
+            public void onNext(T t) {
+                action1.call(t);
+            }
+        };
     }
 
 }

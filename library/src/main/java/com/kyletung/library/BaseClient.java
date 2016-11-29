@@ -2,16 +2,17 @@ package com.kyletung.library;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -31,9 +32,8 @@ public abstract class BaseClient {
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.client(getClient(context));
         builder.baseUrl(mBaseHost.getHost());
-        Gson gson = new GsonBuilder().setLenient().create();
-        builder.addConverterFactory(GsonConverterFactory.create(gson));
-//        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+        builder.addConverterFactory(GsonConverterFactory.create(JsonUtil.getInstance().getGson()));
+        builder.addCallAdapterFactory(RxJavaCallAdapterFactory.create());
         return builder.build();
     }
 
@@ -41,15 +41,36 @@ public abstract class BaseClient {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(15, TimeUnit.SECONDS);
         builder.cache(getCache(context));
+        // don't redirects
         builder.followRedirects(false);
         builder.followSslRedirects(false);
-        // init http log
+        // set custom interceptor
+//        builder.addNetworkInterceptor(this::getInterceptor);
+        // set logging
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        builder.addInterceptor(loggingInterceptor);
+        // initView http log
         return builder.build();
     }
 
+    /**
+     * 获取缓存
+     *
+     * @param context context
+     * @return 返回缓存
+     */
     private Cache getCache(Context context) {
         File file = new File(context.getCacheDir(), "HttpCache");
         return new Cache(file, 10 * 1024 * 1024);
     }
+
+    /**
+     * 由子类实现自定义网络拦截器
+     *
+     * @param chain Chain
+     * @return 返回
+     */
+    protected abstract Response getInterceptor(Interceptor.Chain chain) throws IOException;
 
 }

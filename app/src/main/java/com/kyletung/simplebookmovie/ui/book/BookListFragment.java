@@ -11,8 +11,6 @@ import android.view.View;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.book.BookAdapter;
 import com.kyletung.simplebookmovie.client.request.BookClient;
-import com.kyletung.simplebookmovie.client.IResponse;
-import com.kyletung.simplebookmovie.data.book.BookData;
 import com.kyletung.simplebookmovie.data.book.BookItem;
 import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.utils.BaseToast;
@@ -133,27 +131,20 @@ public class BookListFragment extends BaseFragment {
             return;
         }
 
-        BookClient.getInstance().getBookData(mUserId, mStatus, start, new IResponse<BookData>() {
-
-            @Override
-            public void onResponse(BookData result) {
-                if (start == 0) {
-                    getDataSuccess(result.getCollections());
-                } else {
-                    getMoreSuccess(result.getCollections());
-                }
+        BookClient.getInstance().getBookData(mUserId, mStatus, start).subscribe(newSubscriber(bookData -> {
+            if (start == 0) {
+                getDataSuccess(bookData.getCollections());
+            } else {
+                getMoreSuccess(bookData.getCollections());
             }
-
-            @Override
-            public void onError(int code, String reason) {
-                if (start == 0) {
-                    getDataError(reason);
-                } else {
-                    getMoreError(reason);
-                }
+        }, throwable -> {
+            if (start == 0) {
+                getDataError(throwable.getMessage());
+            } else {
+                getMoreError(throwable.getMessage());
             }
+        }));
 
-        });
     }
 
 }
