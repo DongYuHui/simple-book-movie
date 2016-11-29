@@ -2,12 +2,11 @@ package com.kyletung.simplebookmovie.ui.main;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.main.TabPagerAdapter;
 import com.kyletung.simplebookmovie.ui.BaseActivity;
@@ -47,16 +46,29 @@ public class MainActivity extends BaseActivity {
         mTabAdapter = new TabPagerAdapter(getSupportFragmentManager());
         mTabViewPager.setAdapter(mTabAdapter);
         // init bottom bar
-        AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
-        bottomNavigation.setAccentColor(ContextCompat.getColor(this, R.color.colorAccent));
-        bottomNavigation.setBehaviorTranslationEnabled(true);
-        bottomNavigation.setForceTint(true);
-        AHBottomNavigationAdapter adapter = new AHBottomNavigationAdapter(this, R.menu.main_tab);
-        adapter.setupWithBottomNavigation(bottomNavigation);
-        bottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
-            mTabViewPager.setCurrentItem(position, false);
-            mTabAdapter.setTabLayout(position);
-            return true;
+        BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
+        bottomNavigationBar
+                .addItem(new BottomNavigationItem(R.drawable.bottom_tab_movie, getString(R.string.main_tab_movie)))
+                .addItem(new BottomNavigationItem(R.drawable.bottom_tab_book, getString(R.string.main_tab_book)))
+                .addItem(new BottomNavigationItem(R.drawable.bottom_tab_user, getString(R.string.main_tab_user)))
+                .initialise();
+        bottomNavigationBar.setAutoHideEnabled(true);
+        bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
+
+            @Override
+            public void onTabSelected(int position) {
+                mTabViewPager.setCurrentItem(position, false);
+                mTabAdapter.setTabLayout(position);
+            }
+
+            @Override
+            public void onTabUnselected(int position) {
+            }
+
+            @Override
+            public void onTabReselected(int position) {
+            }
+
         });
         // init first page
         mTabLayout.post(() -> {
