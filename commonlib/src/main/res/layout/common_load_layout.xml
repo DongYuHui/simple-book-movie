@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kyletung.commonlib.load.SwipeToLoadLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/common_load_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:swipe_style="classic">
+
+    <include
+        android:id="@+id/swipe_refresh_header"
+        layout="@layout/layout_classic_header"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/swipe_target"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+
+    <include
+        android:id="@+id/swipe_load_more_footer"
+        layout="@layout/layout_classic_footer"/>
+
+    <com.kyletung.commonlib.view.EmptyView
+        android:background="@color/main_background"
+        android:id="@+id/swipe_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</com.kyletung.commonlib.load.SwipeToLoadLayout>

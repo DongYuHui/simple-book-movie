@@ -1,8 +1,0 @@
-<resources>
-
-    <string name="app_name">Library</string>
-
-    <string name="dialog_action_positive">Confirm</string>
-    <string name="dialog_action_negative">Cancel</string>
-
-</resources>

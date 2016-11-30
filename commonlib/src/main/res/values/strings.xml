@@ -1,0 +1,18 @@
+<resources>
+
+    <string name="app_name">CommonLib</string>
+
+    <!-- 对话框的选项 -->
+    <string name="dialog_action_positive">确定</string>
+    <string name="dialog_action_negative">取消</string>
+
+    <!-- Refresh And Load More -->
+    <string name="load_more_swipe">滑动加载更多</string>
+    <string name="load_more_release">释放加载更多</string>
+    <string name="load_more_loading">正在加载更多，请稍后</string>
+    <string name="load_refresh_swipe">下滑刷新</string>
+    <string name="load_refresh_release">释放刷新</string>
+    <string name="load_refresh_loading">正在刷新，请稍后</string>
+    <string name="load_refresh_complete">刷新完成</string>
+
+</resources>
