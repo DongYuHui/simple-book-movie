@@ -8,13 +8,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.kyletung.commonlib.main.BaseFragment;
+import com.kyletung.commonlib.utils.ToastUtil;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.movie.MovieTopAdapter;
 import com.kyletung.simplebookmovie.client.request.MovieClient;
 import com.kyletung.simplebookmovie.data.movie.MovieSubject;
-import com.kyletung.simplebookmovie.ui.BaseFragment;
-import com.kyletung.simplebookmovie.utils.BaseToast;
-import com.kyletung.simplebookmovie.view.recycler.LinearOnScrollListener;
+import com.kyletung.simplebookmovie.view.LinearOnScrollListener;
 
 import java.util.ArrayList;
 
@@ -48,7 +48,7 @@ public class MovieTopFragment extends BaseFragment {
     }
 
     @Override
-    protected void init(View view) {
+    protected void initView(View view) {
         // init refresh
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         // init recycler
@@ -62,6 +62,10 @@ public class MovieTopFragment extends BaseFragment {
         recyclerView.addOnScrollListener(mOnScrollListener);
         // set listener
         setListener();
+    }
+
+    @Override
+    protected void business(View view) {
     }
 
     private void setListener() {
@@ -89,7 +93,7 @@ public class MovieTopFragment extends BaseFragment {
 
     public void onDataError(String error) {
         mRefreshLayout.setRefreshing(false);
-        BaseToast.toast(getActivity(), error);
+        ToastUtil.showToast(getActivity(), error);
     }
 
     public void onMoreSuccess(ArrayList<MovieSubject> list) {
@@ -103,7 +107,7 @@ public class MovieTopFragment extends BaseFragment {
 
     public void onMoreError(String error) {
         mOnScrollListener.loadComplete();
-        BaseToast.toast(getActivity(), error);
+        ToastUtil.showToast(getActivity(), error);
     }
 
     private void getData(final int start) {

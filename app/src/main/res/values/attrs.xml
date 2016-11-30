@@ -7,14 +7,4 @@
         <attr name="border_color" format="color" />
     </declare-styleable>
 
-    <!-- 矩形布局 -->
-    <declare-styleable name="RectLayout">
-        <attr name="scaleWidth" format="integer" />
-        <attr name="scaleHeight" format="integer" />
-        <attr name="scaleOrientation">
-            <enum name="vertical" value="0" />
-            <enum name="horizontal" value="1" />
-        </attr>
-    </declare-styleable>
-
 </resources>

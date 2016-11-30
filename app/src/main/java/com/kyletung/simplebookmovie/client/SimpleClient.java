@@ -2,9 +2,9 @@ package com.kyletung.simplebookmovie.client;
 
 import android.util.Log;
 
-import com.kyletung.library.BaseClient;
-import com.kyletung.library.BaseHost;
-import com.kyletung.library.NetworkUtil;
+import com.kyletung.commonlib.http.BaseClient;
+import com.kyletung.commonlib.http.BaseHost;
+import com.kyletung.commonlib.utils.NetworkUtil;
 import com.kyletung.simplebookmovie.BaseApplication;
 import com.kyletung.simplebookmovie.BuildConfig;
 

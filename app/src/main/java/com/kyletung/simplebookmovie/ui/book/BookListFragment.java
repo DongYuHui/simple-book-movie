@@ -8,14 +8,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.kyletung.commonlib.main.BaseFragment;
+import com.kyletung.commonlib.utils.ToastUtil;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.book.BookAdapter;
 import com.kyletung.simplebookmovie.client.request.BookClient;
 import com.kyletung.simplebookmovie.data.book.BookItem;
-import com.kyletung.simplebookmovie.ui.BaseFragment;
-import com.kyletung.simplebookmovie.utils.BaseToast;
 import com.kyletung.simplebookmovie.utils.UserInfoUtil;
-import com.kyletung.simplebookmovie.view.recycler.LinearOnScrollListener;
+import com.kyletung.simplebookmovie.view.LinearOnScrollListener;
 
 import java.util.ArrayList;
 
@@ -53,7 +53,7 @@ public class BookListFragment extends BaseFragment {
     }
 
     @Override
-    protected void init(View view) {
+    protected void initView(View view) {
         // init data
         Bundle bundle = getArguments();
         mUserId = new UserInfoUtil(getActivity()).readUserId();
@@ -71,6 +71,10 @@ public class BookListFragment extends BaseFragment {
         recyclerView.addOnScrollListener(mOnScrollListener);
         // set listener
         setListener();
+    }
+
+    @Override
+    protected void business(View view) {
     }
 
     private void setListener() {
@@ -99,7 +103,7 @@ public class BookListFragment extends BaseFragment {
 
     public void getDataError(String error) {
         mRefreshLayout.setRefreshing(false);
-        BaseToast.toast(getActivity(), error);
+        ToastUtil.showToast(getActivity(), error);
     }
 
     public void getMoreSuccess(ArrayList<BookItem> list) {
@@ -110,7 +114,7 @@ public class BookListFragment extends BaseFragment {
 
     public void getMoreError(String error) {
         mOnScrollListener.loadComplete();
-        BaseToast.toast(getActivity(), error);
+        ToastUtil.showToast(getActivity(), error);
     }
 
     /**

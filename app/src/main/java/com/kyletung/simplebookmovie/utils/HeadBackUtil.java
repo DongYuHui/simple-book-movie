@@ -2,6 +2,7 @@ package com.kyletung.simplebookmovie.utils;
 
 import android.content.Context;
 
+import com.kyletung.commonlib.utils.SPUtil;
 import com.kyletung.simplebookmovie.R;
 
 /**

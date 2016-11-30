@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kyletung.commonlib.utils.ImageLoader;
+import com.kyletung.commonlib.utils.ToastUtil;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.data.book.BookSubject;
-import com.kyletung.simplebookmovie.utils.BaseToast;
-import com.kyletung.simplebookmovie.utils.ImageLoader;
-import com.kyletung.simplebookmovie.view.recycler.MoreRecyclerAdapter;
+import com.kyletung.simplebookmovie.view.MoreRecyclerAdapter;
 
 /**
  * All rights reserved by Author<br>
@@ -67,7 +67,7 @@ public class SearchBookAdapter extends MoreRecyclerAdapter<BookSubject, SearchBo
         holder.mContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BaseToast.toast(mContext, "Position " + itemPosition);
+                ToastUtil.showToast(mContext, "Position " + itemPosition);
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemClick(itemPosition, mListData.get(itemPosition).getId());
                 }

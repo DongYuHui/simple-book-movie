@@ -7,13 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kyletung.commonlib.main.BaseActivity;
+import com.kyletung.commonlib.utils.ImageLoader;
+import com.kyletung.commonlib.utils.ToastUtil;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.moviedetail.StaffAdapter;
 import com.kyletung.simplebookmovie.client.request.MovieClient;
 import com.kyletung.simplebookmovie.data.moviedetail.MovieDetailData;
-import com.kyletung.simplebookmovie.ui.BaseActivity;
-import com.kyletung.simplebookmovie.utils.BaseToast;
-import com.kyletung.simplebookmovie.utils.ImageLoader;
 
 import butterknife.BindView;
 
@@ -53,7 +53,7 @@ public class MovieDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected void init() {
+    protected void initView() {
         // init toolbar
         setToolbar(getString(R.string.movie_detail_title), true);
         // init data
@@ -73,6 +73,11 @@ public class MovieDetailActivity extends BaseActivity {
         movieCasts.setAdapter(mCastAdapter);
         // init model
         getData(movieId);
+    }
+
+    @Override
+    protected void business() {
+
     }
 
     /**
@@ -113,7 +118,7 @@ public class MovieDetailActivity extends BaseActivity {
      * @param error 失败信息
      */
     public void getDataError(String error) {
-        BaseToast.toast(this, error);
+        ToastUtil.showToast(this, error);
     }
 
 }

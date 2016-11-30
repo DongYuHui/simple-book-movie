@@ -3,6 +3,7 @@ package com.kyletung.simplebookmovie.utils;
 import android.content.Context;
 import android.support.v4.util.ArrayMap;
 
+import com.kyletung.commonlib.utils.SPUtil;
 import com.kyletung.simplebookmovie.config.Constants;
 
 /**

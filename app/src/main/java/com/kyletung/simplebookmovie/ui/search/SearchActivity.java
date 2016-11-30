@@ -6,11 +6,11 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.kyletung.commonlib.main.BaseActivity;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.search.SearchPagerAdapter;
 import com.kyletung.simplebookmovie.event.BaseEvent;
 import com.kyletung.simplebookmovie.event.EventCode;
-import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.view.TabViewPager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -34,7 +34,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     @Override
-    protected void init() {
+    protected void initView() {
         // init search
         mSearch = (EditText) findViewById(R.id.search_content);
         // init view
@@ -44,11 +44,10 @@ public class SearchActivity extends BaseActivity {
         viewPager.setSwipeEnabled(true);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-        // set listener
-        setListener();
     }
 
-    private void setListener() {
+    @Override
+    protected void business() {
         mSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {

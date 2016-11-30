@@ -5,6 +5,7 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
+import com.kyletung.commonlib.main.BaseActivity;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.ui.login.LoginActivity;
 import com.kyletung.simplebookmovie.ui.main.MainActivity;
@@ -27,7 +28,7 @@ public class StartActivity extends BaseActivity {
     }
 
     @Override
-    protected void init() {
+    protected void initView() {
         // 判断系统版本，当大于等于 KitKat 时，设置状态栏与导航栏为透明
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(
@@ -46,6 +47,10 @@ public class StartActivity extends BaseActivity {
             startActivity(intent);
         }
         finish();
+    }
+
+    @Override
+    protected void business() {
     }
 
 }

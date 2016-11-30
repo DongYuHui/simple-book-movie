@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kyletung.commonlib.utils.ImageLoader;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.data.book.BookItem;
-import com.kyletung.simplebookmovie.utils.ImageLoader;
-import com.kyletung.simplebookmovie.view.recycler.MoreRecyclerAdapter;
+import com.kyletung.simplebookmovie.view.MoreRecyclerAdapter;
 
 /**
  * All rights reserved by Author<br>

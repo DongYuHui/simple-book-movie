@@ -10,11 +10,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.kyletung.commonlib.main.BaseActivity;
+import com.kyletung.commonlib.utils.ToastUtil;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.client.request.AccountClient;
-import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.ui.main.MainActivity;
-import com.kyletung.simplebookmovie.utils.BaseToast;
 import com.kyletung.simplebookmovie.utils.UserInfoUtil;
 
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    protected void init() {
+    protected void initView() {
         // 判断系统版本，当大于等于 KitKat 时，设置状态栏与导航栏为透明
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(
@@ -62,6 +62,10 @@ public class LoginActivity extends BaseActivity {
         }
         // set listener
         setListener();
+    }
+
+    @Override
+    protected void business() {
     }
 
     private void setListener() {
@@ -134,7 +138,7 @@ public class LoginActivity extends BaseActivity {
     public void onLoginError(String error) {
         stopProgress();
         // TODO: 2016/08/10 Login Error
-        BaseToast.toast(this, "登录失败：" + error);
+        ToastUtil.showToast(this, "登录失败：" + error);
     }
 
     /**

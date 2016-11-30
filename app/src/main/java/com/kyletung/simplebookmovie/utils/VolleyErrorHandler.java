@@ -1,6 +1,6 @@
 package com.kyletung.simplebookmovie.utils;
 
-import com.kyletung.library.JsonUtil;
+import com.kyletung.commonlib.utils.JsonUtil;
 import com.kyletung.simplebookmovie.BaseApplication;
 import com.kyletung.simplebookmovie.client.request.AccountClient;
 import com.kyletung.simplebookmovie.data.login.LoginData;

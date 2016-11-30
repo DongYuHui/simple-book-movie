@@ -5,14 +5,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kyletung.commonlib.main.BaseFragment;
+import com.kyletung.commonlib.utils.ImageLoader;
+import com.kyletung.commonlib.utils.ToastUtil;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.client.request.AccountClient;
 import com.kyletung.simplebookmovie.data.user.UserData;
-import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.ui.main.MainActivity;
-import com.kyletung.simplebookmovie.utils.BaseToast;
 import com.kyletung.simplebookmovie.utils.HeadBackUtil;
-import com.kyletung.simplebookmovie.utils.ImageLoader;
 import com.kyletung.simplebookmovie.utils.UserInfoUtil;
 import com.kyletung.simplebookmovie.view.CircleImageView;
 
@@ -52,7 +52,7 @@ public class UserFragment extends BaseFragment {
     }
 
     @Override
-    protected void init(View view) {
+    protected void initView(View view) {
         // init data
         mUserId = new UserInfoUtil(getActivity()).readUserId();
         // init views
@@ -63,6 +63,11 @@ public class UserFragment extends BaseFragment {
         if (!TextUtils.isEmpty(mUserId)) {
             mUserHead.post(() -> getData(mUserId));
         }
+    }
+
+    @Override
+    protected void business(View view) {
+
     }
 
     /**
@@ -93,7 +98,7 @@ public class UserFragment extends BaseFragment {
      * @param error 失败原因
      */
     public void getInfoError(String error) {
-        BaseToast.toast(getActivity(), error);
+        ToastUtil.showToast(getActivity(), error);
     }
 
     /**

@@ -7,9 +7,9 @@ import android.view.MenuItem;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.kyletung.commonlib.main.BaseActivity;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.main.TabPagerAdapter;
-import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.ui.about.AboutActivity;
 import com.kyletung.simplebookmovie.ui.search.SearchActivity;
 import com.kyletung.simplebookmovie.ui.settings.SettingsActivity;
@@ -36,7 +36,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void init() {
+    protected void initView() {
         // init toolbar
         setToolbar(getString(R.string.app_name), false);
         // temp
@@ -75,6 +75,10 @@ public class MainActivity extends BaseActivity {
             mTabViewPager.setCurrentItem(0, false);
             mTabAdapter.setTabLayout(0);
         });
+    }
+
+    @Override
+    protected void business() {
     }
 
     @Override

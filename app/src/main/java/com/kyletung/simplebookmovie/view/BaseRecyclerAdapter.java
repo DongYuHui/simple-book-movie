@@ -1,4 +1,4 @@
-package com.kyletung.simplebookmovie.view.recycler;
+package com.kyletung.simplebookmovie.view;
 
 import android.app.Activity;
 import android.content.Context;

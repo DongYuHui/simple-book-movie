@@ -9,16 +9,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.kyletung.commonlib.main.BaseFragment;
+import com.kyletung.commonlib.utils.ToastUtil;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.movie.MovieTopAdapter;
 import com.kyletung.simplebookmovie.client.request.MovieClient;
 import com.kyletung.simplebookmovie.data.movie.MovieSubject;
 import com.kyletung.simplebookmovie.event.BaseEvent;
 import com.kyletung.simplebookmovie.event.EventCode;
-import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.ui.movie.MovieDetailActivity;
-import com.kyletung.simplebookmovie.utils.BaseToast;
-import com.kyletung.simplebookmovie.view.recycler.LinearOnScrollListener;
+import com.kyletung.simplebookmovie.view.LinearOnScrollListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,7 +60,7 @@ public class SearchMovieFragment extends BaseFragment {
     }
 
     @Override
-    protected void init(View view) {
+    protected void initView(View view) {
         // init views
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
@@ -71,11 +71,10 @@ public class SearchMovieFragment extends BaseFragment {
         recyclerView.setAdapter(mAdapter);
         mOnScrollListener = new LinearOnScrollListener(layoutManager, mAdapter);
         recyclerView.addOnScrollListener(mOnScrollListener);
-        // set listener
-        setListener();
     }
 
-    private void setListener() {
+    @Override
+    protected void business(View view) {
         mAdapter.setOnItemClickListener((position, movieId) -> {
             Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
             intent.putExtra("movieId", movieId);
@@ -95,7 +94,7 @@ public class SearchMovieFragment extends BaseFragment {
 
     public void onMovieError(String error) {
         mRefreshLayout.setRefreshing(false);
-        BaseToast.toast(getActivity(), error);
+        ToastUtil.showToast(getActivity(), error);
     }
 
     public void onMoreSuccess(ArrayList<MovieSubject> list) {
@@ -106,7 +105,7 @@ public class SearchMovieFragment extends BaseFragment {
 
     public void onMoreError(String error) {
         mOnScrollListener.loadComplete();
-        BaseToast.toast(getActivity(), error);
+        ToastUtil.showToast(getActivity(), error);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

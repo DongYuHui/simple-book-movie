@@ -2,9 +2,9 @@ package com.kyletung.simplebookmovie.ui.book;
 
 import android.view.View;
 
+import com.kyletung.commonlib.main.BaseFragment;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.book.BookPagerAdapter;
-import com.kyletung.simplebookmovie.ui.BaseFragment;
 import com.kyletung.simplebookmovie.ui.main.MainActivity;
 import com.kyletung.simplebookmovie.view.TabViewPager;
 
@@ -31,12 +31,16 @@ public class BookFragment extends BaseFragment {
     }
 
     @Override
-    protected void init(View view) {
+    protected void initView(View view) {
         // init content views
         mViewPager = (TabViewPager) view.findViewById(R.id.book_viewpager);
         mViewPager.setSwipeEnabled(true);
         BookPagerAdapter adapter = new BookPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(adapter);
+    }
+
+    @Override
+    protected void business(View view) {
     }
 
     /**

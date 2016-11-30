@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.widget.TextView;
 
+import com.kyletung.commonlib.main.BaseActivity;
 import com.kyletung.simplebookmovie.R;
-import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.utils.VersionUtil;
 
 import butterknife.BindView;
@@ -36,7 +36,7 @@ public class AboutActivity extends BaseActivity {
     }
 
     @Override
-    protected void init() {
+    protected void initView() {
         // set action bar
         setToolbar(getString(R.string.about_title), true);
         // set version
@@ -48,6 +48,10 @@ public class AboutActivity extends BaseActivity {
         } catch (PackageManager.NameNotFoundException e) {
             mVersion.setText(getString(R.string.about_version_error));
         }
+    }
+
+    @Override
+    protected void business() {
     }
 
 }

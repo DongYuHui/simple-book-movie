@@ -8,12 +8,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.kyletung.commonlib.main.BaseFragment;
+import com.kyletung.commonlib.utils.ToastUtil;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.movie.MovieBoardAdapter;
 import com.kyletung.simplebookmovie.client.request.MovieClient;
 import com.kyletung.simplebookmovie.data.movie.MovieItem;
-import com.kyletung.simplebookmovie.ui.BaseFragment;
-import com.kyletung.simplebookmovie.utils.BaseToast;
 
 import java.util.ArrayList;
 
@@ -44,7 +44,7 @@ public class MovieBoardFragment extends BaseFragment {
     }
 
     @Override
-    protected void init(View view) {
+    protected void initView(View view) {
         // init views
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         // init recycler
@@ -56,6 +56,10 @@ public class MovieBoardFragment extends BaseFragment {
         recyclerView.setAdapter(mAdapter);
         // set listener
         setListener();
+    }
+
+    @Override
+    protected void business(View view) {
     }
 
     private void setListener() {
@@ -78,7 +82,7 @@ public class MovieBoardFragment extends BaseFragment {
 
     public void onDataError(String error) {
         mRefreshLayout.setRefreshing(false);
-        BaseToast.toast(getActivity(), error);
+        ToastUtil.showToast(getActivity(), error);
     }
 
     private void getData() {

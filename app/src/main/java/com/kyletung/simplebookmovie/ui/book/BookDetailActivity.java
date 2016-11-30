@@ -5,13 +5,13 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kyletung.commonlib.main.BaseActivity;
+import com.kyletung.commonlib.utils.ImageLoader;
+import com.kyletung.commonlib.utils.ToastUtil;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.client.request.BookClient;
 import com.kyletung.simplebookmovie.data.bookdetail.BookCollectionData;
 import com.kyletung.simplebookmovie.data.bookdetail.BookDetailData;
-import com.kyletung.simplebookmovie.ui.BaseActivity;
-import com.kyletung.simplebookmovie.utils.BaseToast;
-import com.kyletung.simplebookmovie.utils.ImageLoader;
 
 import butterknife.BindView;
 
@@ -62,7 +62,7 @@ public class BookDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected void init() {
+    protected void initView() {
         // init toolbar
         setToolbar(getString(R.string.book_detail_title), true);
         // init data
@@ -71,6 +71,10 @@ public class BookDetailActivity extends BaseActivity {
         mUserId = intent.getStringExtra("userId");
         // get data
         getDetail(bookId);
+    }
+
+    @Override
+    protected void business() {
     }
 
     private void setData(BookDetailData data) {
@@ -104,7 +108,7 @@ public class BookDetailActivity extends BaseActivity {
     }
 
     public void onGetDataError(String error) {
-        BaseToast.toast(this, error);
+        ToastUtil.showToast(this, error);
     }
 
     public void onGetCollectionSuccess(BookCollectionData data) {
@@ -112,7 +116,7 @@ public class BookDetailActivity extends BaseActivity {
     }
 
     public void onGetCollectionError(String error) {
-        BaseToast.toast(this, error);
+        ToastUtil.showToast(this, error);
     }
 
     /**

@@ -16,7 +16,7 @@
  * modify from https://github.com/JorgeCastilloPrz/Mirage
  */
 
-package com.kyletung.simplebookmovie.view.recycler;
+package com.kyletung.simplebookmovie.view;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;

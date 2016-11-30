@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.kyletung.commonlib.main.BaseActivity;
 import com.kyletung.simplebookmovie.R;
-import com.kyletung.simplebookmovie.ui.BaseActivity;
 import com.kyletung.simplebookmovie.ui.login.LoginActivity;
 import com.kyletung.simplebookmovie.utils.UserInfoUtil;
 import com.kyletung.simplebookmovie.utils.VersionUtil;
@@ -33,17 +33,16 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    protected void init() {
+    protected void initView() {
         // init toolbar
         setToolbar(getString(R.string.settings_title), true);
         // init views
         mSettingsLogout = (LinearLayout) findViewById(R.id.settings_logout);
         mSettingsVersion = (TextView) findViewById(R.id.settings_version_number);
-        // set listener
-        setListener();
     }
 
-    private void setListener() {
+    @Override
+    protected void business() {
         mSettingsLogout.setOnClickListener(this);
         try {
             mSettingsVersion.setText(VersionUtil.getInstance().getVersion(SettingsActivity.this));
