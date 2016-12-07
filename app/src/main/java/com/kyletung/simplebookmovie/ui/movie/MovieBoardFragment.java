@@ -54,15 +54,10 @@ public class MovieBoardFragment extends BaseFragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new MovieBoardAdapter(getActivity(), R.layout.recycler_movie_item, this);
         recyclerView.setAdapter(mAdapter);
-        // set listener
-        setListener();
     }
 
     @Override
     protected void business(View view) {
-    }
-
-    private void setListener() {
         mAdapter.setOnItemClickListener((position, movieId) -> {
             Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
             intent.putExtra("movieId", movieId);

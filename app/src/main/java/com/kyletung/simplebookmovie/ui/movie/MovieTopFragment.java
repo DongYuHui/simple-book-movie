@@ -60,15 +60,10 @@ public class MovieTopFragment extends BaseFragment {
         recyclerView.setAdapter(mAdapter);
         mOnScrollListener = new LinearOnScrollListener(layoutManager, mAdapter);
         recyclerView.addOnScrollListener(mOnScrollListener);
-        // set listener
-        setListener();
     }
 
     @Override
     protected void business(View view) {
-    }
-
-    private void setListener() {
         mAdapter.setOnItemClickListener((position, movieId) -> {
             Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
             intent.putExtra("movieId", movieId);

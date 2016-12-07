@@ -123,4 +123,33 @@ public abstract class BaseLoadActivity extends BaseActivity {
         };
     }
 
+    /**
+     * 统一对网络请求结果做处理
+     *
+     * @param action1 Action
+     * @param error   Error Action
+     * @param <T>     请求的实体结果
+     * @return 返回观察者
+     */
+    protected <T> Subscriber<T> newSubscriber(Action1<T> action1, Action1<Throwable> error) {
+        return new Subscriber<T>() {
+
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                stopProgress();
+                HttpErrorHandler.handle(getApplicationContext(), e);
+                error.call(e);
+            }
+
+            @Override
+            public void onNext(T t) {
+                action1.call(t);
+            }
+        };
+    }
+
 }

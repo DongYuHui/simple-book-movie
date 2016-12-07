@@ -69,15 +69,10 @@ public class BookListFragment extends BaseFragment {
         recyclerView.setAdapter(mAdapter);
         mOnScrollListener = new LinearOnScrollListener(linearLayoutManager, mAdapter);
         recyclerView.addOnScrollListener(mOnScrollListener);
-        // set listener
-        setListener();
     }
 
     @Override
     protected void business(View view) {
-    }
-
-    private void setListener() {
         mAdapter.setOnItemClickListener((position, bookId) -> {
             Intent intent = new Intent(getActivity(), BookDetailActivity.class);
             intent.putExtra("userId", mUserId);

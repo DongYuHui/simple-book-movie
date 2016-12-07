@@ -22,7 +22,7 @@ import org.greenrobot.eventbus.EventBus;
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
  * Create Time: 2016/07/14 at 19:52<br>
  * <br>
- * FixMe
+ * 搜索页面
  */
 public class SearchActivity extends BaseActivity {
 
