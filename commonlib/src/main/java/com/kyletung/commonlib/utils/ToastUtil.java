@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.widget.Toast;
 
-import com.kyletung.commonlib.main.Handlers;
-
 public class ToastUtil {
 
     /**
@@ -65,7 +63,7 @@ public class ToastUtil {
 
     private static Handler sharedHandler(Context context) {
         if (mHandler == null) {
-            mHandler = Handlers.sharedHandler(context);
+            mHandler = new Handler(context.getMainLooper());
         }
         return mHandler;
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.kyletung.commonlib.load.ClassicRefreshHeaderView
+<com.zhanwang.commonlib.load.ClassicRefreshHeaderView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:textColor="?attr/colorPrimary"/>
+            android:textColor="?attr/colorAccent"/>
 
         <ImageView
             android:id="@+id/ivArrow"
@@ -52,4 +52,4 @@
 
     </RelativeLayout>
 
-</com.kyletung.commonlib.load.ClassicRefreshHeaderView>
+</com.zhanwang.commonlib.load.ClassicRefreshHeaderView>

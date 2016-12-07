@@ -50,7 +50,7 @@ public class EmptyView extends LinearLayout {
         setGravity(Gravity.CENTER);
         setOrientation(VERTICAL);
         mImage = new ImageView(getContext());
-        mImage.setImageResource(mEmptyImage);
+        if (mEmptyImage != -1) mImage.setImageResource(mEmptyImage);
         LayoutParams imageParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         addView(mImage, imageParams);
         mText = new TextView(getContext());

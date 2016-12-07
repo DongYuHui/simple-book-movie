@@ -43,11 +43,14 @@
 
     </declare-styleable>
 
-
     <!-- EmptyView -->
     <declare-styleable name="EmptyView">
         <attr name="emptyImage" format="reference"/>
         <attr name="emptyText" format="string|reference"/>
     </declare-styleable>
+
+    <!-- Toolbar Theme -->
+    <attr name="commonToolbarTheme" format="reference"/>
+    <attr name="commonToolbarBackground" format="reference|color"/>
 
 </resources>

@@ -50,6 +50,10 @@ public class LinearItemDecoration extends RecyclerView.ItemDecoration {
         notify();
     }
 
+    public void setSizePixel(int size) {
+        this.size = size;
+    }
+
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDraw(c, parent, state);

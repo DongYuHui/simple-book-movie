@@ -2,7 +2,7 @@ package com.kyletung.commonlib.http;
 
 import android.content.Context;
 
-import com.kyletung.commonlib.main.AppConfig;
+import com.kyletung.commonlib.BuildConfig;
 import com.kyletung.commonlib.utils.ToastUtil;
 
 import java.net.ConnectException;
@@ -24,7 +24,7 @@ public class HttpErrorHandler {
     private static final String ERROR_HTTP = "网络状态错误，请稍后重试";
 
     public static void handle(Context context, Throwable e) {
-        if (AppConfig.debuggable()) e.printStackTrace();
+        if (BuildConfig.DEBUG) e.printStackTrace();
         if (e instanceof ConnectException) {
             ToastUtil.showToast(context, ERROR_CONNECTION);
         } else if (e instanceof SocketTimeoutException) {

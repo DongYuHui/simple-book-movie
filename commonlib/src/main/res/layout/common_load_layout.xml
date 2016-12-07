@@ -21,7 +21,7 @@
         android:id="@+id/swipe_load_more_footer"
         layout="@layout/layout_classic_footer"/>
 
-    <com.kyletung.commonlib.view.EmptyView
+    <com.zhanwang.commonlib.view.EmptyView
         android:background="@color/main_background"
         android:id="@+id/swipe_empty_view"
         android:layout_width="match_parent"

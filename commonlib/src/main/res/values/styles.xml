@@ -2,7 +2,11 @@
 <resources>
 
     <!-- ToolBar Theme -->
-    <style name="ToolBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    </style>
+
+    <!-- ToolBar Theme Light -->
+    <style name="ToolbarTheme.Light" parent="ThemeOverlay.AppCompat.ActionBar">
     </style>
 
     <!-- ToolBar PopupMenu Theme -->

@@ -47,10 +47,6 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
         notifyDataSetChanged();
         mListData.addAll(list);
         notifyItemRangeInserted(0, list.size() - 1);
-//        for (int i = 0; i < list.size(); i++) {
-//            mListData.add(list.get(i));
-//            notifyItemInserted(mListData.size() - 1);
-//        }
     }
 
     /**
@@ -62,10 +58,6 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
         int start = mListData.size();
         mListData.addAll(list);
         notifyItemRangeInserted(start, list.size() + start - 1);
-//        for (int i = 0; i < list.size(); i++) {
-//            mListData.add(list.get(i));
-//            notifyItemInserted(mListData.size() - 1);
-//        }
     }
 
     @Override

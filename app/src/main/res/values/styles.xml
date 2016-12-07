@@ -3,9 +3,12 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- BaseColor -->
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/main_accent</item>
+        <item name="colorPrimary">@color/main_color</item>
+        <item name="colorPrimaryDark">@color/main_color_dark</item>
+        <!-- Toolbar -->
+        <item name="commonToolbarTheme">@style/ToolbarTheme</item>
+        <item name="commonToolbarBackground">@color/main_color</item>
     </style>
 
     <!-- Start Activity -->
