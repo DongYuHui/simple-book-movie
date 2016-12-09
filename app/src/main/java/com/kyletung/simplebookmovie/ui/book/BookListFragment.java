@@ -19,6 +19,8 @@ import com.kyletung.simplebookmovie.view.LinearOnScrollListener;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+
 /**
  * All rights reserved by Author<br>
  * Author: Dong YuHui<br>
@@ -35,8 +37,10 @@ public class BookListFragment extends BaseFragment {
     private String mUserId;
     private String mStatus;
 
+    @BindView(R.id.refresh)
+    SwipeRefreshLayout mRefreshLayout;
+
     private BookAdapter mAdapter;
-    private SwipeRefreshLayout mRefreshLayout;
     private LinearOnScrollListener mOnScrollListener;
 
     public static BookListFragment newInstance(String status) {
@@ -58,8 +62,6 @@ public class BookListFragment extends BaseFragment {
         Bundle bundle = getArguments();
         mUserId = new UserInfoUtil(getActivity()).readUserId();
         mStatus = bundle.getString("status");
-        // init recycler
-        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         // init recycler
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

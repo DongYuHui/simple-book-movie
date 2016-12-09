@@ -1,5 +1,7 @@
 package com.kyletung.commonlib.main;
 
+import android.support.annotation.Nullable;
+
 import com.kyletung.commonlib.http.HttpErrorHandler;
 import com.kyletung.commonlib.load.SwipeToLoadLayout;
 
@@ -16,6 +18,16 @@ import rx.functions.Action1;
 public abstract class BaseLoadActivity extends BaseActivity {
 
     protected SwipeToLoadLayout mLoadLayout;
+
+    protected void initLoadLayout(int viewId, @Nullable Integer text, @Nullable Integer image) {
+        mLoadLayout = (SwipeToLoadLayout) findViewById(viewId);
+        if (text != null && image != null) mLoadLayout.setEmptyView(text, image);
+    }
+
+    protected void initLoadLayout(int viewId, @Nullable String text, @Nullable Integer image) {
+        mLoadLayout = (SwipeToLoadLayout) findViewById(viewId);
+        if (text != null && image != null) mLoadLayout.setEmptyView(text, image);
+    }
 
     /**
      * 启用刷新
@@ -69,8 +81,8 @@ public abstract class BaseLoadActivity extends BaseActivity {
      */
     protected void loadComplete() {
         if (mLoadLayout == null) return;
-        if (mLoadLayout.isRefreshing()) mLoadLayout.setRefreshing(false);
-        if (mLoadLayout.isLoadingMore()) mLoadLayout.setLoadingMore(false);
+        mLoadLayout.setRefreshing(false);
+        mLoadLayout.setLoadingMore(false);
     }
 
     /**
@@ -141,6 +153,7 @@ public abstract class BaseLoadActivity extends BaseActivity {
             @Override
             public void onError(Throwable e) {
                 stopProgress();
+                loadComplete();
                 HttpErrorHandler.handle(getApplicationContext(), e);
                 error.call(e);
             }

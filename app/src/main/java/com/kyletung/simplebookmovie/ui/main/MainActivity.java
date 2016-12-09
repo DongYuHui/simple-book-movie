@@ -2,6 +2,7 @@ package com.kyletung.simplebookmovie.ui.main;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,7 +14,8 @@ import com.kyletung.simplebookmovie.adapter.main.TabPagerAdapter;
 import com.kyletung.simplebookmovie.ui.about.AboutActivity;
 import com.kyletung.simplebookmovie.ui.search.SearchActivity;
 import com.kyletung.simplebookmovie.ui.settings.SettingsActivity;
-import com.kyletung.simplebookmovie.view.TabViewPager;
+
+import butterknife.BindView;
 
 /**
  * All rights reserved by Author<br>
@@ -26,8 +28,13 @@ import com.kyletung.simplebookmovie.view.TabViewPager;
  */
 public class MainActivity extends BaseActivity {
 
-    private TabLayout mTabLayout;
-    private TabViewPager mTabViewPager;
+    @BindView(R.id.main_tab)
+    TabLayout mTabLayout;
+    @BindView(R.id.main_content)
+    ViewPager mTabViewPager;
+    @BindView(R.id.bottom_navigation_bar)
+    BottomNavigationBar mNavigationBar;
+
     private TabPagerAdapter mTabAdapter;
 
     @Override
@@ -39,21 +46,21 @@ public class MainActivity extends BaseActivity {
     protected void initView() {
         // init toolbar
         setToolbar(getString(R.string.app_name), false);
-        // temp
-        mTabLayout = (TabLayout) findViewById(R.id.main_tab);
         // init ViewPager
-        mTabViewPager = (TabViewPager) findViewById(R.id.main_content);
         mTabAdapter = new TabPagerAdapter(getSupportFragmentManager());
         mTabViewPager.setAdapter(mTabAdapter);
         // init bottom bar
-        BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
-        bottomNavigationBar
+        mNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.bottom_tab_movie, getString(R.string.main_tab_movie)))
                 .addItem(new BottomNavigationItem(R.drawable.bottom_tab_book, getString(R.string.main_tab_book)))
                 .addItem(new BottomNavigationItem(R.drawable.bottom_tab_user, getString(R.string.main_tab_user)))
                 .initialise();
-        bottomNavigationBar.setAutoHideEnabled(true);
-        bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
+        mNavigationBar.setAutoHideEnabled(true);
+    }
+
+    @Override
+    protected void business() {
+        mNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
 
             @Override
             public void onTabSelected(int position) {
@@ -75,10 +82,6 @@ public class MainActivity extends BaseActivity {
             mTabViewPager.setCurrentItem(0, false);
             mTabAdapter.setTabLayout(0);
         });
-    }
-
-    @Override
-    protected void business() {
     }
 
     @Override

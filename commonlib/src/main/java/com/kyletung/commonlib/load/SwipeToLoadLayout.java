@@ -1008,7 +1008,30 @@ public class SwipeToLoadLayout extends ViewGroup {
      * @param resource 图片资源
      */
     public void setEmptyViewImage(int resource) {
+
         if (mEmptyView != null) ((EmptyView) mEmptyView).setImage(resource);
+    }
+
+    /**
+     * 设置空白控件
+     *
+     * @param string 提示文字
+     * @param image  提示图片
+     */
+    public void setEmptyView(int string, int image) {
+        setEmptyViewText(string);
+        setEmptyViewImage(image);
+    }
+
+    /**
+     * 设置空白控件
+     *
+     * @param text  提示文字
+     * @param image 提示图片
+     */
+    public void setEmptyView(String text, int image) {
+        setEmptyViewText(text);
+        setEmptyViewImage(image);
     }
 
     /**

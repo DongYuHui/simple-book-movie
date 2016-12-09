@@ -14,5 +14,6 @@
     <string name="load_refresh_release">释放刷新</string>
     <string name="load_refresh_loading">正在刷新，请稍后</string>
     <string name="load_refresh_complete">刷新完成</string>
+    <string name="load_empty_data">数据为空噢~</string>
 
 </resources>

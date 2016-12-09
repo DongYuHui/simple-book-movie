@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.kyletung.commonlib.main.BaseActivity;
 import com.kyletung.commonlib.utils.ImageLoader;
-import com.kyletung.commonlib.utils.ToastUtil;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.client.request.BookClient;
 import com.kyletung.simplebookmovie.data.bookdetail.BookCollectionData;
@@ -65,16 +64,16 @@ public class BookDetailActivity extends BaseActivity {
     protected void initView() {
         // init toolbar
         setToolbar(getString(R.string.book_detail_title), true);
+    }
+
+    @Override
+    protected void business() {
         // init data
         Intent intent = getIntent();
         String bookId = intent.getStringExtra("bookId");
         mUserId = intent.getStringExtra("userId");
         // get data
         getDetail(bookId);
-    }
-
-    @Override
-    protected void business() {
     }
 
     private void setData(BookDetailData data) {
@@ -107,16 +106,8 @@ public class BookDetailActivity extends BaseActivity {
         setData(data);
     }
 
-    public void onGetDataError(String error) {
-        ToastUtil.showToast(this, error);
-    }
-
     public void onGetCollectionSuccess(BookCollectionData data) {
         setData(data.getBook());
-    }
-
-    public void onGetCollectionError(String error) {
-        ToastUtil.showToast(this, error);
     }
 
     /**
@@ -126,9 +117,9 @@ public class BookDetailActivity extends BaseActivity {
      */
     private void getDetail(String bookId) {
         if (TextUtils.isEmpty(mUserId)) {
-            BookClient.getInstance().getBookDetail(bookId).subscribe(newSubscriber(this::onGetDataSuccess, throwable -> onGetDataError(throwable.getMessage())));
+            BookClient.getInstance().getBookDetail(bookId).subscribe(newSubscriber(this::onGetDataSuccess));
         } else {
-            BookClient.getInstance().getBookDetail(bookId, mUserId).subscribe(newSubscriber(this::onGetCollectionSuccess, throwable -> onGetCollectionError(throwable.getMessage())));
+            BookClient.getInstance().getBookDetail(bookId, mUserId).subscribe(newSubscriber(this::onGetCollectionSuccess));
         }
     }
 

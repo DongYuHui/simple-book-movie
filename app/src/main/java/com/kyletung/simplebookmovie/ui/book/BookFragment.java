@@ -8,6 +8,8 @@ import com.kyletung.simplebookmovie.adapter.book.BookPagerAdapter;
 import com.kyletung.simplebookmovie.ui.main.MainActivity;
 import com.kyletung.simplebookmovie.view.TabViewPager;
 
+import butterknife.BindView;
+
 /**
  * All rights reserved by Author<br>
  * Author: Dong YuHui<br>
@@ -19,7 +21,8 @@ import com.kyletung.simplebookmovie.view.TabViewPager;
  */
 public class BookFragment extends BaseFragment {
 
-    private TabViewPager mViewPager;
+    @BindView(R.id.book_viewpager)
+    TabViewPager mViewPager;
 
     public static BookFragment newInstance() {
         return new BookFragment();
@@ -33,7 +36,6 @@ public class BookFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         // init content views
-        mViewPager = (TabViewPager) view.findViewById(R.id.book_viewpager);
         mViewPager.setSwipeEnabled(true);
         BookPagerAdapter adapter = new BookPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(adapter);

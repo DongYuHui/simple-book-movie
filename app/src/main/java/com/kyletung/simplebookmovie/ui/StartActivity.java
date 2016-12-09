@@ -35,6 +35,10 @@ public class StartActivity extends BaseActivity {
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION
             );
         }
+    }
+
+    @Override
+    protected void business() {
         // init data
         UserInfoUtil userInfoUtil = new UserInfoUtil(this);
         String userId = userInfoUtil.readUserId();
@@ -47,10 +51,6 @@ public class StartActivity extends BaseActivity {
             startActivity(intent);
         }
         finish();
-    }
-
-    @Override
-    protected void business() {
     }
 
 }

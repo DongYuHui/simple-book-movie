@@ -1,5 +1,8 @@
 package com.kyletung.commonlib.main;
 
+import android.support.annotation.Nullable;
+import android.view.View;
+
 import com.kyletung.commonlib.http.HttpErrorHandler;
 import com.kyletung.commonlib.load.SwipeToLoadLayout;
 
@@ -16,6 +19,16 @@ import rx.functions.Action1;
 public abstract class BaseLoadFragment extends BaseFragment {
 
     protected SwipeToLoadLayout mLoadLayout;
+
+    protected void initLoadLayout(View view, int viewId, @Nullable Integer text, @Nullable Integer image) {
+        mLoadLayout = (SwipeToLoadLayout) view.findViewById(viewId);
+        if (text != null && image != null) mLoadLayout.setEmptyView(text, image);
+    }
+
+    protected void initLoadLayout(View view, int viewId, @Nullable String text, @Nullable Integer image) {
+        mLoadLayout = (SwipeToLoadLayout) view.findViewById(viewId);
+        if (text != null && image != null) mLoadLayout.setEmptyView(text, image);
+    }
 
     /**
      * 启用刷新
@@ -69,8 +82,8 @@ public abstract class BaseLoadFragment extends BaseFragment {
      */
     protected void loadComplete() {
         if (mLoadLayout == null) return;
-        if (mLoadLayout.isRefreshing()) mLoadLayout.setRefreshing(false);
-        if (mLoadLayout.isLoadingMore()) mLoadLayout.setLoadingMore(false);
+        mLoadLayout.setRefreshing(false);
+        mLoadLayout.setLoadingMore(false);
     }
 
     /**
@@ -141,6 +154,7 @@ public abstract class BaseLoadFragment extends BaseFragment {
             @Override
             public void onError(Throwable e) {
                 stopProgress();
+                loadComplete();
                 HttpErrorHandler.handle(getContext(), e);
                 error.call(e);
             }

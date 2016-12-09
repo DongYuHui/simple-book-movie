@@ -40,8 +40,6 @@ public class UserFragment extends BaseFragment {
     @BindView(R.id.user_description)
     TextView mUserDescription;
 
-    private String mUserId;
-
     public static UserFragment newInstance() {
         return new UserFragment();
     }
@@ -53,21 +51,17 @@ public class UserFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
-        // init data
-        mUserId = new UserInfoUtil(getActivity()).readUserId();
-        // init views
-        ImageView userHeadBack = (ImageView) view.findViewById(R.id.user_head_back);
         // init head background
+        ImageView userHeadBack = (ImageView) view.findViewById(R.id.user_head_back);
         ImageLoader.load(this, userHeadBack, new HeadBackUtil(getActivity()).getImage());
-        // get info
-        if (!TextUtils.isEmpty(mUserId)) {
-            mUserHead.post(() -> getData(mUserId));
-        }
     }
 
     @Override
     protected void business(View view) {
-
+        // get info
+        if (!TextUtils.isEmpty(new UserInfoUtil(getActivity()).readUserId())) {
+            mUserHead.post(() -> getData(new UserInfoUtil(getActivity()).readUserId()));
+        }
     }
 
     /**

@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.kyletung.commonlib.main.BaseActivity;
 import com.kyletung.commonlib.utils.ImageLoader;
-import com.kyletung.commonlib.utils.ToastUtil;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.moviedetail.StaffAdapter;
 import com.kyletung.simplebookmovie.client.request.MovieClient;
@@ -56,9 +55,6 @@ public class MovieDetailActivity extends BaseActivity {
     protected void initView() {
         // init toolbar
         setToolbar(getString(R.string.movie_detail_title), true);
-        // init data
-        Intent intent = getIntent();
-        String movieId = intent.getStringExtra("movieId");
         // set directors
         RecyclerView movieDirectors = (RecyclerView) findViewById(R.id.movie_detail_directors);
         movieDirectors.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -71,13 +67,15 @@ public class MovieDetailActivity extends BaseActivity {
         movieCasts.setItemAnimator(new DefaultItemAnimator());
         mCastAdapter = new StaffAdapter(this, R.layout.recycler_staff_item, this);
         movieCasts.setAdapter(mCastAdapter);
-        // init model
-        getData(movieId);
     }
 
     @Override
     protected void business() {
-
+        // init data
+        Intent intent = getIntent();
+        String movieId = intent.getStringExtra("movieId");
+        // init model
+        getData(movieId);
     }
 
     /**
@@ -86,7 +84,7 @@ public class MovieDetailActivity extends BaseActivity {
      * @param movieId 影视 Id
      */
     private void getData(String movieId) {
-        MovieClient.getInstance().getMovieDetail(movieId).subscribe(newSubscriber(this::getDataSuccess, throwable -> getDataError(throwable.getMessage())));
+        MovieClient.getInstance().getMovieDetail(movieId).subscribe(newSubscriber(this::getDataSuccess));
     }
 
     /**
@@ -110,15 +108,6 @@ public class MovieDetailActivity extends BaseActivity {
         mMovieSummary.setText(data.getSummary());
         mDirectorAdapter.putList(data.getDirectors());
         mCastAdapter.putList(data.getCasts());
-    }
-
-    /**
-     * 获取内容失败
-     *
-     * @param error 失败信息
-     */
-    public void getDataError(String error) {
-        ToastUtil.showToast(this, error);
     }
 
 }

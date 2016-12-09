@@ -60,15 +60,11 @@ public class LoginActivity extends BaseActivity {
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION
             );
         }
-        // set listener
-        setListener();
     }
 
     @Override
     protected void business() {
-    }
-
-    private void setListener() {
+        // TODO: 2016/12/9 此处可用 RxBinding 优化
         mLoginAccount.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -125,7 +121,6 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void onLoginSuccess() {
-        stopProgress();
         // TODO: 2016/08/10 Login Success
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -179,12 +174,13 @@ public class LoginActivity extends BaseActivity {
      */
     private void getToken(String code) {
         AccountClient.getInstance().getToken(code).subscribe(newSubscriber(loginData -> {
+            stopProgress();
             new UserInfoUtil(LoginActivity.this).save(
                     loginData.getAccess_token(),
                     loginData.getDouban_user_id(),
                     loginData.getRefresh_token());
             onLoginSuccess();
-        }, throwable -> onLoginError(throwable.getMessage())));
+        }));
     }
 
 }

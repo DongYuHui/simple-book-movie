@@ -18,6 +18,8 @@ import com.kyletung.simplebookmovie.view.LinearOnScrollListener;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+
 /**
  * All rights reserved by Author<br>
  * Author: Dong YuHui<br>
@@ -29,8 +31,10 @@ import java.util.ArrayList;
  */
 public class MovieTopFragment extends BaseFragment {
 
+    @BindView(R.id.refresh)
+    SwipeRefreshLayout mRefreshLayout;
+
     private MovieTopAdapter mAdapter;
-    private SwipeRefreshLayout mRefreshLayout;
     private LinearOnScrollListener mOnScrollListener;
 
     private boolean mHasMore = true;
@@ -49,8 +53,6 @@ public class MovieTopFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
-        // init refresh
-        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         // init recycler
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
