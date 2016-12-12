@@ -1008,7 +1008,6 @@ public class SwipeToLoadLayout extends ViewGroup {
      * @param resource 图片资源
      */
     public void setEmptyViewImage(int resource) {
-
         if (mEmptyView != null) ((EmptyView) mEmptyView).setImage(resource);
     }
 

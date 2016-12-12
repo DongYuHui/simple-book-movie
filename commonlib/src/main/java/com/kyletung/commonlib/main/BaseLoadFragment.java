@@ -3,6 +3,7 @@ package com.kyletung.commonlib.main;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.kyletung.commonlib.R;
 import com.kyletung.commonlib.http.HttpErrorHandler;
 import com.kyletung.commonlib.load.SwipeToLoadLayout;
 
@@ -20,14 +21,36 @@ public abstract class BaseLoadFragment extends BaseFragment {
 
     protected SwipeToLoadLayout mLoadLayout;
 
+    /**
+     * 初始化加载控件
+     *
+     * @param view   父控件
+     * @param viewId 控件 Id
+     * @param text   提示文字
+     * @param image  提示图片
+     */
     protected void initLoadLayout(View view, int viewId, @Nullable Integer text, @Nullable Integer image) {
         mLoadLayout = (SwipeToLoadLayout) view.findViewById(viewId);
-        if (text != null && image != null) mLoadLayout.setEmptyView(text, image);
+        mLoadLayout.setEmptyViewText(text == null ? R.string.load_empty_data : text);
+        mLoadLayout.setEmptyViewImage(image == null ? R.mipmap.default_data_empty : image);
     }
 
+    /**
+     * 初始化加载控件
+     *
+     * @param view   父控件
+     * @param viewId 控件 Id
+     * @param text   提示文字
+     * @param image  提示图片
+     */
     protected void initLoadLayout(View view, int viewId, @Nullable String text, @Nullable Integer image) {
         mLoadLayout = (SwipeToLoadLayout) view.findViewById(viewId);
-        if (text != null && image != null) mLoadLayout.setEmptyView(text, image);
+        mLoadLayout.setEmptyViewImage(image == null ? R.mipmap.default_data_empty : image);
+        if (text != null) {
+            mLoadLayout.setEmptyViewText(text);
+        } else {
+            mLoadLayout.setEmptyViewText(R.string.load_empty_data);
+        }
     }
 
     /**

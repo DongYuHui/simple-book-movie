@@ -2,22 +2,17 @@ package com.kyletung.simplebookmovie.ui.book;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.kyletung.commonlib.main.BaseFragment;
-import com.kyletung.commonlib.utils.ToastUtil;
+import com.kyletung.commonlib.main.BaseLoadFragment;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.book.BookAdapter;
 import com.kyletung.simplebookmovie.client.request.BookClient;
-import com.kyletung.simplebookmovie.data.book.BookItem;
+import com.kyletung.simplebookmovie.data.book.BookData;
 import com.kyletung.simplebookmovie.utils.UserInfoUtil;
-import com.kyletung.simplebookmovie.view.LinearOnScrollListener;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -30,18 +25,20 @@ import butterknife.BindView;
  * <br>
  * 书籍列表页面
  */
-public class BookListFragment extends BaseFragment {
+public class BookListFragment extends BaseLoadFragment {
 
     private boolean mHasMore = true;
 
     private String mUserId;
     private String mStatus;
 
-    @BindView(R.id.refresh)
-    SwipeRefreshLayout mRefreshLayout;
+    //    @BindView(R.id.refresh)
+//    SwipeRefreshLayout mRefreshLayout;
+    @BindView(R.id.swipe_target)
+    RecyclerView mRecyclerView;
 
     private BookAdapter mAdapter;
-    private LinearOnScrollListener mOnScrollListener;
+//    private LinearOnScrollListener mOnScrollListener;
 
     public static BookListFragment newInstance(String status) {
         Bundle args = new Bundle();
@@ -53,7 +50,7 @@ public class BookListFragment extends BaseFragment {
 
     @Override
     protected int getContentLayout() {
-        return R.layout.layout_refresh_recycler;
+        return R.layout.common_load_layout;
     }
 
     @Override
@@ -62,15 +59,15 @@ public class BookListFragment extends BaseFragment {
         Bundle bundle = getArguments();
         mUserId = new UserInfoUtil(getActivity()).readUserId();
         mStatus = bundle.getString("status");
+        // init load layout
+        initLoadLayout(view, R.id.common_load_container, R.string.load_empty_data, R.mipmap.default_data_empty);
         // init recycler
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        mAdapter = new BookAdapter(getActivity(), R.layout.recycler_book_item, this);
-        recyclerView.setAdapter(mAdapter);
-        mOnScrollListener = new LinearOnScrollListener(linearLayoutManager, mAdapter);
-        recyclerView.addOnScrollListener(mOnScrollListener);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mAdapter = new BookAdapter(getActivity(), R.layout.recycler_book_item);
+        mRecyclerView.setAdapter(mAdapter);
+//        mRecyclerView.addOnScrollListener(mOnScrollListener);
     }
 
     @Override
@@ -81,71 +78,103 @@ public class BookListFragment extends BaseFragment {
             intent.putExtra("bookId", bookId);
             startActivity(intent);
         });
-        mRefreshLayout.setOnRefreshListener(() -> {
-            mHasMore = true;
-            getData(0);
-        });
-        mOnScrollListener.setOnLoadMore(() -> getData(mAdapter.getItemCount()));
-        mRefreshLayout.post(() -> {
-            mRefreshLayout.setRefreshing(true);
-            mHasMore = true;
-            getData(0);
-        });
+//        mRefreshLayout.setOnRefreshListener(() -> {
+//            mHasMore = true;
+//            getData(0);
+//        });
+//        mOnScrollListener.setOnLoadMore(() -> getData(mAdapter.getItemCount()));
+//        mRefreshLayout.post(() -> {
+//            mRefreshLayout.setRefreshing(true);
+//            mHasMore = true;
+//            getData(0);
+//        });
+        setRefresh(true, true);
+        autoRefresh();
     }
 
-    public void getDataSuccess(ArrayList<BookItem> list) {
-        mRefreshLayout.setRefreshing(false);
-        mAdapter.putList(list);
+//    public void getDataSuccess(ArrayList<BookItem> list) {
+//        mRefreshLayout.setRefreshing(false);
+//        mAdapter.putList(list);
+//    }
+//
+//    public void getDataError(String error) {
+//        mRefreshLayout.setRefreshing(false);
+//        ToastUtil.showToast(getActivity(), error);
+//    }
+//
+//    public void getMoreSuccess(ArrayList<BookItem> list) {
+//        mOnScrollListener.loadComplete();
+//        mAdapter.addList(list);
+//        if (list.size() == 0) mHasMore = false;
+//    }
+//
+//    public void getMoreError(String error) {
+//        mOnScrollListener.loadComplete();
+//        ToastUtil.showToast(getActivity(), error);
+//    }
+
+//    /**
+//     * 获取书籍列表数据
+//     *
+//     * @param start 开始点
+//     */
+//    private void getData(final int start) {
+//
+//        if (mUserId == null || mStatus == null) return;
+//
+//        if (!mHasMore) {
+//            if (start == 0) {
+//                mRefreshLayout.setRefreshing(false);
+//            } else {
+//                mOnScrollListener.loadComplete();
+//            }
+//            return;
+//        }
+//
+//        BookClient.getInstance().getBookData(mUserId, mStatus, start).subscribe(newSubscriber(bookData -> {
+//            if (start == 0) {
+//                getDataSuccess(bookData.getCollections());
+//            } else {
+//                getMoreSuccess(bookData.getCollections());
+//            }
+//        }, throwable -> {
+//            if (start == 0) {
+//                getDataError(throwable.getMessage());
+//            } else {
+//                getMoreError(throwable.getMessage());
+//            }
+//        }));
+//
+//    }
+
+    @Override
+    protected void onActionRefresh() {
+        BookClient.getInstance().getBookData(mUserId, mStatus, 0).subscribe(newSubscriber(bookData -> {
+            loadComplete();
+            mAdapter.putList(bookData.getCollections());
+            judgeResult(bookData);
+            mLoadLayout.setShowEmptyView(bookData.getTotal() == 0);
+        }));
     }
 
-    public void getDataError(String error) {
-        mRefreshLayout.setRefreshing(false);
-        ToastUtil.showToast(getActivity(), error);
-    }
-
-    public void getMoreSuccess(ArrayList<BookItem> list) {
-        mOnScrollListener.loadComplete();
-        mAdapter.addList(list);
-        if (list.size() == 0) mHasMore = false;
-    }
-
-    public void getMoreError(String error) {
-        mOnScrollListener.loadComplete();
-        ToastUtil.showToast(getActivity(), error);
+    @Override
+    protected void onActionMore() {
+        BookClient.getInstance().getBookData(mUserId, mStatus, mAdapter.getItemCount()).subscribe(newSubscriber(bookData -> {
+            loadComplete();
+            mAdapter.addList(bookData.getCollections());
+            judgeResult(bookData);
+        }));
     }
 
     /**
-     * 获取书籍列表数据
-     *
-     * @param start 开始点
+     * 判断结果列表，查看是否还有更多
      */
-    private void getData(final int start) {
-
-        if (mUserId == null || mStatus == null) return;
-
-        if (!mHasMore) {
-            if (start == 0) {
-                mRefreshLayout.setRefreshing(false);
-            } else {
-                mOnScrollListener.loadComplete();
-            }
-            return;
+    private void judgeResult(BookData data) {
+        if (mAdapter.getItemCount() < data.getTotal()) {
+            setMoreEnable(true);
+        } else {
+            setMoreEnable(false);
         }
-
-        BookClient.getInstance().getBookData(mUserId, mStatus, start).subscribe(newSubscriber(bookData -> {
-            if (start == 0) {
-                getDataSuccess(bookData.getCollections());
-            } else {
-                getMoreSuccess(bookData.getCollections());
-            }
-        }, throwable -> {
-            if (start == 0) {
-                getDataError(throwable.getMessage());
-            } else {
-                getMoreError(throwable.getMessage());
-            }
-        }));
-
     }
 
 }
