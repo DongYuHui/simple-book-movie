@@ -3,6 +3,7 @@ package com.kyletung.simplebookmovie.adapter.book;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import com.kyletung.simplebookmovie.ui.book.BookListFragment;
 
@@ -17,9 +18,9 @@ import com.kyletung.simplebookmovie.ui.book.BookListFragment;
  */
 public class BookPagerAdapter extends FragmentPagerAdapter {
 
-    private BookListFragment mBookWish;
-    private BookListFragment mBookRead;
-    private BookListFragment mBookReading;
+    private Fragment mBookWish;
+    private Fragment mBookRead;
+    private Fragment mBookReading;
 
     private static final String[] titles = {"未读", "已读", "在读"};
 
@@ -51,6 +52,10 @@ public class BookPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return 3;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
     }
 
 }

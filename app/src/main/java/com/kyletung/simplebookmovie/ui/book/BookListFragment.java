@@ -27,18 +27,13 @@ import butterknife.BindView;
  */
 public class BookListFragment extends BaseLoadFragment {
 
-    private boolean mHasMore = true;
-
     private String mUserId;
     private String mStatus;
 
-    //    @BindView(R.id.refresh)
-//    SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.swipe_target)
     RecyclerView mRecyclerView;
 
     private BookAdapter mAdapter;
-//    private LinearOnScrollListener mOnScrollListener;
 
     public static BookListFragment newInstance(String status) {
         Bundle args = new Bundle();
@@ -67,7 +62,6 @@ public class BookListFragment extends BaseLoadFragment {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new BookAdapter(getActivity(), R.layout.recycler_book_item);
         mRecyclerView.setAdapter(mAdapter);
-//        mRecyclerView.addOnScrollListener(mOnScrollListener);
     }
 
     @Override
@@ -78,74 +72,9 @@ public class BookListFragment extends BaseLoadFragment {
             intent.putExtra("bookId", bookId);
             startActivity(intent);
         });
-//        mRefreshLayout.setOnRefreshListener(() -> {
-//            mHasMore = true;
-//            getData(0);
-//        });
-//        mOnScrollListener.setOnLoadMore(() -> getData(mAdapter.getItemCount()));
-//        mRefreshLayout.post(() -> {
-//            mRefreshLayout.setRefreshing(true);
-//            mHasMore = true;
-//            getData(0);
-//        });
         setRefresh(true, true);
         autoRefresh();
     }
-
-//    public void getDataSuccess(ArrayList<BookItem> list) {
-//        mRefreshLayout.setRefreshing(false);
-//        mAdapter.putList(list);
-//    }
-//
-//    public void getDataError(String error) {
-//        mRefreshLayout.setRefreshing(false);
-//        ToastUtil.showToast(getActivity(), error);
-//    }
-//
-//    public void getMoreSuccess(ArrayList<BookItem> list) {
-//        mOnScrollListener.loadComplete();
-//        mAdapter.addList(list);
-//        if (list.size() == 0) mHasMore = false;
-//    }
-//
-//    public void getMoreError(String error) {
-//        mOnScrollListener.loadComplete();
-//        ToastUtil.showToast(getActivity(), error);
-//    }
-
-//    /**
-//     * 获取书籍列表数据
-//     *
-//     * @param start 开始点
-//     */
-//    private void getData(final int start) {
-//
-//        if (mUserId == null || mStatus == null) return;
-//
-//        if (!mHasMore) {
-//            if (start == 0) {
-//                mRefreshLayout.setRefreshing(false);
-//            } else {
-//                mOnScrollListener.loadComplete();
-//            }
-//            return;
-//        }
-//
-//        BookClient.getInstance().getBookData(mUserId, mStatus, start).subscribe(newSubscriber(bookData -> {
-//            if (start == 0) {
-//                getDataSuccess(bookData.getCollections());
-//            } else {
-//                getMoreSuccess(bookData.getCollections());
-//            }
-//        }, throwable -> {
-//            if (start == 0) {
-//                getDataError(throwable.getMessage());
-//            } else {
-//                getMoreError(throwable.getMessage());
-//            }
-//        }));
-//
-//    }
 
     @Override
     protected void onActionRefresh() {

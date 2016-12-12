@@ -6,6 +6,8 @@
         <item name="colorAccent">@color/main_accent</item>
         <item name="colorPrimary">@color/main_color</item>
         <item name="colorPrimaryDark">@color/main_color_dark</item>
+        <!-- Window Background -->
+        <item name="android:windowBackground">@color/main_background</item>
         <!-- Toolbar -->
         <item name="commonToolbarTheme">@style/ToolbarTheme</item>
         <item name="commonToolbarBackground">@color/main_color</item>
@@ -19,14 +21,6 @@
     <!-- Login Activity -->
     <style name="LoginTheme" parent="AppTheme">
         <item name="colorAccent">@color/login_view_color</item>
-    </style>
-
-    <!-- ToolBar Theme -->
-    <style name="ToolBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-    </style>
-
-    <!-- ToolBar PopupMenu Theme -->
-    <style name="ToolBarPopupTheme" parent="ThemeOverlay.AppCompat.Light">
     </style>
 
 </resources>

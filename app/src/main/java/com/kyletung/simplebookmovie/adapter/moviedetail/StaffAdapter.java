@@ -1,17 +1,18 @@
 package com.kyletung.simplebookmovie.adapter.moviedetail;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kyletung.commonlib.adapter.BaseViewHolder;
 import com.kyletung.commonlib.utils.ImageLoader;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.data.movie.Staff;
 import com.kyletung.simplebookmovie.view.BaseRecyclerAdapter;
+
+import butterknife.BindView;
 
 /**
  * All rights reserved by Author<br>
@@ -24,8 +25,8 @@ import com.kyletung.simplebookmovie.view.BaseRecyclerAdapter;
  */
 public class StaffAdapter extends BaseRecyclerAdapter<Staff, StaffAdapter.StaffViewHolder> {
 
-    public StaffAdapter(Context context, int resource, Activity activity) {
-        super(context, resource, activity);
+    public StaffAdapter(Context context, int resource) {
+        super(context, resource);
     }
 
     @Override
@@ -35,19 +36,19 @@ public class StaffAdapter extends BaseRecyclerAdapter<Staff, StaffAdapter.StaffV
 
     @Override
     public void onBindDataViewHolder(StaffViewHolder holder, int position) {
-        final int itemPosition = position;
-        ImageLoader.load(mActivity, holder.mStaffImage, mListData.get(itemPosition).getAvatars().getLarge());
-        holder.mStaffName.setText(mListData.get(itemPosition).getName());
+        ImageLoader.load(mContext, holder.mStaffImage, mListData.get(position).getAvatars().getLarge());
+        holder.mStaffName.setText(mListData.get(position).getName());
     }
 
-    class StaffViewHolder extends RecyclerView.ViewHolder {
-        private ImageView mStaffImage;
-        private TextView mStaffName;
+    class StaffViewHolder extends BaseViewHolder {
 
-        public StaffViewHolder(View itemView) {
+        @BindView(R.id.staff_image)
+        ImageView mStaffImage;
+        @BindView(R.id.staff_name)
+        TextView mStaffName;
+
+        StaffViewHolder(View itemView) {
             super(itemView);
-            mStaffImage = (ImageView) itemView.findViewById(R.id.staff_image);
-            mStaffName = (TextView) itemView.findViewById(R.id.staff_name);
         }
     }
 

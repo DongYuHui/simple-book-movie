@@ -59,13 +59,13 @@ public class MovieDetailActivity extends BaseActivity {
         RecyclerView movieDirectors = (RecyclerView) findViewById(R.id.movie_detail_directors);
         movieDirectors.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         movieDirectors.setItemAnimator(new DefaultItemAnimator());
-        mDirectorAdapter = new StaffAdapter(this, R.layout.recycler_staff_item, this);
+        mDirectorAdapter = new StaffAdapter(this, R.layout.recycler_staff_item);
         movieDirectors.setAdapter(mDirectorAdapter);
         // set casts
         RecyclerView movieCasts = (RecyclerView) findViewById(R.id.movie_detail_casts);
         movieCasts.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         movieCasts.setItemAnimator(new DefaultItemAnimator());
-        mCastAdapter = new StaffAdapter(this, R.layout.recycler_staff_item, this);
+        mCastAdapter = new StaffAdapter(this, R.layout.recycler_staff_item);
         movieCasts.setAdapter(mCastAdapter);
     }
 

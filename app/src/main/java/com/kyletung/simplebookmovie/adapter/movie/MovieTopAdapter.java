@@ -1,19 +1,20 @@
 package com.kyletung.simplebookmovie.adapter.movie;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kyletung.commonlib.adapter.BaseViewHolder;
 import com.kyletung.commonlib.utils.ImageLoader;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.data.movie.MovieSubject;
 import com.kyletung.simplebookmovie.data.movie.Staff;
-import com.kyletung.simplebookmovie.view.MoreRecyclerAdapter;
+import com.kyletung.simplebookmovie.view.BaseRecyclerAdapter;
+
+import butterknife.BindView;
 
 /**
  * All rights reserved by Author<br>
@@ -24,12 +25,12 @@ import com.kyletung.simplebookmovie.view.MoreRecyclerAdapter;
  * <br>
  * FixMe
  */
-public class MovieTopAdapter extends MoreRecyclerAdapter<MovieSubject, MovieTopAdapter.MovieViewHolder> {
+public class MovieTopAdapter extends BaseRecyclerAdapter<MovieSubject, MovieTopAdapter.MovieViewHolder> {
 
     private OnItemClickListener mOnItemClickListener;
 
-    public MovieTopAdapter(Context context, int resource, Fragment fragment) {
-        super(context, resource, fragment);
+    public MovieTopAdapter(Context context, int resource) {
+        super(context, resource);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -44,13 +45,7 @@ public class MovieTopAdapter extends MoreRecyclerAdapter<MovieSubject, MovieTopA
     @Override
     public void onBindDataViewHolder(MovieViewHolder holder, int position) {
         final int itemPosition = position;
-        if (mActivity != null) {
-            ImageLoader.load(mActivity, holder.mMovieImage, mListData.get(itemPosition).getImages().getLarge());
-        } else if (mFragment != null) {
-            ImageLoader.load(mFragment, holder.mMovieImage, mListData.get(itemPosition).getImages().getLarge());
-        } else {
-            ImageLoader.load(mContext, holder.mMovieImage, mListData.get(itemPosition).getImages().getLarge());
-        }
+        ImageLoader.load(mContext, holder.mMovieImage, mListData.get(itemPosition).getImages().getLarge());
         holder.mMovieTitle.setText(mListData.get(itemPosition).getTitle());
         if (mListData.get(itemPosition).getDirectors() != null && mListData.get(itemPosition).getDirectors().size() > 0) {
             StringBuilder directors = new StringBuilder();
@@ -68,35 +63,32 @@ public class MovieTopAdapter extends MoreRecyclerAdapter<MovieSubject, MovieTopA
         }
         holder.mMovieYear.setText(mListData.get(itemPosition).getYear());
         holder.mMovieCollections.setText(String.valueOf(mListData.get(itemPosition).getCollect_count()));
-        holder.mMovieContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onItemClick(itemPosition, String.valueOf(mListData.get(itemPosition).getId()));
-                }
+        holder.mMovieContainer.setOnClickListener(view -> {
+            if (mOnItemClickListener != null) {
+                mOnItemClickListener.onItemClick(itemPosition, String.valueOf(mListData.get(itemPosition).getId()));
             }
         });
     }
 
-    class MovieViewHolder extends RecyclerView.ViewHolder {
+    class MovieViewHolder extends BaseViewHolder {
 
-        private CardView mMovieContainer;
-        private ImageView mMovieImage;
-        private TextView mMovieTitle;
-        private TextView mMovieDirector;
-        private TextView mMovieCast;
-        private TextView mMovieYear;
-        private TextView mMovieCollections;
+        @BindView(R.id.movie_container)
+        CardView mMovieContainer;
+        @BindView(R.id.movie_image)
+        ImageView mMovieImage;
+        @BindView(R.id.movie_title)
+        TextView mMovieTitle;
+        @BindView(R.id.movie_director)
+        TextView mMovieDirector;
+        @BindView(R.id.movie_cast)
+        TextView mMovieCast;
+        @BindView(R.id.movie_year)
+        TextView mMovieYear;
+        @BindView(R.id.movie_collections)
+        TextView mMovieCollections;
 
-        public MovieViewHolder(View itemView) {
+        MovieViewHolder(View itemView) {
             super(itemView);
-            mMovieContainer = (CardView) itemView.findViewById(R.id.movie_container);
-            mMovieImage = (ImageView) itemView.findViewById(R.id.movie_image);
-            mMovieTitle = (TextView) itemView.findViewById(R.id.movie_title);
-            mMovieDirector = (TextView) itemView.findViewById(R.id.movie_director);
-            mMovieCast = (TextView) itemView.findViewById(R.id.movie_cast);
-            mMovieYear = (TextView) itemView.findViewById(R.id.movie_year);
-            mMovieCollections = (TextView) itemView.findViewById(R.id.movie_collections);
         }
 
     }

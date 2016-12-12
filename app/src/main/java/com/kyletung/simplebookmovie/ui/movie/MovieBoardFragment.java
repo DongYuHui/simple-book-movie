@@ -2,20 +2,17 @@ package com.kyletung.simplebookmovie.ui.movie;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.kyletung.commonlib.main.BaseFragment;
-import com.kyletung.commonlib.utils.ToastUtil;
+import com.kyletung.commonlib.main.BaseLoadFragment;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.movie.MovieBoardAdapter;
 import com.kyletung.simplebookmovie.client.request.MovieClient;
-import com.kyletung.simplebookmovie.data.movie.MovieItem;
 
-import java.util.ArrayList;
+import butterknife.BindView;
 
 /**
  * All rights reserved by Author<br>
@@ -26,10 +23,12 @@ import java.util.ArrayList;
  * <br>
  * 北美票房榜 Fragment
  */
-public class MovieBoardFragment extends BaseFragment {
+public class MovieBoardFragment extends BaseLoadFragment {
+
+    @BindView(R.id.swipe_target)
+    RecyclerView mRecyclerView;
 
     private MovieBoardAdapter mAdapter;
-    private SwipeRefreshLayout mRefreshLayout;
 
     public static MovieBoardFragment newInstance() {
         Bundle args = new Bundle();
@@ -40,20 +39,19 @@ public class MovieBoardFragment extends BaseFragment {
 
     @Override
     protected int getContentLayout() {
-        return R.layout.layout_refresh_recycler;
+        return R.layout.common_load_layout;
     }
 
     @Override
     protected void initView(View view) {
-        // init views
-        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+        // init load layout
+        initLoadLayout(view, R.id.common_load_container, R.string.load_empty_data, R.mipmap.default_data_empty);
         // init recycler
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        mAdapter = new MovieBoardAdapter(getActivity(), R.layout.recycler_movie_item, this);
-        recyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mAdapter = new MovieBoardAdapter(getActivity(), R.layout.recycler_movie_item);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -63,28 +61,21 @@ public class MovieBoardFragment extends BaseFragment {
             intent.putExtra("movieId", movieId);
             startActivity(intent);
         });
-        mRefreshLayout.setOnRefreshListener(this::getData);
-        mRefreshLayout.post(() -> {
-            mRefreshLayout.setRefreshing(true);
-            getData();
-        });
+        // set refresh
+        setRefresh(true, false);
+        autoRefresh();
     }
 
-    public void onDataSuccess(ArrayList<MovieItem> list) {
-        mRefreshLayout.setRefreshing(false);
-        mAdapter.putList(list);
+    @Override
+    protected void onActionRefresh() {
+        MovieClient.getInstance().getMovieBoard().subscribe(newSubscriber(movieBoardData -> {
+            loadComplete();
+            mAdapter.putList(movieBoardData.getSubjects());
+        }));
     }
 
-    public void onDataError(String error) {
-        mRefreshLayout.setRefreshing(false);
-        ToastUtil.showToast(getActivity(), error);
-    }
-
-    private void getData() {
-        MovieClient.getInstance().getMovieBoard().subscribe(newSubscriber(
-                movieBoardData -> onDataSuccess(movieBoardData.getSubjects()),
-                throwable -> onDataError(throwable.getMessage())
-        ));
+    @Override
+    protected void onActionMore() {
     }
 
 }

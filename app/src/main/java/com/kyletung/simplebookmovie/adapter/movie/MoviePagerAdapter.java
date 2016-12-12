@@ -19,11 +19,11 @@ import com.kyletung.simplebookmovie.ui.movie.MovieTopFragment;
 public class MoviePagerAdapter extends FragmentPagerAdapter {
 
     // Fragments
-    private MovieTopFragment mMovieTop;
-    private MovieBoardFragment mMovieBoard;
+    private Fragment mMovieTop;
+    private Fragment mMovieBoard;
 
     // Titles
-    private String[] titles = {"北美票房榜", "Top 250"};
+    private String[] titles = {"Top 250", "北美票房榜"};
 
     public MoviePagerAdapter(FragmentManager fm) {
         super(fm);
@@ -38,15 +38,15 @@ public class MoviePagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                if (mMovieBoard == null) {
-                    mMovieBoard = MovieBoardFragment.newInstance();
-                }
-                return mMovieBoard;
-            case 1:
                 if (mMovieTop == null) {
                     mMovieTop = MovieTopFragment.newInstance();
                 }
                 return mMovieTop;
+            case 1:
+                if (mMovieBoard == null) {
+                    mMovieBoard = MovieBoardFragment.newInstance();
+                }
+                return mMovieBoard;
         }
         return null;
     }

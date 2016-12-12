@@ -3,28 +3,25 @@ package com.kyletung.simplebookmovie.ui.search;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.kyletung.commonlib.main.BaseFragment;
-import com.kyletung.commonlib.utils.ToastUtil;
+import com.kyletung.commonlib.main.BaseLoadFragment;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.search.SearchBookAdapter;
 import com.kyletung.simplebookmovie.client.request.BookClient;
-import com.kyletung.simplebookmovie.data.book.BookSubject;
+import com.kyletung.simplebookmovie.data.search.SearchBookData;
 import com.kyletung.simplebookmovie.event.BaseEvent;
 import com.kyletung.simplebookmovie.event.EventCode;
 import com.kyletung.simplebookmovie.ui.book.BookDetailActivity;
-import com.kyletung.simplebookmovie.view.LinearOnScrollListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
+import butterknife.BindView;
 
 /**
  * All rights reserved by Author<br>
@@ -35,14 +32,14 @@ import java.util.ArrayList;
  * <br>
  * FixMe
  */
-public class SearchBookFragment extends BaseFragment {
+public class SearchBookFragment extends BaseLoadFragment {
 
     private String mContent;
-    private boolean mHasMore = true;
+
+    @BindView(R.id.swipe_target)
+    RecyclerView mRecyclerView;
 
     private SearchBookAdapter mAdapter;
-    private SwipeRefreshLayout mRefreshLayout;
-    private LinearOnScrollListener mOnScrollListener;
 
     public static SearchBookFragment newInstance() {
         return new SearchBookFragment();
@@ -56,21 +53,19 @@ public class SearchBookFragment extends BaseFragment {
 
     @Override
     protected int getContentLayout() {
-        return R.layout.layout_refresh_recycler;
+        return R.layout.common_load_layout;
     }
 
     @Override
     protected void initView(View view) {
+        // init load layout
+        initLoadLayout(view, R.id.common_load_container, R.string.load_empty_data, R.mipmap.default_data_empty);
         // init views
-        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new SearchBookAdapter(getActivity(), R.layout.recycler_book_item, this);
-        recyclerView.setAdapter(mAdapter);
-        mOnScrollListener = new LinearOnScrollListener(layoutManager, mAdapter);
-        recyclerView.addOnScrollListener(mOnScrollListener);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mAdapter = new SearchBookAdapter(getActivity(), R.layout.recycler_book_item);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -81,74 +76,46 @@ public class SearchBookFragment extends BaseFragment {
             intent.putExtra("bookId", bookId);
             startActivity(intent);
         });
-        mRefreshLayout.setOnRefreshListener(() -> {
-            mHasMore = true;
-            getData(mContent, 0);
-        });
-        mOnScrollListener.setOnLoadMore(() -> getData(mContent, mAdapter.getItemCount()));
-    }
-
-    public void onBookSuccess(ArrayList<BookSubject> list) {
-        mRefreshLayout.setRefreshing(false);
-        mAdapter.putList(list);
-    }
-
-    public void onBookError(String error) {
-        mRefreshLayout.setRefreshing(false);
-        ToastUtil.showToast(getActivity(), error);
-    }
-
-    public void onMoreSuccess(ArrayList<BookSubject> list) {
-        mOnScrollListener.loadComplete();
-        mAdapter.addList(list);
-        if (list == null || list.size() == 0) {
-            mHasMore = false;
-        }
-    }
-
-    public void onMoreError(String error) {
-        mOnScrollListener.loadComplete();
-        ToastUtil.showToast(getActivity(), error);
+        // set refresh
+        setRefresh(true, true);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(BaseEvent event) {
         if (event.getWhat() == EventCode.WHAT_SEARCH && event.getCode() == EventCode.CODE_SEARCH_ALL) {
             mContent = (String) event.getObject();
-            mRefreshLayout.setRefreshing(true);
-            getData(mContent, 0);
-            mHasMore = true;
+            autoRefresh();
         }
     }
 
-    /**
-     * 搜索书籍
-     *
-     * @param content 搜索内容
-     * @param start   开始点
-     */
-    private void getData(String content, final int start) {
-        if (!mHasMore) {
-            if (start == 0) {
-                mRefreshLayout.setRefreshing(false);
-            } else {
-                mOnScrollListener.loadComplete();
-            }
-            return;
-        }
-        BookClient.getInstance().getBookSearch(content, start).subscribe(newSubscriber(searchBookData -> {
-            if (start == 0) {
-                onBookSuccess(searchBookData.getBooks());
-            } else {
-                onMoreSuccess(searchBookData.getBooks());
-            }
-        }, throwable -> {
-            if (start == 0) {
-                onBookError(throwable.getMessage());
-            } else {
-                onMoreError(throwable.getMessage());
-            }
+    @Override
+    protected void onActionRefresh() {
+        BookClient.getInstance().getBookSearch(mContent, 0).subscribe(newSubscriber(searchBookData -> {
+            loadComplete();
+            mAdapter.putList(searchBookData.getBooks());
+            mLoadLayout.setShowEmptyView(searchBookData.getTotal() == 0);
+            judgeResult(searchBookData);
         }));
+    }
+
+    @Override
+    protected void onActionMore() {
+        BookClient.getInstance().getBookSearch(mContent, mAdapter.getItemCount()).subscribe(newSubscriber(searchBookData -> {
+            loadComplete();
+            mAdapter.addList(searchBookData.getBooks());
+            judgeResult(searchBookData);
+        }));
+    }
+
+    /**
+     * 判断结果列表，查看是否还有更多
+     */
+    private void judgeResult(SearchBookData data) {
+        if (mAdapter.getItemCount() < data.getTotal()) {
+            setMoreEnable(true);
+        } else {
+            setMoreEnable(false);
+        }
     }
 
     @Override

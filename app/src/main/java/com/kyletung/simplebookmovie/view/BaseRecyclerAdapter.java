@@ -1,8 +1,6 @@
 package com.kyletung.simplebookmovie.view;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,23 +19,11 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
     protected ArrayList<T> mListData;
 
     protected Context mContext;
-    protected Activity mActivity;
-    protected Fragment mFragment;
 
     public BaseRecyclerAdapter(Context context, int resource) {
         this.mContext = context;
         this.resource = resource;
         mListData = new ArrayList<>();
-    }
-
-    public BaseRecyclerAdapter(Context context, int resource, Activity activity) {
-        this(context, resource);
-        this.mActivity = activity;
-    }
-
-    public BaseRecyclerAdapter(Context context, int resource, Fragment fragment) {
-        this(context, resource);
-        this.mFragment = fragment;
     }
 
     /**
