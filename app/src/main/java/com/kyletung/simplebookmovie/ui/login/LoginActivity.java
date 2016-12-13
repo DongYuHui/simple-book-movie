@@ -121,7 +121,6 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void onLoginSuccess() {
-        // TODO: 2016/08/10 Login Success
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         String userId = new UserInfoUtil(this).readUserId();
@@ -132,7 +131,6 @@ public class LoginActivity extends BaseActivity {
 
     public void onLoginError(String error) {
         stopProgress();
-        // TODO: 2016/08/10 Login Error
         ToastUtil.showToast(this, "登录失败：" + error);
     }
 

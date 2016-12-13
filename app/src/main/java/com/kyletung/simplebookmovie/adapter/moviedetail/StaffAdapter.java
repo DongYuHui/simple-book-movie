@@ -21,7 +21,7 @@ import butterknife.BindView;
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
  * Create Time: 2016/07/14 at 13:31<br>
  * <br>
- * FixMe
+ * 人员适配器，如导演列表，卡司列表
  */
 public class StaffAdapter extends BaseRecyclerAdapter<Staff, StaffAdapter.StaffViewHolder> {
 

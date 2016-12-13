@@ -19,7 +19,7 @@ import com.kyletung.simplebookmovie.utils.UserInfoUtil;
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
  * Create Time: 2016/07/14 at 15:06<br>
  * <br>
- * FixMe
+ * 设置页面
  */
 public class SettingsActivity extends BaseActivity implements View.OnClickListener {
 

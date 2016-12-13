@@ -22,7 +22,7 @@ import butterknife.BindView;
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
  * Create Time: 2016/07/14 at 21:47<br>
  * <br>
- * FixMe
+ * 搜索书籍适配器
  */
 public class SearchBookAdapter extends BaseRecyclerAdapter<BookSubject, SearchBookAdapter.BookViewHolder> {
 

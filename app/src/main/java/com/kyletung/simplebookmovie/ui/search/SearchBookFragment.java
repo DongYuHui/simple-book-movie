@@ -30,7 +30,7 @@ import butterknife.BindView;
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
  * Create Time: 2016/07/14 at 20:52<br>
  * <br>
- * FixMe
+ * 搜索书籍页面
  */
 public class SearchBookFragment extends BaseLoadFragment {
 

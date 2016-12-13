@@ -23,7 +23,7 @@ import butterknife.BindView;
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
  * Create Time: 2016/07/05 at 18:35<br>
  * <br>
- * FixMe
+ * 电影 Top250 适配器
  */
 public class MovieTopAdapter extends BaseRecyclerAdapter<MovieSubject, MovieTopAdapter.MovieViewHolder> {
 

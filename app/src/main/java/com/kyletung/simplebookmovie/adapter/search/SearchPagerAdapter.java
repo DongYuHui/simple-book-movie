@@ -14,7 +14,7 @@ import com.kyletung.simplebookmovie.ui.search.SearchMovieFragment;
  * Blog: <a href="http://www.kyletung.com">www.kyletung.com</a><br>
  * Create Time: 2016/07/14 at 21:24<br>
  * <br>
- * FixMe
+ * 搜索页面 Fragment 适配器
  */
 public class SearchPagerAdapter extends FragmentPagerAdapter {
 
