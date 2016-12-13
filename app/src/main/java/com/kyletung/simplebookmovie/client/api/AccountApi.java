@@ -3,6 +3,7 @@ package com.kyletung.simplebookmovie.client.api;
 import com.kyletung.simplebookmovie.data.login.LoginData;
 import com.kyletung.simplebookmovie.data.user.UserData;
 
+import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -37,7 +38,7 @@ public interface AccountApi {
 
     @FormUrlEncoded
     @POST("https://www.douban.com/service/auth2/auth")
-    Observable<String> getCode(
+    Observable<ResponseBody> getCode(
             @Query("client_id") String clientId,
             @Query("redirect_uri") String redirectUri,
             @Query("response_type") String responseTypeFirst,

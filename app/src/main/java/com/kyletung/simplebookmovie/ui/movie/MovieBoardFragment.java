@@ -63,7 +63,7 @@ public class MovieBoardFragment extends BaseLoadFragment {
         });
         // set refresh
         setRefresh(true, false);
-        autoRefresh();
+//        autoRefresh();
     }
 
     @Override

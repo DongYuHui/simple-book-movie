@@ -7,10 +7,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kyletung.commonlib.main.BaseActivity;
+import com.kyletung.commonlib.utils.AppInfoUtil;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.ui.login.LoginActivity;
 import com.kyletung.simplebookmovie.utils.UserInfoUtil;
-import com.kyletung.simplebookmovie.utils.VersionUtil;
 
 /**
  * All rights reserved by Author<br>
@@ -45,7 +45,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     protected void business() {
         mSettingsLogout.setOnClickListener(this);
         try {
-            mSettingsVersion.setText(VersionUtil.getInstance().getVersion(SettingsActivity.this));
+            mSettingsVersion.setText(AppInfoUtil.getVersion(this));
         } catch (PackageManager.NameNotFoundException e) {
             mSettingsVersion.setText(String.valueOf(0));
         }

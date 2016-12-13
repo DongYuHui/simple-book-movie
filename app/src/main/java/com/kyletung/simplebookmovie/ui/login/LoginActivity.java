@@ -143,28 +143,34 @@ public class LoginActivity extends BaseActivity {
      * @param password 密码
      */
     private void getAuthorizationCode(String account, String password) {
-        AccountClient.getInstance().getCode(account, password).subscribe(newSubscriber(this::onLoginError, throwable -> {
+        AccountClient.getInstance().getCode(account, password).subscribe(responseBody -> {
+            stopProgress();
+            try {
+                onLoginError(responseBody.string());
+            } catch (IOException e) {
+                onLoginError(e.getMessage());
+            }
+        }, throwable -> {
             if (throwable instanceof HttpException) {
                 HttpException exception = (HttpException) throwable;
-                if (exception.code() == 302) {
-                    try {
-                        String result = exception.response().errorBody().string();
-                        if (result.contains("www.kyletung.com?code=")) {
-                            String authorizationCode = result.substring(result.indexOf("=") + 1);
-                            getToken(authorizationCode);
-                        } else {
-                            onLoginError(result);
-                        }
-                    } catch (IOException e) {
-                        onLoginError(e.getMessage());
+                try {
+                    String result = exception.response().errorBody().string();
+                    if (result.contains("www.kyletung.com?code=")) {
+                        String authorizationCode = result.substring(result.indexOf("=") + 1);
+                        getToken(authorizationCode);
+                    } else {
+                        stopProgress();
+                        onLoginError(result);
                     }
-                } else {
-                    onLoginError(exception.message());
+                } catch (IOException e) {
+                    stopProgress();
+                    onLoginError(e.getMessage());
                 }
             } else {
+                stopProgress();
                 onLoginError(throwable.getMessage());
             }
-        }));
+        });
     }
 
     /**

@@ -43,6 +43,9 @@ public abstract class BaseClient {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(15, TimeUnit.SECONDS);
         builder.cache(getCache(context));
+        // don't follow redirects
+        builder.followSslRedirects(false);
+        builder.followRedirects(false);
         // set custom interceptor
 //        builder.addNetworkInterceptor(this::getInterceptor);
         // set logging

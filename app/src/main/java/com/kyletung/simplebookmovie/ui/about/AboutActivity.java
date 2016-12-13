@@ -6,8 +6,8 @@ import android.content.pm.PackageManager;
 import android.widget.TextView;
 
 import com.kyletung.commonlib.main.BaseActivity;
+import com.kyletung.commonlib.utils.AppInfoUtil;
 import com.kyletung.simplebookmovie.R;
-import com.kyletung.simplebookmovie.utils.VersionUtil;
 
 import butterknife.BindView;
 
@@ -43,7 +43,7 @@ public class AboutActivity extends BaseActivity {
         try {
             mVersion.setText(String.format(
                     getString(R.string.about_version),
-                    String.valueOf(VersionUtil.getInstance().getVersion(this))
+                    String.valueOf(AppInfoUtil.getVersion(this))
             ));
         } catch (PackageManager.NameNotFoundException e) {
             mVersion.setText(getString(R.string.about_version_error));

@@ -7,12 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kyletung.commonlib.adapter.BaseRecyclerAdapter;
 import com.kyletung.commonlib.adapter.BaseViewHolder;
 import com.kyletung.commonlib.utils.ImageLoader;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.data.movie.MovieItem;
 import com.kyletung.simplebookmovie.data.movie.Staff;
-import com.kyletung.simplebookmovie.view.BaseRecyclerAdapter;
 
 import butterknife.BindView;
 

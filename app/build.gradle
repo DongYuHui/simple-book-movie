@@ -20,8 +20,8 @@ android {
     buildTypes {
         release {
             buildConfigField("String", "BASE_URL", "\"https://api.douban.com/v2/\"")
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {

@@ -7,6 +7,7 @@ import com.kyletung.simplebookmovie.config.Constants;
 import com.kyletung.simplebookmovie.data.login.LoginData;
 import com.kyletung.simplebookmovie.data.user.UserData;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
 
 /**
@@ -50,7 +51,7 @@ public class AccountClient extends SimpleClient {
      * @param account      账号
      * @param password     密码
      */
-    public Observable<String> getCode(String account, String password) {
+    public Observable<ResponseBody> getCode(String account, String password) {
         return mAccountApi.getCode(
                 Constants.APP_KEY,
                 REQUEST_REDIRECT_URI_MINE,

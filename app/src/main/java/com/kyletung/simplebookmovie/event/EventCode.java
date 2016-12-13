@@ -9,10 +9,10 @@ package com.kyletung.simplebookmovie.event;
  * <br>
  * 专门用来存放事件代码
  */
-public class EventCode {
+public interface EventCode {
 
     // Search
-    public static final int WHAT_SEARCH = 300;
-    public static final int CODE_SEARCH_ALL = 301;
+    int WHAT_SEARCH = 300;
+    int CODE_SEARCH_ALL = 301;
 
 }
