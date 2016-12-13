@@ -3,13 +3,13 @@ package com.kyletung.simplebookmovie.ui.login;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.kyletung.commonlib.main.BaseActivity;
 import com.kyletung.commonlib.utils.ToastUtil;
 import com.kyletung.simplebookmovie.R;
@@ -18,10 +18,14 @@ import com.kyletung.simplebookmovie.ui.main.MainActivity;
 import com.kyletung.simplebookmovie.utils.UserInfoUtil;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import retrofit2.adapter.rxjava.HttpException;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * All rights reserved by Author<br>
@@ -64,60 +68,17 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void business() {
-        // TODO: 2016/12/9 此处可用 RxBinding 优化
-        mLoginAccount.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                checkInfo();
-            }
-
+        Observable<Boolean> rxAccount = RxTextView.textChanges(mLoginAccount).map(charSequence -> !TextUtils.isEmpty(charSequence));
+        Observable<Boolean> rxPassword = RxTextView.textChanges(mLoginPassword).map(charSequence -> !TextUtils.isEmpty(charSequence));
+        Observable.combineLatest(rxAccount, rxPassword, (aBoolean, aBoolean2) -> aBoolean && aBoolean2).subscribe(aBoolean -> {
+            mLoginButton.setEnabled(aBoolean);
         });
-        mLoginPassword.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                checkInfo();
-            }
-
+        RxView.clicks(mLoginButton).throttleFirst(1, TimeUnit.SECONDS).subscribe(aVoid -> {
+            showProgress("登录中，请稍后", false, null);
+            String account = mLoginAccount.getText().toString();
+            String password = mLoginPassword.getText().toString();
+            getAuthorizationCode(account, password);
         });
-    }
-
-    @SuppressWarnings("unused")
-    @OnClick(R.id.login_button)
-    public void loginButton(Button button) {
-        showProgress("登录中，请稍后", false, null);
-        String account = mLoginAccount.getText().toString();
-        String password = mLoginPassword.getText().toString();
-        getAuthorizationCode(account, password);
-    }
-
-    private void checkInfo() {
-        if (TextUtils.isEmpty(mLoginAccount.getText())) {
-            mLoginButton.setEnabled(false);
-            return;
-        }
-        if (TextUtils.isEmpty(mLoginPassword.getText())) {
-            mLoginButton.setEnabled(false);
-            return;
-        }
-        mLoginButton.setEnabled(true);
     }
 
     public void onLoginSuccess() {
@@ -129,11 +90,6 @@ public class LoginActivity extends BaseActivity {
         finish();
     }
 
-    public void onLoginError(String error) {
-        stopProgress();
-        ToastUtil.showToast(this, "登录失败：" + error);
-    }
-
     /**
      * 调用登录接口
      *
@@ -141,33 +97,35 @@ public class LoginActivity extends BaseActivity {
      * @param password 密码
      */
     private void getAuthorizationCode(String account, String password) {
-        AccountClient.getInstance().getCode(account, password).subscribe(responseBody -> {
-            stopProgress();
-            try {
-                onLoginError(responseBody.string());
-            } catch (IOException e) {
-                onLoginError(e.getMessage());
-            }
-        }, throwable -> {
-            if (throwable instanceof HttpException) {
-                HttpException exception = (HttpException) throwable;
-                try {
-                    String result = exception.response().errorBody().string();
-                    if (result.contains("www.kyletung.com?code=")) {
-                        String authorizationCode = result.substring(result.indexOf("=") + 1);
-                        getToken(authorizationCode);
-                    } else {
-                        stopProgress();
-                        onLoginError(result);
-                    }
-                } catch (IOException e) {
-                    stopProgress();
-                    onLoginError(e.getMessage());
+        AccountClient.getInstance().getCode(account, password).compose(responseBodyObservable -> {
+            return Observable.create(new Observable.OnSubscribe<String>() {
+                @Override
+                public void call(Subscriber<? super String> subscriber) {
+                    responseBodyObservable.subscribe(responseBody -> {
+                        subscriber.onError(new Exception("登陆出错"));
+                    }, throwable -> {
+                        if (throwable instanceof HttpException) {
+                            HttpException httpException = (HttpException) throwable;
+                            try {
+                                String result = httpException.response().errorBody().string();
+                                if (result.contains("www.kyletung.com?code=")) {
+                                    subscriber.onNext(result.substring(result.indexOf("=") + 1));
+                                } else {
+                                    subscriber.onError(throwable);
+                                }
+                            } catch (IOException e) {
+                                subscriber.onError(e);
+                            }
+                        } else {
+                            subscriber.onError(throwable);
+                        }
+                    });
                 }
-            } else {
-                stopProgress();
-                onLoginError(throwable.getMessage());
-            }
+            });
+        }).subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(this::getToken, throwable -> {
+            stopProgress();
+            ToastUtil.showToast(LoginActivity.this, "登陆失败：" + throwable.getMessage());
         });
     }
 
