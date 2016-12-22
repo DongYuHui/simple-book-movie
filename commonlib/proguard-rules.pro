@@ -197,7 +197,6 @@
 
 # depends on application
 
--keep class com.kyletung.commonlib.http.** { *; }
 -keep class com.kyletung.commonlib.view.** { *; }
 -keep class com.kyletung.commonlib.utils.** { *; }
 

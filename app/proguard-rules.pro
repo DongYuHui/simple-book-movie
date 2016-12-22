@@ -197,7 +197,6 @@
 
 # Depend on Module
 
--keep class com.kyletung.simplebookmovie.client.** { *; }
 -keep class com.kyletung.simplebookmovie.data.** { *; }
 -keep class com.kyletung.simplebookmovie.utils.** { *; }
 
