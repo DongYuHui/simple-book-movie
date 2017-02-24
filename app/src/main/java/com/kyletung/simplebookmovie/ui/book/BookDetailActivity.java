@@ -1,6 +1,7 @@
 package com.kyletung.simplebookmovie.ui.book;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,8 +12,14 @@ import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.client.request.BookClient;
 import com.kyletung.simplebookmovie.data.bookdetail.BookCollectionData;
 import com.kyletung.simplebookmovie.data.bookdetail.BookDetailData;
+import com.kyletung.simplebookmovie.utils.BlurUtil;
 
 import butterknife.BindView;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * All rights reserved by Author<br>
@@ -26,8 +33,10 @@ import butterknife.BindView;
 public class BookDetailActivity extends BaseActivity {
 
     // views
-    @BindView(R.id.book_detail_image)
-    ImageView mBookImage; // 封面
+    @BindView(R.id.book_cover)
+    ImageView mBookCover; // 封面
+    @BindView(R.id.cover_blur_background)
+    ImageView mBookCoverBlur; // 模糊的封面背景
     @BindView(R.id.book_detail_title)
     TextView mBookTitle; // 书籍标题
     @BindView(R.id.book_detail_subtitle)
@@ -77,7 +86,8 @@ public class BookDetailActivity extends BaseActivity {
     }
 
     private void setData(BookDetailData data) {
-        ImageLoader.load(this, mBookImage, data.getImages().getLarge());
+        ImageLoader.load(this, mBookCover, data.getImages().getLarge());
+        setCoverBlurBackground(data.getImages().getSmall());
         mBookTitle.setText(data.getTitle());
         mBookSubtitle.setText(data.getSubtitle());
         mBookPoints.setText(data.getRating().getAverage());
@@ -116,11 +126,38 @@ public class BookDetailActivity extends BaseActivity {
      * @param bookId 书籍 Id
      */
     private void getDetail(String bookId) {
+        showProgress(getString(R.string.common_get_data), true, null);
         if (TextUtils.isEmpty(mUserId)) {
-            BookClient.getInstance().getBookDetail(bookId).subscribe(newSubscriber(this::onGetDataSuccess));
+            BookClient.getInstance().getBookDetail(bookId).subscribe(newSubscriber(new Action1<BookDetailData>() {
+                @Override
+                public void call(BookDetailData bookDetailData) {
+                    stopProgress();
+                    onGetDataSuccess(bookDetailData);
+                }
+            }));
         } else {
-            BookClient.getInstance().getBookDetail(bookId, mUserId).subscribe(newSubscriber(this::onGetCollectionSuccess));
+            BookClient.getInstance().getBookDetail(bookId, mUserId).subscribe(newSubscriber(new Action1<BookCollectionData>() {
+                @Override
+                public void call(BookCollectionData bookCollectionData) {
+                    stopProgress();
+                    onGetCollectionSuccess(bookCollectionData);
+                }
+            }));
         }
+    }
+
+    private void setCoverBlurBackground(String url) {
+        Observable.just(url).map(new Func1<String, Bitmap>() {
+            @Override
+            public Bitmap call(String s) {
+                return BlurUtil.blurFromUrl(BookDetailActivity.this, url, 60, 90, 16);
+            }
+        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Bitmap>() {
+            @Override
+            public void call(Bitmap bitmap) {
+                mBookCoverBlur.setImageBitmap(bitmap);
+            }
+        });
     }
 
 }

@@ -6,5 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/commonToolbarBackground"
+    app:layout_collapseMode="pin"
     app:popupTheme="@style/ToolBarPopupTheme"
     app:theme="?attr/commonToolbarTheme"/>

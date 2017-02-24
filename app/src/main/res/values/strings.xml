@@ -3,7 +3,10 @@
     <!-- Application Name -->
     <string name="app_name">SimpleBookMovie</string>
 
+    <!-- Common Strings -->
     <string name="default_image_description">Image</string>
+    <string name="common_get_data">正在获取数据，请稍后~</string>
+    <string name="common_upload_data">正在上传数据，请稍后~</string>
 
     <!-- Main Activity -->
     <string name="main_tab_book">Book</string>
