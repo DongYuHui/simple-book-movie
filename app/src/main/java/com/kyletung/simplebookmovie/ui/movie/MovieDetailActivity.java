@@ -1,6 +1,7 @@
 package com.kyletung.simplebookmovie.ui.movie;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,8 +14,14 @@ import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.moviedetail.StaffAdapter;
 import com.kyletung.simplebookmovie.client.request.MovieClient;
 import com.kyletung.simplebookmovie.data.moviedetail.MovieDetailData;
+import com.kyletung.simplebookmovie.utils.BlurUtil;
 
 import butterknife.BindView;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * All rights reserved by Author<br>
@@ -28,8 +35,10 @@ import butterknife.BindView;
 public class MovieDetailActivity extends BaseActivity {
 
     // views
-    @BindView(R.id.movie_detail_image)
-    ImageView mMovieImage;
+    @BindView(R.id.movie_cover)
+    ImageView mMovieCover; // 封面
+    @BindView(R.id.cover_blur_background)
+    ImageView mMovieCoverBlur; // 模糊的封面背景
     @BindView(R.id.movie_detail_title)
     TextView mMovieTitle;
     @BindView(R.id.movie_detail_points)
@@ -84,7 +93,14 @@ public class MovieDetailActivity extends BaseActivity {
      * @param movieId 影视 Id
      */
     private void getData(String movieId) {
-        MovieClient.getInstance().getMovieDetail(movieId).subscribe(newSubscriber(this::getDataSuccess));
+        showProgress(getString(R.string.common_get_data), true, null);
+        MovieClient.getInstance().getMovieDetail(movieId).subscribe(newSubscriber(new Action1<MovieDetailData>() {
+            @Override
+            public void call(MovieDetailData movieDetailData) {
+                stopProgress();
+                getDataSuccess(movieDetailData);
+            }
+        }));
     }
 
     /**
@@ -93,7 +109,8 @@ public class MovieDetailActivity extends BaseActivity {
      * @param data 内容
      */
     public void getDataSuccess(MovieDetailData data) {
-        ImageLoader.load(this, mMovieImage, data.getImages().getLarge());
+        ImageLoader.load(this, mMovieCover, data.getImages().getLarge());
+        setCoverBlurBackground(data.getImages().getSmall());
         mMovieTitle.setText(data.getTitle());
         mMoviePoints.setText(String.valueOf(data.getRating().getAverage()));
         mMovieOriginalName.setText(data.getOriginal_title());
@@ -108,6 +125,20 @@ public class MovieDetailActivity extends BaseActivity {
         mMovieSummary.setText(data.getSummary());
         mDirectorAdapter.putList(data.getDirectors());
         mCastAdapter.putList(data.getCasts());
+    }
+
+    private void setCoverBlurBackground(String url) {
+        Observable.just(url).map(new Func1<String, Bitmap>() {
+            @Override
+            public Bitmap call(String s) {
+                return BlurUtil.blurFromUrl(MovieDetailActivity.this, url, 60, 90, 16);
+            }
+        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Bitmap>() {
+            @Override
+            public void call(Bitmap bitmap) {
+                mMovieCoverBlur.setImageBitmap(bitmap);
+            }
+        });
     }
 
 }
