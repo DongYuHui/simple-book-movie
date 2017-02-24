@@ -12,7 +12,6 @@ import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -47,11 +46,11 @@ public abstract class BaseClient {
         builder.followSslRedirects(false);
         builder.followRedirects(false);
         // set custom interceptor
-//        builder.addNetworkInterceptor(this::getInterceptor);
+        builder.addNetworkInterceptor(this::getInterceptor);
         // set logging
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
-        builder.addInterceptor(loggingInterceptor);
+//        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+//        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+//        builder.addInterceptor(loggingInterceptor);
         // initView http log
         return builder.build();
     }

@@ -9,10 +9,10 @@ import com.kyletung.simplebookmovie.BaseApplication;
 import com.kyletung.simplebookmovie.BuildConfig;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.Interceptor;
-import okhttp3.MediaType;
-import okhttp3.Request;
 import okhttp3.ResponseBody;
 import okio.Buffer;
 import rx.Observable;
@@ -26,21 +26,24 @@ import rx.schedulers.Schedulers;
  */
 public abstract class SimpleClient extends BaseClient {
 
-    private static final String F_BREAK = " %n";
-    private static final String F_URL = " %s";
-    private static final String F_TIME = " in %.1fms";
-    private static final String F_HEADERS = "%s";
-    private static final String F_RESPONSE = F_BREAK + "Response: %d";
-    private static final String F_BODY = "body: %s";
+    private static final String TAG = "SimpleBookMovie";
 
-    private static final String F_BREAKER = F_BREAK + "-------------------------------------------" + F_BREAK;
-    private static final String F_REQUEST_WITHOUT_BODY = F_URL + F_TIME + F_BREAK + F_HEADERS;
-    private static final String F_RESPONSE_WITHOUT_BODY = F_RESPONSE + F_BREAK + F_HEADERS + F_BREAKER;
-    private static final String F_REQUEST_WITH_BODY = F_URL + F_TIME + F_BREAK + F_HEADERS + F_BODY + F_BREAK;
-    private static final String F_RESPONSE_WITH_BODY = F_RESPONSE + F_BREAK + F_HEADERS + F_BODY + F_BREAK + F_BREAKER;
+    /**
+     * 用于格式化输出网络请求
+     */
+    private static final String OUTPUT = "%1$s\n-\n%2$s\n-\n%3$s";
+
+    /**
+     * 用于转换 Request 的 body 字符串
+     */
+    private static final Buffer BUFFER = new Buffer();
 
     public SimpleClient() {
         super(getSimpleHost());
+    }
+
+    public SimpleClient(BaseHost host) {
+        super(host);
     }
 
     /**
@@ -54,50 +57,74 @@ public abstract class SimpleClient extends BaseClient {
 
     @Override
     protected okhttp3.Response getInterceptor(Interceptor.Chain chain) throws IOException {
-        // init network status
-        boolean hasNetwork = NetworkUtil.hasNetwork(BaseApplication.getInstance());
-        // init request
-        Request request = chain.request();
-        Request.Builder builder = request.newBuilder();
-        // common header
-        builder.removeHeader("Pragma");
-        builder.header("User-Agent", "NanxunWater");
-        builder.header("Device", "Android");
-        String cacheTime;
-        if (hasNetwork) {
-            cacheTime = "public, max-age=60";
+        okhttp3.Request request = chain.request();
+        okhttp3.Request.Builder requestBuilder = request.newBuilder();
+        if (NetworkUtil.hasNetwork(BaseApplication.getInstance())) {
+            requestBuilder
+                    .removeHeader("Pragma")
+                    .removeHeader("Cache-Control")
+                    .addHeader("Cache-Control", "public, max-age=10");
         } else {
-            cacheTime = "public, only-if-cached, max-stale=2419200, max-age=" + (7 * 24 * 60 * 60);
+            requestBuilder
+                    .removeHeader("Pragma")
+                    .removeHeader("Cache-Control")
+                    .addHeader("Cache-Control", "public, max-age=604800"); // 无网络时缓存一个星期
         }
-        builder.header("Cache-Control", cacheTime);
-        // debuggable log
+        request = requestBuilder.build();
+        long startTime = System.currentTimeMillis();
+        okhttp3.Response response = chain.proceed(request);
+        long endTime = System.currentTimeMillis();
+        okhttp3.Response.Builder responseBuilder = response.newBuilder();
+        if (NetworkUtil.hasNetwork(BaseApplication.getInstance())) {
+            responseBuilder
+                    .removeHeader("Pragma")
+                    .removeHeader("Cache-Control")
+                    .addHeader("Cache-Control", "public, max-age=10");
+        } else {
+            responseBuilder
+                    .removeHeader("Pragma")
+                    .removeHeader("Cache-Control")
+                    .addHeader("Cache-Control", "public, max-age=604800"); // 无网络时缓存一个星期
+        }
+        response = responseBuilder.build();
         if (BuildConfig.DEBUG) {
-            long timeStart = System.nanoTime();
-            okhttp3.Response response = chain.proceed(builder.build());
-            long timeEnd = System.nanoTime();
-            MediaType contentType = null;
-            String bodyString = "";
-            if (response.body() != null) {
-                contentType = response.body().contentType();
-                bodyString = response.body().string();
-            }
-            // 请求响应时间
-            double time = (timeEnd - timeStart) / 1e6d;
-            if (request.method().equals("GET")) {
-                Log.e("request-->", String.format("GET " + F_REQUEST_WITHOUT_BODY + F_RESPONSE_WITH_BODY, request.url(), time, request.headers(), response.code(), response.headers(), stringifyResponseBody(bodyString)));
-            } else if (request.method().equals("POST")) {
-                Log.e("request-->", String.format("POST " + F_REQUEST_WITH_BODY + F_RESPONSE_WITH_BODY, request.url(), time, request.headers(), stringifyRequestBody(request), response.code(), response.headers(), stringifyResponseBody(bodyString)));
-            }
-            if (response.body() != null) {
-                ResponseBody body = ResponseBody.create(contentType, bodyString);
-                return response.newBuilder().body(body).header("Cache-Control", cacheTime).removeHeader("Pragma").build();
-            } else {
-                return response;
-            }
-        } else {
-            okhttp3.Response response = chain.proceed(builder.build());
-            return response.newBuilder().removeHeader("Pragma").header("Cache-Control", cacheTime).build();
+            response = printRequestAndResponse(request, response, endTime - startTime);
         }
+        return response;
+    }
+
+    /**
+     * 将 Request 和 Response 的大致内容输出
+     *
+     * @param request  Request
+     * @param response Response
+     * @param time     请求时间
+     * @return 返回 Response，因为 Response 的 body 只能读取一次，所以读取打印之后需要再塞回去生成新的 Response
+     */
+    private okhttp3.Response printRequestAndResponse(okhttp3.Request request, okhttp3.Response response, long time) {
+        String requestBody = "";
+        String responseBody = "";
+        try {
+            if (request.body() != null) {
+                request.body().writeTo(BUFFER);
+                requestBody = BUFFER.readUtf8();
+            }
+            ResponseBody body = response.body();
+            if (body != null) {
+                responseBody = unicodeToString(body.string());
+                response = response.newBuilder().body(ResponseBody.create(body.contentType(), responseBody)).build();
+            }
+        } catch (IOException ignored) {
+        }
+        Log.e(TAG, ">>>>>>> Http Request Start >>>>>>>");
+        Log.e(TAG, String.format(
+                OUTPUT,
+                String.valueOf(time) + "ms",
+                request.url() + "\n" + request.headers().toString() + "\n" + requestBody,
+                response.headers().toString() + "\n" + responseBody
+        ));
+        Log.e(TAG, "<<<<<<<  Http Request End  <<<<<<<");
+        return response;
     }
 
     /**
@@ -117,26 +144,28 @@ public abstract class SimpleClient extends BaseClient {
     private final Observable.Transformer mTransformer = new Observable.Transformer() {
         @Override
         public Object call(Object o) {
-            return ((Observable)o)
+            return ((Observable) o)
                     .subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread());
         }
     };
 
-    private static String stringifyRequestBody(Request request) {
-        try {
-            final Request copy = request.newBuilder().build();
-            final Buffer buffer = new Buffer();
-            copy.body().writeTo(buffer);
-            return buffer.readUtf8();
-        } catch (final IOException e) {
-            return "did not work";
+    /**
+     * Unicode 转成字符串
+     *
+     * @param str 输入
+     * @return 返回字符串
+     */
+    private static String unicodeToString(String str) {
+        Pattern pattern = Pattern.compile("(\\\\u(\\p{XDigit}{4}))");
+        Matcher matcher = pattern.matcher(str);
+        char ch;
+        while (matcher.find()) {
+            ch = (char) Integer.parseInt(matcher.group(2), 16);
+            str = str.replace(matcher.group(1), ch + "");
         }
-    }
-
-    private String stringifyResponseBody(String responseBody) {
-        return responseBody;
+        return str;
     }
 
 }
