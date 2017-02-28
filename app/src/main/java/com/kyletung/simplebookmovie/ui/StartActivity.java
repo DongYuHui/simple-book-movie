@@ -1,5 +1,6 @@
 package com.kyletung.simplebookmovie.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.text.TextUtils;
@@ -21,6 +22,11 @@ import com.kyletung.simplebookmovie.utils.UserInfoUtil;
  * 起始页面
  */
 public class StartActivity extends BaseActivity {
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, StartActivity.class);
+        context.startActivity(starter);
+    }
 
     @Override
     protected int getContentLayout() {

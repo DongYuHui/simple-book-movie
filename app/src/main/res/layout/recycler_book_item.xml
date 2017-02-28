@@ -5,14 +5,16 @@
     android:id="@+id/book_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/base_dimen_4dp"
     android:layout_marginBottom="@dimen/base_dimen_4dp"
+    android:layout_marginTop="@dimen/base_dimen_4dp"
     android:clickable="true"
+    android:transitionGroup="true"
     app:cardElevation="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:transitionGroup="true">
 
         <ImageView
             android:id="@+id/book_image"

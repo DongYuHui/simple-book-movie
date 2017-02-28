@@ -1,5 +1,6 @@
 package com.kyletung.simplebookmovie.ui.settings;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.view.View;
@@ -26,6 +27,11 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     private LinearLayout mSettingsLogout;
 
     private TextView mSettingsVersion;
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, SettingsActivity.class);
+        context.startActivity(starter);
+    }
 
     @Override
     protected int getContentLayout() {

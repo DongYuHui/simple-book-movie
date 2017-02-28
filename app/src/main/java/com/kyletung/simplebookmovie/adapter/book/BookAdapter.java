@@ -66,7 +66,7 @@ public class BookAdapter extends BaseRecyclerAdapter<BookItem, BookAdapter.BookV
         holder.mPrice.setText(mListData.get(itemPosition).getBook().getPrice());
         holder.mContainer.setOnClickListener(view -> {
             if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemClick(itemPosition, mListData.get(itemPosition).getBook_id());
+                mOnItemClickListener.onItemClick(holder.mImage, itemPosition, mListData.get(itemPosition));
             }
         });
     }
@@ -99,7 +99,7 @@ public class BookAdapter extends BaseRecyclerAdapter<BookItem, BookAdapter.BookV
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position, String bookId);
+        void onItemClick(View cover, int position, BookItem bookItem);
     }
 
 }

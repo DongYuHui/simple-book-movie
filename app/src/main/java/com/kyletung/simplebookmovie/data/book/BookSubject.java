@@ -2,6 +2,7 @@ package com.kyletung.simplebookmovie.data.book;
 
 import com.kyletung.simplebookmovie.data.Image;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  * <br>
  * FixMe
  */
-public class BookSubject {
+public class BookSubject implements Serializable {
 
     private String subtitle;
     private String pubdate;

@@ -1,8 +1,12 @@
 package com.kyletung.simplebookmovie.ui.book;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,6 +14,7 @@ import com.kyletung.commonlib.main.BaseActivity;
 import com.kyletung.commonlib.utils.ImageLoader;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.client.request.BookClient;
+import com.kyletung.simplebookmovie.data.book.BookItem;
 import com.kyletung.simplebookmovie.data.bookdetail.BookCollectionData;
 import com.kyletung.simplebookmovie.data.bookdetail.BookDetailData;
 import com.kyletung.simplebookmovie.utils.BlurUtil;
@@ -32,8 +37,12 @@ import rx.schedulers.Schedulers;
  */
 public class BookDetailActivity extends BaseActivity {
 
+    private static final String TRANSITION = "entry_transition";
+
     // views
-    @BindView(R.id.book_cover)
+    @BindView(R.id.book_scroll)
+    NestedScrollView mScrollView;
+    @BindView(R.id.book_image)
     ImageView mBookCover; // 封面
     @BindView(R.id.cover_blur_background)
     ImageView mBookCoverBlur; // 模糊的封面背景
@@ -64,6 +73,15 @@ public class BookDetailActivity extends BaseActivity {
 
     private String mUserId;
 
+    public static void start(Activity activity, String userId, BookItem item, View transitionView) {
+        Intent starter = new Intent(activity, BookDetailActivity.class);
+        starter.putExtra("userId", userId);
+        starter.putExtra("book_item", item);
+//        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, transitionView, TRANSITION);
+//        ActivityCompat.startActivity(activity, starter, options.toBundle());
+        activity.startActivity(starter);
+    }
+
     @Override
     protected int getContentLayout() {
         return R.layout.activity_book_detail;
@@ -71,6 +89,8 @@ public class BookDetailActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        // init transition
+//        ViewCompat.setTransitionName(mBookCover, TRANSITION);
         // init toolbar
         setToolbar(getString(R.string.book_detail_title), true);
     }
@@ -79,10 +99,48 @@ public class BookDetailActivity extends BaseActivity {
     protected void business() {
         // init data
         Intent intent = getIntent();
-        String bookId = intent.getStringExtra("bookId");
         mUserId = intent.getStringExtra("userId");
-        // get data
-        getDetail(bookId);
+        initTransitionListener();
+    }
+
+    private void initTransitionListener() {
+        BookItem item = (BookItem) getIntent().getSerializableExtra("book_item");
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            ImageLoader.load(this, mBookCover, item.getBook().getImages().getSmall());
+//            Transition transition = getWindow().getSharedElementEnterTransition();
+//            if (transition != null) {
+//                transition.addListener(new Transition.TransitionListener() {
+//
+//                    @Override
+//                    public void onTransitionStart(Transition transition) {
+//                    }
+//
+//                    @Override
+//                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+//                    public void onTransitionEnd(Transition transition) {
+//                        transition.removeListener(this);
+//                        getDetail(item.getBook_id());
+//                    }
+//
+//                    @Override
+//                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+//                    public void onTransitionCancel(Transition transition) {
+//                        transition.removeListener(this);
+//                    }
+//
+//                    @Override
+//                    public void onTransitionPause(Transition transition) {
+//                    }
+//
+//                    @Override
+//                    public void onTransitionResume(Transition transition) {
+//                    }
+//
+//                });
+//            }
+//        } else {
+            getDetail(item.getBook_id());
+//        }
     }
 
     private void setData(BookDetailData data) {
@@ -158,6 +216,18 @@ public class BookDetailActivity extends BaseActivity {
                 mBookCoverBlur.setImageBitmap(bitmap);
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mScrollView.getScrollX() != 0) {
+                mScrollView.smoothScrollTo(0, 0);
+                return true;
+            }
+//            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

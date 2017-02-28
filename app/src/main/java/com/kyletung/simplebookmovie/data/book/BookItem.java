@@ -1,5 +1,7 @@
 package com.kyletung.simplebookmovie.data.book;
 
+import java.io.Serializable;
+
 /**
  * All rights reserved by Author<br>
  * Author: Dong YuHui<br>
@@ -9,7 +11,7 @@ package com.kyletung.simplebookmovie.data.book;
  * <br>
  * FixMe
  */
-public class BookItem {
+public class BookItem implements Serializable {
 
     private String status;
     private String updated;

@@ -1,5 +1,6 @@
 package com.kyletung.simplebookmovie.ui.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -36,6 +37,12 @@ public class MainActivity extends BaseActivity {
     BottomNavigationBar mNavigationBar;
 
     private TabPagerAdapter mTabAdapter;
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, MainActivity.class);
+        starter.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        context.startActivity(starter);
+    }
 
     @Override
     protected int getContentLayout() {
@@ -99,12 +106,10 @@ public class MainActivity extends BaseActivity {
                 startActivity(intentSearch);
                 break;
             case R.id.main_menu_settings:
-                Intent intentSettings = new Intent(this, SettingsActivity.class);
-                startActivity(intentSettings);
+                SettingsActivity.start(MainActivity.this);
                 break;
             case R.id.main_menu_about:
-                Intent intentAbout = new Intent(this, AboutActivity.class);
-                startActivity(intentAbout);
+                AboutActivity.start(MainActivity.this);
                 break;
         }
         return true;

@@ -51,13 +51,13 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
     public void setTabLayout(int position) {
         switch (position) {
             case 0:
-                mFragmentMovie.setTabLayout();
+                if (mFragmentMovie != null) mFragmentMovie.setTabLayout();
                 break;
             case 1:
-                mFragmentBook.setTabLayout();
+                if (mFragmentBook != null) mFragmentBook.setTabLayout();
                 break;
             case 2:
-                mFragmentMine.setTabLayout();
+                if (mFragmentMine != null) mFragmentMine.setTabLayout();
                 break;
         }
     }

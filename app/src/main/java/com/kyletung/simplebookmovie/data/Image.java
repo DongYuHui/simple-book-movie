@@ -1,5 +1,7 @@
 package com.kyletung.simplebookmovie.data;
 
+import java.io.Serializable;
+
 /**
  * All rights reserved by Author<br>
  * Author: Dong YuHui<br>
@@ -9,7 +11,7 @@ package com.kyletung.simplebookmovie.data;
  * <br>
  * 电影图片
  */
-public class Image {
+public class Image implements Serializable {
 
     private String small;
     private String large;
