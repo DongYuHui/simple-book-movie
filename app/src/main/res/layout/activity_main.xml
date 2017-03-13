@@ -15,6 +15,7 @@
             android:id="@+id/main_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_collapseMode="parallax"
             android:background="@color/main_color"
             app:tabIndicatorColor="@color/base_color_white"
             app:tabSelectedTextColor="@color/top_bar_text_selected_color"
@@ -25,8 +26,7 @@
     <com.kyletung.simplebookmovie.view.TabViewPager
         android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:layout_height="match_parent"/>
 
     <com.ashokvarma.bottomnavigation.BottomNavigationBar
         android:layout_gravity="bottom"

@@ -72,4 +72,6 @@ dependencies {
     compile 'net.qiujuer.genius:blur:2.0.0'
     // Bottom Bar
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.3.0'
+    // Airbnb Lottie
+    compile 'com.airbnb.android:lottie:1.5.3'
 }
