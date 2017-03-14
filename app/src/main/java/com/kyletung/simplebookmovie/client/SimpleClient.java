@@ -79,7 +79,7 @@ public abstract class SimpleClient extends BaseClient {
             responseBuilder
                     .removeHeader("Pragma")
                     .removeHeader("Cache-Control")
-                    .addHeader("Cache-Control", "public, max-age=10");
+                    .addHeader("Cache-Control", "public, max-age=60");
         } else {
             responseBuilder
                     .removeHeader("Pragma")

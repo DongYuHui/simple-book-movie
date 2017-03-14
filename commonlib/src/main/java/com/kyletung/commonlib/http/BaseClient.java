@@ -47,10 +47,6 @@ public abstract class BaseClient {
         builder.followRedirects(false);
         // set custom interceptor
         builder.addNetworkInterceptor(this::getInterceptor);
-        // set logging
-//        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-//        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
-//        builder.addInterceptor(loggingInterceptor);
         // initView http log
         return builder.build();
     }
@@ -63,7 +59,7 @@ public abstract class BaseClient {
      */
     private Cache getCache(Context context) {
         File file = new File(context.getCacheDir(), "HttpCache");
-        return new Cache(file, 10 * 1024 * 1024);
+        return new Cache(file, 100 * 1024 * 1024);
     }
 
     /**
