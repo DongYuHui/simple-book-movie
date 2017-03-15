@@ -1,11 +1,11 @@
 package com.kyletung.simplebookmovie.ui.book;
 
+import android.support.design.widget.TabLayout;
 import android.view.View;
 
 import com.kyletung.commonlib.main.BaseFragment;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.book.BookPagerAdapter;
-import com.kyletung.simplebookmovie.ui.main.MainActivity;
 import com.kyletung.simplebookmovie.view.TabViewPager;
 
 import butterknife.BindView;
@@ -21,6 +21,8 @@ import butterknife.BindView;
  */
 public class BookFragment extends BaseFragment {
 
+    @BindView(R.id.main_tab)
+    TabLayout mTabLayout;
     @BindView(R.id.book_viewpager)
     TabViewPager mViewPager;
 
@@ -39,18 +41,11 @@ public class BookFragment extends BaseFragment {
         mViewPager.setSwipeEnabled(true);
         BookPagerAdapter adapter = new BookPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(adapter);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
     protected void business(View view) {
-    }
-
-    /**
-     * 设置外部 Activity 的 TabLayout
-     */
-    public void setTabLayout() {
-        ((MainActivity) getActivity()).getTabLayout().setVisibility(View.VISIBLE);
-        ((MainActivity) getActivity()).getTabLayout().setupWithViewPager(mViewPager);
     }
 
 }

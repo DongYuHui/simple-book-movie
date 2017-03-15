@@ -1,13 +1,13 @@
 package com.kyletung.simplebookmovie.ui.movie;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.kyletung.commonlib.main.BaseFragment;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.movie.MoviePagerAdapter;
-import com.kyletung.simplebookmovie.ui.main.MainActivity;
 
 import butterknife.BindView;
 
@@ -22,6 +22,8 @@ import butterknife.BindView;
  */
 public class MovieFragment extends BaseFragment {
 
+    @BindView(R.id.main_tab)
+    TabLayout mTabLayout;
     @BindView(R.id.movie_viewpager)
     ViewPager mViewPager;
 
@@ -42,18 +44,11 @@ public class MovieFragment extends BaseFragment {
         // init view
         MoviePagerAdapter pagerAdapter = new MoviePagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(pagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
     protected void business(View view) {
-    }
-
-    /**
-     * 设置外部 Activity 的 TabLayout
-     */
-    public void setTabLayout() {
-        ((MainActivity) getActivity()).getTabLayout().setVisibility(View.VISIBLE);
-        ((MainActivity) getActivity()).getTabLayout().setupWithViewPager(mViewPager);
     }
 
 }

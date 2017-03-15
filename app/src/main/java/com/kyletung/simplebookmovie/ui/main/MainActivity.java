@@ -2,19 +2,16 @@ package com.kyletung.simplebookmovie.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.kyletung.commonlib.main.BaseActivity;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.main.TabPagerAdapter;
-import com.kyletung.simplebookmovie.ui.about.AboutActivity;
-import com.kyletung.simplebookmovie.ui.search.SearchActivity;
-import com.kyletung.simplebookmovie.ui.settings.SettingsActivity;
+import com.kyletung.simplebookmovie.view.CoverView;
 
 import butterknife.BindView;
 
@@ -29,14 +26,12 @@ import butterknife.BindView;
  */
 public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.main_tab)
-    TabLayout mTabLayout;
+    @BindView(R.id.cover_view)
+    CoverView mCoverView;
     @BindView(R.id.main_content)
     ViewPager mTabViewPager;
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationBar mNavigationBar;
-
-    private TabPagerAdapter mTabAdapter;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, MainActivity.class);
@@ -51,11 +46,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        // init toolbar
-        setToolbar(getString(R.string.app_name), false);
         // init ViewPager
-        mTabAdapter = new TabPagerAdapter(getSupportFragmentManager());
-        mTabViewPager.setAdapter(mTabAdapter);
+        TabPagerAdapter tabAdapter = new TabPagerAdapter(getSupportFragmentManager());
+        mTabViewPager.setAdapter(tabAdapter);
         // init bottom bar
         mNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.bottom_tab_movie, getString(R.string.main_tab_movie)))
@@ -63,6 +56,8 @@ public class MainActivity extends BaseActivity {
                 .addItem(new BottomNavigationItem(R.drawable.bottom_tab_user, getString(R.string.main_tab_user)))
                 .initialise();
         mNavigationBar.setAutoHideEnabled(true);
+        // init cover
+        mCoverView.setImage(R.mipmap.launcher_icon);
     }
 
     @Override
@@ -72,7 +67,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onTabSelected(int position) {
                 mTabViewPager.setCurrentItem(position, false);
-                mTabAdapter.setTabLayout(position);
             }
 
             @Override
@@ -84,44 +78,11 @@ public class MainActivity extends BaseActivity {
             }
 
         });
-        // init first page
-        mTabLayout.post(() -> {
-            mTabViewPager.setCurrentItem(0, false);
-            mTabAdapter.setTabLayout(0);
+        mCoverView.setOnSlideListener(() -> {
+            mCoverView.setVisibility(View.GONE);
+            ((ViewGroup) findViewById(android.R.id.content)).removeView(mCoverView);
+            mCoverView = null;
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.main_menu_search:
-                Intent intentSearch = new Intent(this, SearchActivity.class);
-                intentSearch.putExtra("content", "");
-                startActivity(intentSearch);
-                break;
-            case R.id.main_menu_settings:
-                SettingsActivity.start(MainActivity.this);
-                break;
-            case R.id.main_menu_about:
-                AboutActivity.start(MainActivity.this);
-                break;
-        }
-        return true;
-    }
-
-    /**
-     * 获取当前页面 TabLayout
-     *
-     * @return 当前页面 TabLayout
-     */
-    public TabLayout getTabLayout() {
-        return mTabLayout;
     }
 
 }

@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.kyletung.simplebookmovie.view.TabViewPager
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/book_viewpager"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-</com.kyletung.simplebookmovie.view.TabViewPager>
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/main_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_color"
+        app:layout_collapseMode="parallax"
+        app:tabIndicatorColor="@color/base_color_white"
+        app:tabSelectedTextColor="@color/top_bar_text_selected_color"
+        app:tabTextColor="@color/top_bar_text_unselected_color"/>
+
+    <com.kyletung.simplebookmovie.view.TabViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/book_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.kyletung.simplebookmovie.view.TabViewPager>
+
+</LinearLayout>

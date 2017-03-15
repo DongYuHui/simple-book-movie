@@ -59,7 +59,7 @@ public class CoverView extends FrameLayout {
      *
      * @param url 网络地址
      */
-    private void setImage(String url) {
+    public void setImage(String url) {
         ImageLoader.load(getContext(), mImage, url);
     }
 
@@ -68,7 +68,7 @@ public class CoverView extends FrameLayout {
      *
      * @param src 资源
      */
-    private void setImage(int src) {
+    public void setImage(int src) {
         mImage.setImageResource(src);
     }
 
@@ -129,13 +129,13 @@ public class CoverView extends FrameLayout {
             mStatus = Status.SLIDE;
             // 向上滑出
             mScroller = new Scroller(getContext(), new AccelerateInterpolator());
-            mScroller.startScroll(0, getScrollY(), 0, getMeasuredHeight() - Math.abs(getScrollY()), 300);
+            mScroller.startScroll(0, getScrollY(), 0, getMeasuredHeight() - Math.abs(getScrollY()), 500);
             invalidate();
         } else {
             mStatus = Status.BACK;
             // 向下还原
             mScroller = new Scroller(getContext(), new BounceInterpolator());
-            mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), 500);
+            mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), 700);
             invalidate();
         }
     }
