@@ -1,4 +1,4 @@
-package com.kyletung.customview.view.cover;
+package com.kyletung.simplebookmovie.view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,6 +12,8 @@ import android.view.animation.BounceInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Scroller;
+
+import com.kyletung.commonlib.utils.ImageLoader;
 
 /**
  * All rights reserved by Author<br>
@@ -58,7 +60,7 @@ public class CoverView extends FrameLayout {
      * @param url 网络地址
      */
     private void setImage(String url) {
-        // TODO: 2017/3/15 此处用于 ImageView 加载网络图片，往往借助于第三方图片加载库
+        ImageLoader.load(getContext(), mImage, url);
     }
 
     /**
