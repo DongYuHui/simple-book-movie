@@ -1,11 +1,14 @@
 package com.kyletung.commonlib.utils;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.PermissionChecker;
+import android.support.v7.app.AlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +22,7 @@ import java.util.List;
  */
 public class PermissionUtil {
 
-    public static final String DESC_TITLE = "权限提示";
+    private static final String DESC_TITLE = "权限提示";
 
     private static final int REQUEST_CODE = 777; // 默认请求码
 
@@ -40,11 +43,12 @@ public class PermissionUtil {
         if (PermissionChecker.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
             mActivity = activity;
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
-                BaseDialog.create(activity)
-                        .setTitle(DESC_TITLE)
-                        .setContent(rationale)
-                        .setPositive(dialog -> ActivityCompat.requestPermissions(activity, new String[]{permission}, REQUEST_CODE))
-                        .show();
+                showDialog(activity, DESC_TITLE, rationale, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(activity, new String[]{permission}, REQUEST_CODE);
+                    }
+                });
             } else {
                 ActivityCompat.requestPermissions(activity, new String[]{permission}, REQUEST_CODE);
             }
@@ -64,11 +68,12 @@ public class PermissionUtil {
         if (PermissionChecker.checkSelfPermission(fragment.getActivity(), permission) != PackageManager.PERMISSION_GRANTED) {
             mActivity = fragment.getActivity();
             if (ActivityCompat.shouldShowRequestPermissionRationale(mActivity, permission)) {
-                BaseDialog.create(mActivity)
-                        .setTitle(DESC_TITLE)
-                        .setContent(rationale)
-                        .setPositive(dialog -> fragment.requestPermissions(new String[]{permission}, REQUEST_CODE))
-                        .show();
+                showDialog(mActivity, DESC_TITLE, rationale, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        fragment.requestPermissions(new String[]{permission}, REQUEST_CODE);
+                    }
+                });
             } else {
                 fragment.requestPermissions(new String[]{permission}, REQUEST_CODE);
             }
@@ -108,11 +113,12 @@ public class PermissionUtil {
             permissionRequest[i] = permissionNot.get(i);
         }
         if (shouldShowDialog) {
-            BaseDialog.create(activity)
-                    .setTitle(DESC_TITLE)
-                    .setContent(rationale)
-                    .setPositive(dialog -> ActivityCompat.requestPermissions(activity, permissionRequest, REQUEST_CODE))
-                    .show();
+            showDialog(activity, DESC_TITLE, rationale, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions(activity, permissionRequest, REQUEST_CODE);
+                }
+            });
         } else {
             ActivityCompat.requestPermissions(activity, permissionRequest, REQUEST_CODE);
         }
@@ -149,11 +155,12 @@ public class PermissionUtil {
             permissionRequest[i] = permissionNot.get(i);
         }
         if (shouldShowDialog) {
-            BaseDialog.create(mActivity)
-                    .setTitle(DESC_TITLE)
-                    .setContent(rationale)
-                    .setPositive(dialog -> fragment.requestPermissions(permissionRequest, REQUEST_CODE))
-                    .show();
+            showDialog(mActivity, DESC_TITLE, rationale, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    fragment.requestPermissions(permissionRequest, REQUEST_CODE);
+                }
+            });
         } else {
             fragment.requestPermissions(permissionRequest, REQUEST_CODE);
         }
@@ -191,6 +198,22 @@ public class PermissionUtil {
                 if (mOnDeniedForeverListener != null) mOnDeniedForeverListener.onDeniedForever();
             }
         }
+    }
+
+    /**
+     * 显示一个对话框
+     *
+     * @param context         Context
+     * @param title           标题
+     * @param content         内容
+     * @param onClickListener 点击监听
+     */
+    private void showDialog(Context context, String title, String content, DialogInterface.OnClickListener onClickListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+        builder.setMessage(content);
+        builder.setPositiveButton("确定", onClickListener);
+        builder.create().show();
     }
 
     /**
