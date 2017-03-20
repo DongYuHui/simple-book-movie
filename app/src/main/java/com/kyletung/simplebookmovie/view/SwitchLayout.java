@@ -1,4 +1,4 @@
-package com.kyletung.testdemo.left;
+package com.kyletung.simplebookmovie.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
