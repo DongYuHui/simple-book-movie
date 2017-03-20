@@ -1,32 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.kyletung.commonlib.view.android.BaseFrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.kyletung.simplebookmovie.view.SwitchLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <com.kyletung.simplebookmovie.view.TabViewPager
-            android:id="@+id/main_content"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <com.ashokvarma.bottomnavigation.BottomNavigationBar
-            android:id="@+id/bottom_navigation_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"/>
-
-    </LinearLayout>
-
-    <com.kyletung.simplebookmovie.view.CoverView
-        android:id="@+id/cover_view"
+    <com.kyletung.commonlib.view.android.BaseFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.kyletung.simplebookmovie.view.CoverView>
 
-</com.kyletung.commonlib.view.android.BaseFrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.kyletung.simplebookmovie.view.TabViewPager
+                android:id="@+id/main_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.ashokvarma.bottomnavigation.BottomNavigationBar
+                android:id="@+id/bottom_navigation_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom" />
+
+        </LinearLayout>
+
+        <com.kyletung.simplebookmovie.view.CoverView
+            android:id="@+id/cover_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.kyletung.commonlib.view.android.BaseFrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_orange_dark"
+        android:gravity="center"
+        android:text="Hello World" />
+
+</com.kyletung.simplebookmovie.view.SwitchLayout>
