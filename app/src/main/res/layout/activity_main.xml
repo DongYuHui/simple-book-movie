@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.kyletung.simplebookmovie.view.SwitchLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.kyletung.simplebookmovie.view.SwitchLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.kyletung.commonlib.view.android.BaseFrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,10 +28,10 @@
 
         </LinearLayout>
 
-        <com.kyletung.simplebookmovie.view.CoverView
-            android:id="@+id/cover_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <!--<com.kyletung.simplebookmovie.view.CoverView-->
+            <!--android:id="@+id/cover_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
 
     </com.kyletung.commonlib.view.android.BaseFrameLayout>
 

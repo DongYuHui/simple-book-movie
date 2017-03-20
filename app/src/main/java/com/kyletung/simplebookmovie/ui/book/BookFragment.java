@@ -41,6 +41,7 @@ public class BookFragment extends BaseFragment {
         mViewPager.setSwipeEnabled(true);
         BookPagerAdapter adapter = new BookPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(adapter);
+        mViewPager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewPager);
     }
 

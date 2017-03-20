@@ -3,15 +3,12 @@ package com.kyletung.simplebookmovie.ui.main;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.kyletung.commonlib.main.BaseActivity;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.main.TabPagerAdapter;
-import com.kyletung.simplebookmovie.view.CoverView;
 
 import butterknife.BindView;
 
@@ -26,8 +23,8 @@ import butterknife.BindView;
  */
 public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.cover_view)
-    CoverView mCoverView;
+//    @BindView(R.id.cover_view)
+//    CoverView mCoverView;
     @BindView(R.id.main_content)
     ViewPager mTabViewPager;
     @BindView(R.id.bottom_navigation_bar)
@@ -49,6 +46,7 @@ public class MainActivity extends BaseActivity {
         // init ViewPager
         TabPagerAdapter tabAdapter = new TabPagerAdapter(getSupportFragmentManager());
         mTabViewPager.setAdapter(tabAdapter);
+        mTabViewPager.setOffscreenPageLimit(2);
         // init bottom bar
         mNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.bottom_tab_movie, getString(R.string.main_tab_movie)))
@@ -57,7 +55,7 @@ public class MainActivity extends BaseActivity {
                 .initialise();
         mNavigationBar.setAutoHideEnabled(true);
         // init cover
-        mCoverView.setImage(R.mipmap.launcher_icon);
+//        mCoverView.setImage(R.mipmap.launcher_icon);
     }
 
     @Override
@@ -78,11 +76,11 @@ public class MainActivity extends BaseActivity {
             }
 
         });
-        mCoverView.setOnSlideListener(() -> {
-            mCoverView.setVisibility(View.GONE);
-            ((ViewGroup) findViewById(android.R.id.content)).removeView(mCoverView);
-            mCoverView = null;
-        });
+//        mCoverView.setOnSlideListener(() -> {
+//            mCoverView.setVisibility(View.GONE);
+//            ((ViewGroup) findViewById(android.R.id.content)).removeView(mCoverView);
+//            mCoverView = null;
+//        });
     }
 
 }
