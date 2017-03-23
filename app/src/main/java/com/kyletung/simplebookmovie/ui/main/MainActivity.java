@@ -3,12 +3,17 @@ package com.kyletung.simplebookmovie.ui.main;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
+import android.widget.EditText;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.kyletung.commonlib.main.BaseActivity;
+import com.kyletung.commonlib.utils.KeyboardUtil;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.main.TabPagerAdapter;
+import com.kyletung.simplebookmovie.view.SwitchLayout;
 
 import butterknife.BindView;
 
@@ -23,12 +28,21 @@ import butterknife.BindView;
  */
 public class MainActivity extends BaseActivity {
 
-//    @BindView(R.id.cover_view)
+    @BindView(R.id.switch_container)
+    SwitchLayout mSwitchContainer;
+    //    @BindView(R.id.cover_view)
 //    CoverView mCoverView;
     @BindView(R.id.main_content)
     ViewPager mTabViewPager;
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationBar mNavigationBar;
+
+    @BindView(R.id.search_input)
+    EditText mSearchInput;
+    @BindView(R.id.search_recent)
+    RecyclerView mSearchRecent;
+    @BindView(R.id.search_result)
+    RecyclerView mSearchResult;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, MainActivity.class);
@@ -81,6 +95,44 @@ public class MainActivity extends BaseActivity {
 //            ((ViewGroup) findViewById(android.R.id.content)).removeView(mCoverView);
 //            mCoverView = null;
 //        });
+        mSwitchContainer.setOnPageChangeListener(new SwitchLayout.OnPageChangeListener() {
+            @Override
+            public void onChange(SwitchLayout.Type type) {
+                switch (type) {
+                    case LEFT:
+                        break;
+                    case RIGHT:
+                        // TODO: 2017/3/23 隐藏输入框，清除搜索框焦点
+                        KeyboardUtil.hideKeyboard(MainActivity.this, mSearchInput);
+                        mSwitchContainer.requestFocus(); // 清除搜索框焦点 通过其他控件请求焦点 来实现
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSwitchContainer.requestFocus();    // 清除搜索框的焦点
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                if (!mSwitchContainer.isPageInRight()) {
+                    mSwitchContainer.scrollToRight();
+                } else {
+                    if (mTabViewPager.getCurrentItem() != 0) {
+                        mNavigationBar.selectTab(0, true);
+                    } else {
+                        finish();
+                    }
+                }
+                return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

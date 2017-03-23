@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.kyletung.simplebookmovie.view.SwitchLayout
+    android:id="@+id/switch_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -18,28 +19,85 @@
                 android:id="@+id/main_content"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"/>
 
             <com.ashokvarma.bottomnavigation.BottomNavigationBar
                 android:id="@+id/bottom_navigation_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom" />
+                android:layout_gravity="bottom"/>
 
         </LinearLayout>
 
         <!--<com.kyletung.simplebookmovie.view.CoverView-->
-            <!--android:id="@+id/cover_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent" />-->
+        <!--android:id="@+id/cover_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
 
     </com.kyletung.commonlib.view.android.BaseFrameLayout>
 
-    <TextView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/holo_orange_dark"
-        android:gravity="center"
-        android:text="Hello World" />
+        android:background="@color/feather_grey">
+
+        <!-- 第一层是搜索结果层 -->
+
+        <com.kyletung.commonlib.view.android.BaseFrameLayout
+            android:id="@+id/layout_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/search_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </com.kyletung.commonlib.view.android.BaseFrameLayout>
+
+        <!-- 第二层是最近的搜索列表 -->
+
+        <FrameLayout
+            android:id="@+id/layout_recent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/base_dimen_16dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/search_recent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </FrameLayout>
+
+        <!-- 第三层是顶部的搜索框 -->
+
+        <FrameLayout
+            android:id="@+id/layout_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/base_dimen_16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_bar_background"
+                android:elevation="@dimen/base_dimen_2dp"
+                android:gravity="center_vertical">
+
+                <EditText
+                    android:id="@+id/search_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </FrameLayout>
 
 </com.kyletung.simplebookmovie.view.SwitchLayout>

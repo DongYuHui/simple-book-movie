@@ -91,7 +91,6 @@ public abstract class BaseLoadActivity extends BaseActivity {
     protected void autoRefresh() {
         mLoadLayout.post(() -> {
             mLoadLayout.setRefreshing(true);
-            onActionRefresh();
         });
     }
 

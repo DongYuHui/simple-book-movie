@@ -115,7 +115,6 @@ public abstract class BaseLoadFragment extends BaseFragment {
     protected void autoRefresh() {
         mLoadLayout.post(() -> {
             mLoadLayout.setRefreshing(true);
-            onActionRefresh();
         });
     }
 

@@ -105,8 +105,9 @@ public class SwitchLayout extends ViewGroup {
      * 自动滑动到最左边
      */
     public void scrollToLeft() {
-        if (mNowType == Type.LEFT) return;
-        mNowType = Type.LEFT;
+        if (mNowStatus == Type.LEFT) return;
+        mNowStatus = Type.LEFT;
+        if (mOnPageChangeListener != null) mOnPageChangeListener.onChange(mNowStatus);
         mScroller.startScroll(getScrollX(), 0, -getMeasuredWidth() - getScrollX(), 0);
         invalidate();
     }
@@ -115,10 +116,29 @@ public class SwitchLayout extends ViewGroup {
      * 自动滑动到最右边
      */
     public void scrollToRight() {
-        if (mNowType == Type.RIGHT) return;
-        mNowType = Type.RIGHT;
+        if (mNowStatus == Type.RIGHT) return;
+        mNowStatus = Type.RIGHT;
+        if (mOnPageChangeListener != null) mOnPageChangeListener.onChange(mNowStatus);
         mScroller.startScroll(getScrollX(), 0, -getScrollX(), 0);
         invalidate();
+    }
+
+    /**
+     * 当前页面是否是左边的控件
+     *
+     * @return 返回结果
+     */
+    public boolean isPageInLeft() {
+        return mNowStatus == Type.LEFT;
+    }
+
+    /**
+     * 当前页面是否是右边的控件
+     *
+     * @return 返回结果
+     */
+    public boolean isPageInRight() {
+        return mNowStatus == Type.RIGHT;
     }
 
     @Override
@@ -227,8 +247,9 @@ public class SwitchLayout extends ViewGroup {
             // 从左往右
             boolean complete = (pointX * 2 - getLeft() - getRight()) > 0;
             if (complete) {
-                mScroller.startScroll(getScrollX(), 0, -getMeasuredWidth() - getScrollX(), 0);
                 mNowStatus = Type.LEFT;
+                if (mOnPageChangeListener != null) mOnPageChangeListener.onChange(mNowStatus);
+                mScroller.startScroll(getScrollX(), 0, -getMeasuredWidth() - getScrollX(), 0);
             } else {
                 mScroller.startScroll(getScrollX(), 0, -getScrollX(), 0);
             }
@@ -237,8 +258,9 @@ public class SwitchLayout extends ViewGroup {
             // 从右往左
             boolean complete = (pointX * 2 - getLeft() - getRight()) < 0;
             if (complete) {
-                mScroller.startScroll(getScrollX(), 0, -getScrollX(), 0);
                 mNowStatus = Type.RIGHT;
+                if (mOnPageChangeListener != null) mOnPageChangeListener.onChange(mNowStatus);
+                mScroller.startScroll(getScrollX(), 0, -getScrollX(), 0);
             } else {
                 mScroller.startScroll(getScrollX(), 0, -getMeasuredWidth() - getScrollX(), 0);
             }
@@ -255,10 +277,20 @@ public class SwitchLayout extends ViewGroup {
         }
     }
 
-    private enum Type {
+    public enum Type {
         NONE,       // 当前什么也没有
         LEFT,       // 用户从左往右滑动
         RIGHT       // 用户从右往左滑动
+    }
+
+    private OnPageChangeListener mOnPageChangeListener;
+
+    public void setOnPageChangeListener(OnPageChangeListener onPageChangeListener) {
+        mOnPageChangeListener = onPageChangeListener;
+    }
+
+    public interface OnPageChangeListener {
+        void onChange(Type type);
     }
 
 }
