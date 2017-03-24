@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/feather_grey">
+
+    <!-- 第一层是搜索结果层 -->
+
+    <com.kyletung.commonlib.view.android.BaseFrameLayout
+        android:id="@+id/layout_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </com.kyletung.commonlib.view.android.BaseFrameLayout>
+
+    <!-- 第二层是最近的搜索列表 -->
+
+    <FrameLayout
+        android:id="@+id/layout_recent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/base_dimen_16dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_recent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </FrameLayout>
+
+    <!-- 第三层是顶部的搜索框 -->
+
+    <FrameLayout
+        android:id="@+id/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/base_dimen_16dp">
+
+        <LinearLayout
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_bar_background"
+            android:elevation="@dimen/base_dimen_2dp"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/search_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Hello World"/>
+
+</FrameLayout>
