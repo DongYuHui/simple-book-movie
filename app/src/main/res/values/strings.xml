@@ -28,7 +28,7 @@
 
     <!-- Search -->
     <string name="search_type_book">Book</string>
-    <string name="search_type_movie">Detail</string>
+    <string name="search_type_movie">Movie</string>
 
     <!-- User Fragment -->
     <string name="user_name">Nickname</string>

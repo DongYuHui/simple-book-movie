@@ -24,6 +24,9 @@
     <dimen name="base_text_24sp">24sp</dimen>
     <dimen name="base_text_32sp">32sp</dimen>
 
+    <!-- SearchFragment -->
+    <dimen name="search_bar_height">48dp</dimen>
+
     <!-- Main Activity -->
     <dimen name="search_icon_size">28dp</dimen>
 
@@ -32,8 +35,6 @@
 
     <!-- Main -->
     <dimen name="toolbar_elevation">2dp</dimen>
-
-    <!-- 一条奇奇怪怪的分割线 -->
 
     <!-- Login -->
     <dimen name="login_text_size">16sp</dimen>
