@@ -29,6 +29,7 @@
     <!-- Search -->
     <string name="search_type_book">书籍</string>
     <string name="search_type_movie">影视</string>
+    <string name="search_hint">搜索</string>
 
     <!-- User Fragment -->
     <string name="user_name">昵称</string>

@@ -6,15 +6,19 @@ import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.kyletung.commonlib.main.BaseFragment;
 import com.kyletung.commonlib.utils.KeyboardUtil;
 import com.kyletung.commonlib.utils.ToastUtil;
+import com.kyletung.commonlib.view.android.BaseFrameLayout;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.view.spinner.NiceSpinner;
 
@@ -52,7 +56,7 @@ public class SearchFragment extends BaseFragment {
     @BindView(R.id.search_result)
     RecyclerView mSearchResult;
     @BindView(R.id.layout_result)
-    FrameLayout mLayoutResult;
+    BaseFrameLayout mLayoutResult;
 
     private int mBookOrMovie = 0;    // 0 stands for book, 1 stands for movie
 
@@ -97,6 +101,17 @@ public class SearchFragment extends BaseFragment {
                 }
             }
         });
+        mSearchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    clearSearchFocus();
+                    startSearch(mSearchInput.getText().toString());
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @OnClick({
@@ -108,7 +123,8 @@ public class SearchFragment extends BaseFragment {
                 if (TextUtils.isEmpty(mSearchInput.getText())) {
                     ToastUtil.showToast(getActivity(), "Input Empty");
                 } else {
-                    ToastUtil.showToast(getActivity(), "Search " + mSearchInput.getText().toString());
+                    clearSearchFocus();
+                    startSearch(mSearchInput.getText().toString());
                 }
                 break;
         }
@@ -118,8 +134,8 @@ public class SearchFragment extends BaseFragment {
      * 取消搜索框的焦点，隐藏软键盘
      */
     public void clearSearchFocus() {
-        mSearchInput.clearFocus();
         KeyboardUtil.hideKeyboard(getActivity(), mSearchInput);
+        mSearchInput.clearFocus();
     }
 
     /**
@@ -152,6 +168,31 @@ public class SearchFragment extends BaseFragment {
         animator.start();
         // TODO: 2017/3/24
         ToastUtil.showToast(getActivity(), "Hide Recent");
+    }
+
+    /**
+     * 搜索内容
+     *
+     * @param content 内容
+     */
+    private void startSearch(String content) {
+        hideRecentSearch();
+        mLayoutResult.startLoad();
+        if (mBookOrMovie == 0) {
+            // TODO: 2017/3/28 start search book
+            mLayoutResult.postDelayed(() -> {
+                mLayoutResult.stopLoad();
+                ToastUtil.showToast(getActivity(), "Search Book " + content);
+            }, 3000);
+        } else if (mBookOrMovie == 1) {
+            // TODO: 2017/3/28 start search movie
+            mLayoutResult.postDelayed(() -> {
+                mLayoutResult.stopLoad();
+                ToastUtil.showToast(getActivity(), "Search Movie " + content);
+            }, 3000);
+        } else {
+            mLayoutResult.stopLoad();
+        }
     }
 
     @Override

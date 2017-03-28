@@ -4,14 +4,15 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.kyletung.commonlib.R;
 
 /**
  * All rights reserved by Author<br>
@@ -44,7 +45,7 @@ public class BaseFrameLayout extends FrameLayout implements ILoadView {
     @Override
     public void initLoad() {
         mLoadView = new LottieAnimationView(getContext());
-        mLoadView.setBackgroundColor(Color.WHITE);
+        mLoadView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.main_background));
         mLoadView.setAnimation(DEFAULT_LOAD_FILE);
         mLoadView.setVisibility(GONE);
         mLoadView.loop(true);
