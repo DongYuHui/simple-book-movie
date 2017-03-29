@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -11,15 +13,20 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kyletung.commonlib.main.BaseFragment;
+import com.kyletung.commonlib.load.SwipeToLoadLayout;
+import com.kyletung.commonlib.main.BaseLoadFragment;
 import com.kyletung.commonlib.utils.KeyboardUtil;
 import com.kyletung.commonlib.utils.ToastUtil;
 import com.kyletung.commonlib.view.android.BaseFrameLayout;
 import com.kyletung.simplebookmovie.R;
+import com.kyletung.simplebookmovie.adapter.search.SearchAdapter;
+import com.kyletung.simplebookmovie.client.request.BookClient;
+import com.kyletung.simplebookmovie.client.request.MovieClient;
+import com.kyletung.simplebookmovie.data.movie.MovieTopData;
+import com.kyletung.simplebookmovie.data.search.SearchBookData;
 import com.kyletung.simplebookmovie.view.spinner.NiceSpinner;
 
 import java.util.Arrays;
@@ -28,6 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.functions.Action1;
 
 /**
  * All rights reserved by Author<br>
@@ -37,28 +45,30 @@ import butterknife.OnClick;
  * <br>
  * FixMe
  */
-public class SearchFragment extends BaseFragment {
+public class SearchFragment extends BaseLoadFragment {
 
     @BindView(R.id.search_input)
     EditText mSearchInput;
-    //    @BindView(R.id.search_type)
-//    TextView mSearchType;
     @BindView(R.id.search_type)
     NiceSpinner mSearchType;
     @BindView(R.id.search_icon)
     ImageView mSearchIcon;
 
-    @BindView(R.id.search_recent)
-    RecyclerView mSearchRecent;
-    @BindView(R.id.layout_recent)
-    FrameLayout mLayoutRecent;
+//    @BindView(R.id.search_recent)
+//    RecyclerView mSearchRecent;
+//    @BindView(R.id.layout_recent)
+//    FrameLayout mLayoutRecent;
 
-    @BindView(R.id.search_result)
+    @BindView(R.id.swipe_target)
     RecyclerView mSearchResult;
     @BindView(R.id.layout_result)
     BaseFrameLayout mLayoutResult;
 
     private int mBookOrMovie = 0;    // 0 stands for book, 1 stands for movie
+
+    private String mSearchContent;
+
+    private SearchAdapter mSearchAdapter;
 
     public static SearchFragment newInstance() {
         Bundle args = new Bundle();
@@ -77,6 +87,14 @@ public class SearchFragment extends BaseFragment {
         // init search type
         List<String> searchTypeList = new LinkedList<>(Arrays.asList(getString(R.string.search_type_book), getString(R.string.search_type_movie)));
         mSearchType.attachDataSource(searchTypeList);
+        // init swipe
+        mLoadLayout = (SwipeToLoadLayout) view.findViewById(R.id.common_load_container);
+        mLoadLayout.setEmptyView(R.string.load_empty_data, R.mipmap.default_data_empty);
+        // init recycler
+        mSearchResult.setItemAnimator(new DefaultItemAnimator());
+        mSearchResult.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        mSearchAdapter = new SearchAdapter(getActivity());
+        mSearchResult.setAdapter(mSearchAdapter);
     }
 
     @Override
@@ -112,6 +130,22 @@ public class SearchFragment extends BaseFragment {
                 return false;
             }
         });
+        mSearchAdapter.setOnBookClickListener(new SearchAdapter.OnBookClickListener() {
+            @Override
+            public void onClick(int position, String bookId) {
+                // TODO: 2017/3/29 click book
+                ToastUtil.showToast(getActivity(), "Click Book");
+            }
+        });
+        mSearchAdapter.setOnMovieClickListener(new SearchAdapter.OnMovieClickListener() {
+            @Override
+            public void onClick(int position, String movieId) {
+                // TODO: 2017/3/29 click movie
+                ToastUtil.showToast(getActivity(), "Click Movie");
+            }
+        });
+        // set swipe load
+        setRefresh(false, false);
     }
 
     @OnClick({
@@ -176,22 +210,117 @@ public class SearchFragment extends BaseFragment {
      * @param content 内容
      */
     private void startSearch(String content) {
+        mSearchContent = content;
         hideRecentSearch();
         mLayoutResult.startLoad();
         if (mBookOrMovie == 0) {
-            // TODO: 2017/3/28 start search book
-            mLayoutResult.postDelayed(() -> {
-                mLayoutResult.stopLoad();
-                ToastUtil.showToast(getActivity(), "Search Book " + content);
-            }, 3000);
+            mSearchAdapter.setModeBook();
+            searchBook(content, 0);
         } else if (mBookOrMovie == 1) {
-            // TODO: 2017/3/28 start search movie
-            mLayoutResult.postDelayed(() -> {
-                mLayoutResult.stopLoad();
-                ToastUtil.showToast(getActivity(), "Search Movie " + content);
-            }, 3000);
+            mSearchAdapter.setModeMovie();
+            searchMovie(content, 0);
         } else {
             mLayoutResult.stopLoad();
+        }
+    }
+
+    /**
+     * 搜索书籍内容
+     *
+     * @param content 搜索内容
+     * @param start   插入位置
+     */
+    private void searchBook(String content, int start) {
+        BookClient.getInstance().getBookSearch(content, start).subscribe(newSubscriber(new Action1<SearchBookData>() {
+            @Override
+            public void call(SearchBookData searchBookData) {
+                mLayoutResult.stopLoad();
+                loadComplete();
+                putBookList(searchBookData, start);
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                loadComplete();
+                mLayoutResult.stopLoad();
+                // TODO: 2017/3/28 get book failed
+            }
+        }));
+    }
+
+    /**
+     * 处理书籍搜索结果
+     *
+     * @param data  搜索结果
+     * @param start 插入位置
+     */
+    private void putBookList(SearchBookData data, int start) {
+        if (start == 0) {
+            if (data.getCount() != 0) {
+                mLoadLayout.setShowEmptyView(false);
+                mSearchAdapter.putBookList(data.getBooks());
+            } else {
+                mLoadLayout.setShowEmptyView(true);
+            }
+        } else {
+            if (data.getCount() != 0) {
+                mSearchAdapter.addBookList(data.getBooks());
+            }
+        }
+        if (mSearchAdapter.getItemCount() < data.getTotal()) {
+            setMoreEnable(true);
+        } else {
+            setMoreEnable(false);
+        }
+    }
+
+    /**
+     * 搜索影视内容
+     *
+     * @param content 内容
+     * @param start   插入位置
+     */
+    private void searchMovie(String content, int start) {
+        MovieClient.getInstance().getMovieSearch(content, start).subscribe(newSubscriber(new Action1<MovieTopData>() {
+            @Override
+            public void call(MovieTopData movieTopData) {
+                loadComplete();
+                mLayoutResult.stopLoad();
+                putMovieList(movieTopData, start);
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                loadComplete();
+                mLayoutResult.stopLoad();
+                // TODO: 2017/3/28 get movie failed
+            }
+        }));
+    }
+
+    /**
+     * 处理影视搜索结果
+     *
+     * @param data  搜索结果
+     * @param start 插入位置
+     */
+    private void putMovieList(MovieTopData data, int start) {
+        if (start == 0) {
+            if (data.getCount() > 0) {
+                mLoadLayout.setShowEmptyView(false);
+                mSearchAdapter.putMovieList(data.getSubjects());
+            } else {
+                mLoadLayout.setShowEmptyView(true);
+            }
+        } else {
+            if (data.getCount() > 0) {
+                mSearchAdapter.addMovieList(data.getSubjects());
+            }
+        }
+        if (mSearchAdapter.getItemCount() < data.getTotal()) {
+            setMoreEnable(true);
+        } else {
+            setMoreEnable(false);
         }
     }
 
@@ -199,6 +328,22 @@ public class SearchFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         clearSearchFocus();
+    }
+
+    @Override
+    protected void onActionRefresh() {
+        loadComplete();
+    }
+
+    @Override
+    protected void onActionMore() {
+        if (mBookOrMovie == 0) {
+            searchBook(mSearchContent, mSearchAdapter.getItemCount());
+        } else if (mBookOrMovie == 1) {
+            searchMovie(mSearchContent, mSearchAdapter.getItemCount());
+        } else {
+            loadComplete();
+        }
     }
 
 }

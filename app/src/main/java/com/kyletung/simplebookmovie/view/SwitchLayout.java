@@ -149,7 +149,7 @@ public class SwitchLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        if (!changed) return;
+//        if (!changed) return;
         int childCount = getChildCount();
         if (childCount < 2) {
             throw new IllegalStateException("There must be more than 2 child views.");

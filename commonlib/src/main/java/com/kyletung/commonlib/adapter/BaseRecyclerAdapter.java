@@ -46,7 +46,7 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
         mListData.clear();
         notifyDataSetChanged();
         mListData.addAll(list);
-        notifyItemRangeInserted(0, list.size() - 1);
+        notifyItemRangeInserted(0, list.size());
     }
 
     /**
@@ -57,7 +57,7 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
     public void addList(List<T> list) {
         int start = mListData.size();
         mListData.addAll(list);
-        notifyItemRangeInserted(start, list.size() + start - 1);
+        notifyItemRangeInserted(start, list.size());
     }
 
     @Override

@@ -13,12 +13,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/search_result"
+        <com.kyletung.commonlib.load.SwipeToLoadLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/common_load_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:swipe_style="classic">
 
-        </android.support.v7.widget.RecyclerView>
+            <include
+                android:id="@+id/swipe_refresh_header"
+                layout="@layout/layout_classic_header"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/swipe_target"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="80dp">
+            </android.support.v7.widget.RecyclerView>
+
+            <include
+                android:id="@+id/swipe_load_more_footer"
+                layout="@layout/layout_classic_footer"/>
+
+            <com.kyletung.commonlib.view.EmptyView
+                android:id="@+id/swipe_empty_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/main_background"/>
+
+        </com.kyletung.commonlib.load.SwipeToLoadLayout>
 
     </com.kyletung.commonlib.view.android.BaseFrameLayout>
 
@@ -28,7 +53,8 @@
         android:id="@+id/layout_recent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/base_dimen_16dp">
+        android:padding="@dimen/base_dimen_16dp"
+        android:visibility="gone">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/search_recent"
@@ -62,17 +88,6 @@
                 android:entries="@array/search_type"
                 app:textTint="@color/dark_grey">
             </com.kyletung.simplebookmovie.view.spinner.NiceSpinner>
-
-            <!--<TextView-->
-            <!--android:id="@+id/search_type"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@drawable/common_click_white"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingLeft="@dimen/base_dimen_8dp"-->
-            <!--android:paddingRight="@dimen/base_dimen_8dp"-->
-            <!--android:text="书籍 ▼"-->
-            <!--android:textSize="@dimen/base_text_16sp"/>-->
 
             <EditText
                 android:id="@+id/search_input"
