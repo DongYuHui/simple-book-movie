@@ -22,6 +22,7 @@
 
     <!-- Detail -->
     <string name="detail_menu_web">Open in web mode</string>
+    <string name="detail_menu_explorer">Open in explorer</string>
     <string name="book_detail_title">Book Detail</string>
     <string name="movie_detail_title">Movie Detail</string>
 

@@ -7,4 +7,9 @@
         android:title="@string/detail_menu_web"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/detail_menu_explorer"
+        android:title="@string/detail_menu_explorer"
+        app:showAsAction="never"/>
+
 </menu>

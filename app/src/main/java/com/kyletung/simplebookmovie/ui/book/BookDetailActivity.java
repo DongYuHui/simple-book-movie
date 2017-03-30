@@ -3,6 +3,7 @@ package com.kyletung.simplebookmovie.ui.book;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -190,6 +191,13 @@ public class BookDetailActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.detail_menu_web:
                 WebActivity.start(this, mBookSubject.getTitle(), mBookSubject.getAlt());
+                return true;
+            case R.id.detail_menu_explorer:
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri url = Uri.parse(mBookSubject.getAlt());
+                intent.setData(url);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

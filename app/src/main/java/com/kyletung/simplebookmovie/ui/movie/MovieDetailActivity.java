@@ -3,6 +3,7 @@ package com.kyletung.simplebookmovie.ui.movie;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -167,6 +168,13 @@ public class MovieDetailActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.detail_menu_web:
                 WebActivity.start(this, mMovieSubject.getTitle(), mMovieSubject.getAlt());
+                return true;
+            case R.id.detail_menu_explorer:
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri url = Uri.parse(mMovieSubject.getAlt());
+                intent.setData(url);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

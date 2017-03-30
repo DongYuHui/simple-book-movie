@@ -22,6 +22,7 @@
 
     <!-- Detail -->
     <string name="detail_menu_web">浏览网页版</string>
+    <string name="detail_menu_explorer">使用浏览器打开</string>
     <string name="book_detail_title">书籍详情</string>
     <string name="movie_detail_title">影视详情</string>
 
