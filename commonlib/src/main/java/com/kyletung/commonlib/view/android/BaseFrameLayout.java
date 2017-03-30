@@ -82,7 +82,7 @@ public class BaseFrameLayout extends FrameLayout implements ILoadView {
 
     @Override
     public void stopLoad() {
-        if (mLoadView == null) return;
+        if (mLoadView == null || mLoadView.getVisibility() == GONE) return;
         ObjectAnimator animator = ObjectAnimator.ofFloat(mLoadView, "alpha", 1F, 0F);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override

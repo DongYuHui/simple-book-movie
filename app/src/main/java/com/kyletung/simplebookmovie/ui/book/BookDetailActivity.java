@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import com.kyletung.simplebookmovie.client.request.BookClient;
 import com.kyletung.simplebookmovie.data.book.BookSubject;
 import com.kyletung.simplebookmovie.data.bookdetail.BookCollectionData;
 import com.kyletung.simplebookmovie.data.bookdetail.BookDetailData;
+import com.kyletung.simplebookmovie.ui.main.WebActivity;
 import com.kyletung.simplebookmovie.utils.BlurUtil;
 
 import butterknife.BindView;
@@ -174,6 +177,22 @@ public class BookDetailActivity extends BaseActivity {
                 mBookCoverBlur.setImageBitmap(bitmap);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.detail_menu_web:
+                WebActivity.start(this, mBookSubject.getTitle(), mBookSubject.getAlt());
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

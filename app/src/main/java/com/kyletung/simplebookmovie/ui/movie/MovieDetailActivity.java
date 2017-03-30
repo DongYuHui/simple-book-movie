@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import com.kyletung.simplebookmovie.adapter.moviedetail.StaffAdapter;
 import com.kyletung.simplebookmovie.client.request.MovieClient;
 import com.kyletung.simplebookmovie.data.movie.MovieSubject;
 import com.kyletung.simplebookmovie.data.moviedetail.MovieDetailData;
+import com.kyletung.simplebookmovie.ui.main.WebActivity;
 import com.kyletung.simplebookmovie.utils.BlurUtil;
 
 import butterknife.BindView;
@@ -151,6 +154,22 @@ public class MovieDetailActivity extends BaseActivity {
                 mMovieCoverBlur.setImageBitmap(bitmap);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.detail_menu_web:
+                WebActivity.start(this, mMovieSubject.getTitle(), mMovieSubject.getAlt());
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

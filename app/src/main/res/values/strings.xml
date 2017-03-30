@@ -20,16 +20,16 @@
     <string name="login">Login</string>
     <string name="login_first">Please login first</string>
 
-    <!-- Book Detail -->
+    <!-- Detail -->
+    <string name="detail_menu_web">Open in web mode</string>
     <string name="book_detail_title">Book Detail</string>
-
-    <!-- Movie Detail -->
     <string name="movie_detail_title">Movie Detail</string>
 
     <!-- Search -->
     <string name="search_type_book">Book</string>
     <string name="search_type_movie">Movie</string>
     <string name="search_hint">Search</string>
+    <string name="search_input_empty">Input Empty</string>
 
     <!-- User Fragment -->
     <string name="user_name">Nickname</string>

@@ -21,6 +21,7 @@ import com.kyletung.commonlib.main.BaseLoadFragment;
 import com.kyletung.commonlib.utils.KeyboardUtil;
 import com.kyletung.commonlib.utils.ToastUtil;
 import com.kyletung.commonlib.view.android.BaseFrameLayout;
+import com.kyletung.simplebookmovie.BuildConfig;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.search.SearchAdapter;
 import com.kyletung.simplebookmovie.client.request.BookClient;
@@ -157,7 +158,7 @@ public class SearchFragment extends BaseLoadFragment {
         switch (view.getId()) {
             case R.id.search_icon:
                 if (TextUtils.isEmpty(mSearchInput.getText())) {
-                    ToastUtil.showToast(getActivity(), "Input Empty");
+                    ToastUtil.showToast(getActivity(), getString(R.string.search_input_empty));
                 } else {
                     clearSearchFocus();
                     startSearch(mSearchInput.getText().toString());
@@ -187,7 +188,7 @@ public class SearchFragment extends BaseLoadFragment {
         });
         animator.start();
         // TODO: 2017/3/24
-        ToastUtil.showToast(getActivity(), "Show Recent");
+        if (BuildConfig.DEBUG) ToastUtil.showToast(getActivity(), "Show Recent");
     }
 
     /**
@@ -203,7 +204,7 @@ public class SearchFragment extends BaseLoadFragment {
         });
         animator.start();
         // TODO: 2017/3/24
-        ToastUtil.showToast(getActivity(), "Hide Recent");
+        if (BuildConfig.DEBUG) ToastUtil.showToast(getActivity(), "Hide Recent");
     }
 
     /**
@@ -236,16 +237,14 @@ public class SearchFragment extends BaseLoadFragment {
         BookClient.getInstance().getBookSearch(content, start).subscribe(newSubscriber(new Action1<SearchBookData>() {
             @Override
             public void call(SearchBookData searchBookData) {
-                mLayoutResult.stopLoad();
                 loadComplete();
+                mLayoutResult.stopLoad();
                 putBookList(searchBookData, start);
             }
         }, new Action1<Throwable>() {
             @Override
             public void call(Throwable throwable) {
-                loadComplete();
                 mLayoutResult.stopLoad();
-                // TODO: 2017/3/28 get book failed
             }
         }));
     }
@@ -293,9 +292,7 @@ public class SearchFragment extends BaseLoadFragment {
         }, new Action1<Throwable>() {
             @Override
             public void call(Throwable throwable) {
-                loadComplete();
                 mLayoutResult.stopLoad();
-                // TODO: 2017/3/28 get movie failed
             }
         }));
     }

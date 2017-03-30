@@ -42,7 +42,7 @@
             android:name=".ui.settings.SettingsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.search.SearchActivity"
+            android:name=".ui.main.WebActivity"
             android:screenOrientation="portrait"/>
 
     </application>
