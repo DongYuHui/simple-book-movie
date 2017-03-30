@@ -1,5 +1,7 @@
 package com.kyletung.simplebookmovie.data.movie;
 
+import java.io.Serializable;
+
 /**
  * All rights reserved by Author<br>
  * Author: Dong YuHui<br>
@@ -9,7 +11,7 @@ package com.kyletung.simplebookmovie.data.movie;
  * <br>
  * FixMe
  */
-public class Rating {
+public class Rating implements Serializable {
 
     private int max;
     private float average;

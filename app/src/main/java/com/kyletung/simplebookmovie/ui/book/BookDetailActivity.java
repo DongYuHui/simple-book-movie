@@ -1,12 +1,11 @@
 package com.kyletung.simplebookmovie.ui.book;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +13,7 @@ import com.kyletung.commonlib.main.BaseActivity;
 import com.kyletung.commonlib.utils.ImageLoader;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.client.request.BookClient;
-import com.kyletung.simplebookmovie.data.book.BookItem;
+import com.kyletung.simplebookmovie.data.book.BookSubject;
 import com.kyletung.simplebookmovie.data.bookdetail.BookCollectionData;
 import com.kyletung.simplebookmovie.data.bookdetail.BookDetailData;
 import com.kyletung.simplebookmovie.utils.BlurUtil;
@@ -37,7 +36,8 @@ import rx.schedulers.Schedulers;
  */
 public class BookDetailActivity extends BaseActivity {
 
-    private static final String TRANSITION = "entry_transition";
+    private static final String ENTRY_USER_ID = "entry_user_id";
+    private static final String ENTRY_BOOK_SUBJECT = "entry_book_subject";
 
     // views
     @BindView(R.id.book_scroll)
@@ -72,14 +72,13 @@ public class BookDetailActivity extends BaseActivity {
     TextView mBookCatalog; // 目录
 
     private String mUserId;
+    private BookSubject mBookSubject;
 
-    public static void start(Activity activity, String userId, BookItem item, View transitionView) {
-        Intent starter = new Intent(activity, BookDetailActivity.class);
-        starter.putExtra("userId", userId);
-        starter.putExtra("book_item", item);
-//        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, transitionView, TRANSITION);
-//        ActivityCompat.startActivity(activity, starter, options.toBundle());
-        activity.startActivity(starter);
+    public static void start(Context context, BookSubject bookSubject, String userId) {
+        Intent starter = new Intent(context, BookDetailActivity.class);
+        starter.putExtra(ENTRY_BOOK_SUBJECT, bookSubject);
+        starter.putExtra(ENTRY_USER_ID, userId);
+        context.startActivity(starter);
     }
 
     @Override
@@ -89,58 +88,17 @@ public class BookDetailActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        // init transition
-//        ViewCompat.setTransitionName(mBookCover, TRANSITION);
+        // init data
+        Intent intent = getIntent();
+        mUserId = intent.getStringExtra(ENTRY_USER_ID);
+        mBookSubject = (BookSubject) intent.getSerializableExtra(ENTRY_BOOK_SUBJECT);
         // init toolbar
-        setToolbar(getString(R.string.book_detail_title), true);
+        setToolbar(mBookSubject.getTitle(), true);
     }
 
     @Override
     protected void business() {
-        // init data
-        Intent intent = getIntent();
-        mUserId = intent.getStringExtra("userId");
-        initTransitionListener();
-    }
-
-    private void initTransitionListener() {
-        BookItem item = (BookItem) getIntent().getSerializableExtra("book_item");
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            ImageLoader.load(this, mBookCover, item.getBook().getImages().getSmall());
-//            Transition transition = getWindow().getSharedElementEnterTransition();
-//            if (transition != null) {
-//                transition.addListener(new Transition.TransitionListener() {
-//
-//                    @Override
-//                    public void onTransitionStart(Transition transition) {
-//                    }
-//
-//                    @Override
-//                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-//                    public void onTransitionEnd(Transition transition) {
-//                        transition.removeListener(this);
-//                        getDetail(item.getBook_id());
-//                    }
-//
-//                    @Override
-//                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-//                    public void onTransitionCancel(Transition transition) {
-//                        transition.removeListener(this);
-//                    }
-//
-//                    @Override
-//                    public void onTransitionPause(Transition transition) {
-//                    }
-//
-//                    @Override
-//                    public void onTransitionResume(Transition transition) {
-//                    }
-//
-//                });
-//            }
-//        } else {
-            getDetail(item.getBook_id());
-//        }
+        getDetail(mBookSubject.getId());
     }
 
     private void setData(BookDetailData data) {
@@ -225,7 +183,6 @@ public class BookDetailActivity extends BaseActivity {
                 mScrollView.smoothScrollTo(0, 0);
                 return true;
             }
-//            return true;
         }
         return super.onKeyDown(keyCode, event);
     }

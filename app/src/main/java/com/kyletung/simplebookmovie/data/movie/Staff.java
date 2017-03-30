@@ -2,6 +2,8 @@ package com.kyletung.simplebookmovie.data.movie;
 
 import com.kyletung.simplebookmovie.data.Image;
 
+import java.io.Serializable;
+
 /**
  * All rights reserved by Author<br>
  * Author: Dong YuHui<br>
@@ -11,7 +13,7 @@ import com.kyletung.simplebookmovie.data.Image;
  * <br>
  * FixMe
  */
-public class Staff {
+public class Staff implements Serializable {
 
     private String alt;
     private Image avatars;

@@ -12,6 +12,7 @@ import com.kyletung.commonlib.adapter.BaseViewHolder;
 import com.kyletung.commonlib.utils.ImageLoader;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.data.book.BookItem;
+import com.kyletung.simplebookmovie.data.book.BookSubject;
 
 import butterknife.BindView;
 
@@ -66,7 +67,7 @@ public class BookAdapter extends BaseRecyclerAdapter<BookItem, BookAdapter.BookV
         holder.mPrice.setText(mListData.get(itemPosition).getBook().getPrice());
         holder.mContainer.setOnClickListener(view -> {
             if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemClick(holder.mImage, itemPosition, mListData.get(itemPosition));
+                mOnItemClickListener.onItemClick(holder.mImage, itemPosition, mListData.get(itemPosition).getBook());
             }
         });
     }
@@ -99,7 +100,7 @@ public class BookAdapter extends BaseRecyclerAdapter<BookItem, BookAdapter.BookV
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View cover, int position, BookItem bookItem);
+        void onItemClick(View cover, int position, BookSubject bookSubject);
     }
 
 }

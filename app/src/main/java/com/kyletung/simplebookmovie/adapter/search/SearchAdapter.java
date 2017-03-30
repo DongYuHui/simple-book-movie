@@ -28,16 +28,16 @@ import butterknife.BindView;
  * Email: <a href="mailto:dyh920827@gmail.com">dyh920827@gmail.com</a><br>
  * Create Time: DongYuHui at 2017/3/29<br>
  * <br>
- * FixMe
+ * 搜索页面的适配器
  */
 public class SearchAdapter extends RecyclerView.Adapter {
 
     private Context mContext;
 
-    private Type mNowType = Type.BOOK;
+    private Type mNowType = Type.BOOK;          // 当前显示的类型
 
-    private List<BookSubject> mBookList;
-    private List<MovieSubject> mMovieList;
+    private List<BookSubject> mBookList;        // 书籍列表
+    private List<MovieSubject> mMovieList;      // 影视列表
 
     private OnBookClickListener mOnBookClickListener;
     private OnMovieClickListener mOnMovieClickListener;
@@ -48,14 +48,25 @@ public class SearchAdapter extends RecyclerView.Adapter {
         mMovieList = new ArrayList<>();
     }
 
+    /**
+     * 设置当前显示的为书籍内容
+     */
     public void setModeBook() {
         mNowType = Type.BOOK;
     }
 
+    /**
+     * 设置当前显示的为影视内容
+     */
     public void setModeMovie() {
         mNowType = Type.MOVIE;
     }
 
+    /**
+     * 设置书籍列表，会将已有的清空
+     *
+     * @param list 书籍内容
+     */
     public void putBookList(List<BookSubject> list) {
         if (list == null) return;
         mBookList.clear();
@@ -64,12 +75,22 @@ public class SearchAdapter extends RecyclerView.Adapter {
         notifyItemRangeInserted(0, list.size());
     }
 
+    /**
+     * 添加书籍列表
+     *
+     * @param list 书籍内容
+     */
     public void addBookList(List<BookSubject> list) {
         int start = mBookList.size();
         mBookList.addAll(list);
         notifyItemRangeInserted(start, list.size());
     }
 
+    /**
+     * 设置影视列表，会将已有的清空
+     *
+     * @param list 影视内容
+     */
     public void putMovieList(List<MovieSubject> list) {
         if (list == null) return;
         mMovieList.clear();
@@ -78,6 +99,11 @@ public class SearchAdapter extends RecyclerView.Adapter {
         notifyItemRangeInserted(0, list.size());
     }
 
+    /**
+     * 添加影视列表
+     *
+     * @param list 影视列表
+     */
     public void addMovieList(List<MovieSubject> list) {
         int start = mMovieList.size();
         mMovieList.addAll(list);
@@ -130,7 +156,7 @@ public class SearchAdapter extends RecyclerView.Adapter {
         holder.mPrice.setText(mBookList.get(itemPosition).getPrice());
         holder.mContainer.setOnClickListener(view -> {
             if (mOnBookClickListener != null) {
-                mOnBookClickListener.onClick(itemPosition, mBookList.get(itemPosition).getId());
+                mOnBookClickListener.onClick(itemPosition, mBookList.get(itemPosition));
             }
         });
     }
@@ -159,7 +185,7 @@ public class SearchAdapter extends RecyclerView.Adapter {
         holder.mMovieCollections.setText(String.valueOf(mMovieList.get(itemPosition).getCollect_count()));
         holder.mMovieContainer.setOnClickListener(view -> {
             if (mOnMovieClickListener != null) {
-                mOnMovieClickListener.onClick(itemPosition, String.valueOf(mMovieList.get(itemPosition).getId()));
+                mOnMovieClickListener.onClick(itemPosition, mMovieList.get(itemPosition));
             }
         });
     }
@@ -233,20 +259,30 @@ public class SearchAdapter extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * 设置书籍点击时候的监听
+     *
+     * @param onBookClickListener 接口实现
+     */
     public void setOnBookClickListener(OnBookClickListener onBookClickListener) {
         mOnBookClickListener = onBookClickListener;
     }
 
+    /**
+     * 设置影视点击时候的监听
+     *
+     * @param onMovieClickListener 接口实现
+     */
     public void setOnMovieClickListener(OnMovieClickListener onMovieClickListener) {
         mOnMovieClickListener = onMovieClickListener;
     }
 
     public interface OnBookClickListener {
-        void onClick(int position, String bookId);
+        void onClick(int position, BookSubject bookSubject);
     }
 
     public interface OnMovieClickListener {
-        void onClick(int position, String movieId);
+        void onClick(int position, MovieSubject movieSubject);
     }
 
 }

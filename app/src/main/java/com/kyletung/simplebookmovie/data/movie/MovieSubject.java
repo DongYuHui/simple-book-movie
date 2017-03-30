@@ -2,6 +2,7 @@ package com.kyletung.simplebookmovie.data.movie;
 
 import com.kyletung.simplebookmovie.data.Image;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  * <br>
  * 电影列表中的实体类
  */
-public class MovieSubject {
+public class MovieSubject implements Serializable {
 
     private long id;
     private String alt;

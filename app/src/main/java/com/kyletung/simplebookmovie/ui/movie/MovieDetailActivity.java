@@ -1,5 +1,6 @@
 package com.kyletung.simplebookmovie.ui.movie;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,6 +14,7 @@ import com.kyletung.commonlib.utils.ImageLoader;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.moviedetail.StaffAdapter;
 import com.kyletung.simplebookmovie.client.request.MovieClient;
+import com.kyletung.simplebookmovie.data.movie.MovieSubject;
 import com.kyletung.simplebookmovie.data.moviedetail.MovieDetailData;
 import com.kyletung.simplebookmovie.utils.BlurUtil;
 
@@ -34,6 +36,8 @@ import rx.schedulers.Schedulers;
  */
 public class MovieDetailActivity extends BaseActivity {
 
+    private static final String ENTRY_MOVIE_ITEM = "entry_movie_subject";
+
     // views
     @BindView(R.id.movie_cover)
     ImageView mMovieCover; // 封面
@@ -52,8 +56,16 @@ public class MovieDetailActivity extends BaseActivity {
     @BindView(R.id.movie_detail_summary)
     TextView mMovieSummary;
 
+    private MovieSubject mMovieSubject;
+
     private StaffAdapter mCastAdapter; // 卡司适配器
     private StaffAdapter mDirectorAdapter; // 导演适配器
+
+    public static void start(Context context, MovieSubject movieSubject) {
+        Intent starter = new Intent(context, MovieDetailActivity.class);
+        starter.putExtra(ENTRY_MOVIE_ITEM, movieSubject);
+        context.startActivity(starter);
+    }
 
     @Override
     protected int getContentLayout() {
@@ -62,8 +74,11 @@ public class MovieDetailActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        // init data
+        Intent intent = getIntent();
+        mMovieSubject = (MovieSubject) intent.getSerializableExtra(ENTRY_MOVIE_ITEM);
         // init toolbar
-        setToolbar(getString(R.string.movie_detail_title), true);
+        setToolbar(mMovieSubject.getTitle(), true);
         // set directors
         RecyclerView movieDirectors = (RecyclerView) findViewById(R.id.movie_detail_directors);
         movieDirectors.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -80,11 +95,8 @@ public class MovieDetailActivity extends BaseActivity {
 
     @Override
     protected void business() {
-        // init data
-        Intent intent = getIntent();
-        String movieId = intent.getStringExtra("movieId");
         // init model
-        getData(movieId);
+        getData(String.valueOf(mMovieSubject.getId()));
     }
 
     /**

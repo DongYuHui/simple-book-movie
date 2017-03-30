@@ -65,7 +65,7 @@ public class MovieTopAdapter extends BaseRecyclerAdapter<MovieSubject, MovieTopA
         holder.mMovieCollections.setText(String.valueOf(mListData.get(itemPosition).getCollect_count()));
         holder.mMovieContainer.setOnClickListener(view -> {
             if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemClick(itemPosition, String.valueOf(mListData.get(itemPosition).getId()));
+                mOnItemClickListener.onItemClick(itemPosition, mListData.get(itemPosition));
             }
         });
     }
@@ -94,7 +94,7 @@ public class MovieTopAdapter extends BaseRecyclerAdapter<MovieSubject, MovieTopA
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position, String movieId);
+        void onItemClick(int position, MovieSubject movieSubject);
     }
 
 }

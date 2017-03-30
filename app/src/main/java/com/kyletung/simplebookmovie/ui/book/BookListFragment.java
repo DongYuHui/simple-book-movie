@@ -65,12 +65,8 @@ public class BookListFragment extends BaseLoadFragment {
 
     @Override
     protected void business(View view) {
-        mAdapter.setOnItemClickListener((cover, position, bookItem) -> {
-//            Intent intent = new Intent(getActivity(), BookDetailActivity.class);
-//            intent.putExtra("userId", mUserId);
-//            intent.putExtra("bookId", bookId);
-//            startActivity(intent);
-            BookDetailActivity.start(getActivity(), mUserId, bookItem, cover);
+        mAdapter.setOnItemClickListener((cover, position, bookSubject) -> {
+            BookDetailActivity.start(getActivity(), bookSubject, mUserId);
         });
         setRefresh(true, true);
         autoRefresh();

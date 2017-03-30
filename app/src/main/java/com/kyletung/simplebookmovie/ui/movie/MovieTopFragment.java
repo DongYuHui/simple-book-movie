@@ -1,6 +1,5 @@
 package com.kyletung.simplebookmovie.ui.movie;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -57,10 +56,11 @@ public class MovieTopFragment extends BaseLoadFragment {
 
     @Override
     protected void business(View view) {
-        mAdapter.setOnItemClickListener((position, movieId) -> {
-            Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
-            intent.putExtra("movieId", movieId);
-            startActivity(intent);
+        mAdapter.setOnItemClickListener((position, movieSubject) -> {
+//            Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+//            intent.putExtra("movieId", movieId);
+//            startActivity(intent);
+            MovieDetailActivity.start(getActivity(), movieSubject);
         });
         setRefresh(true, true);
         autoRefresh();

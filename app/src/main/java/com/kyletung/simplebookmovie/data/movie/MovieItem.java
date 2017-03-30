@@ -1,5 +1,7 @@
 package com.kyletung.simplebookmovie.data.movie;
 
+import java.io.Serializable;
+
 /**
  * All rights reserved by Author<br>
  * Author: Dong YuHui<br>
@@ -9,7 +11,7 @@ package com.kyletung.simplebookmovie.data.movie;
  * <br>
  * 电影列表单项的实体类
  */
-public class MovieItem {
+public class MovieItem implements Serializable {
 
     private int box;
     private int rank;

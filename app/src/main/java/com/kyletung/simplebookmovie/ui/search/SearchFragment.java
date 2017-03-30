@@ -25,8 +25,12 @@ import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.adapter.search.SearchAdapter;
 import com.kyletung.simplebookmovie.client.request.BookClient;
 import com.kyletung.simplebookmovie.client.request.MovieClient;
+import com.kyletung.simplebookmovie.data.book.BookSubject;
+import com.kyletung.simplebookmovie.data.movie.MovieSubject;
 import com.kyletung.simplebookmovie.data.movie.MovieTopData;
 import com.kyletung.simplebookmovie.data.search.SearchBookData;
+import com.kyletung.simplebookmovie.ui.book.BookDetailActivity;
+import com.kyletung.simplebookmovie.ui.movie.MovieDetailActivity;
 import com.kyletung.simplebookmovie.view.spinner.NiceSpinner;
 
 import java.util.Arrays;
@@ -43,7 +47,7 @@ import rx.functions.Action1;
  * Email: <a href="mailto:dyh920827@gmail.com">dyh920827@gmail.com</a><br>
  * Create Time: DongYuHui at 2017/3/24<br>
  * <br>
- * FixMe
+ * 搜索页面
  */
 public class SearchFragment extends BaseLoadFragment {
 
@@ -132,16 +136,14 @@ public class SearchFragment extends BaseLoadFragment {
         });
         mSearchAdapter.setOnBookClickListener(new SearchAdapter.OnBookClickListener() {
             @Override
-            public void onClick(int position, String bookId) {
-                // TODO: 2017/3/29 click book
-                ToastUtil.showToast(getActivity(), "Click Book");
+            public void onClick(int position, BookSubject bookSubject) {
+                BookDetailActivity.start(getActivity(), bookSubject, null);
             }
         });
         mSearchAdapter.setOnMovieClickListener(new SearchAdapter.OnMovieClickListener() {
             @Override
-            public void onClick(int position, String movieId) {
-                // TODO: 2017/3/29 click movie
-                ToastUtil.showToast(getActivity(), "Click Movie");
+            public void onClick(int position, MovieSubject movieSubject) {
+                MovieDetailActivity.start(getActivity(), movieSubject);
             }
         });
         // set swipe load

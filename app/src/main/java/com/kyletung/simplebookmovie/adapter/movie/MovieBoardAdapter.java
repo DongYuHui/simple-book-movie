@@ -12,6 +12,7 @@ import com.kyletung.commonlib.adapter.BaseViewHolder;
 import com.kyletung.commonlib.utils.ImageLoader;
 import com.kyletung.simplebookmovie.R;
 import com.kyletung.simplebookmovie.data.movie.MovieItem;
+import com.kyletung.simplebookmovie.data.movie.MovieSubject;
 import com.kyletung.simplebookmovie.data.movie.Staff;
 
 import butterknife.BindView;
@@ -65,7 +66,7 @@ public class MovieBoardAdapter extends BaseRecyclerAdapter<MovieItem, MovieBoard
         holder.mMovieCollections.setText(String.valueOf(mListData.get(itemPosition).getSubject().getCollect_count()));
         holder.mMovieContainer.setOnClickListener(view -> {
             if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemClick(itemPosition, String.valueOf(mListData.get(itemPosition).getSubject().getId()));
+                mOnItemClickListener.onItemClick(itemPosition, mListData.get(itemPosition).getSubject());
             }
         });
     }
@@ -94,7 +95,7 @@ public class MovieBoardAdapter extends BaseRecyclerAdapter<MovieItem, MovieBoard
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int position, String movieId);
+        void onItemClick(int position, MovieSubject movieSubject);
     }
 
 }
