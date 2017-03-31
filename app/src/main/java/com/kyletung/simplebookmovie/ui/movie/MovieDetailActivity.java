@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.support.design.widget.AppBarLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -43,6 +46,10 @@ public class MovieDetailActivity extends BaseActivity {
     private static final String ENTRY_MOVIE_ITEM = "entry_movie_subject";
 
     // views
+    @BindView(R.id.movie_appbar_layout)
+    AppBarLayout mAppBarLayout;
+    @BindView(R.id.movie_scroll)
+    NestedScrollView mScrollView;
     @BindView(R.id.movie_cover)
     ImageView mMovieCover; // 封面
     @BindView(R.id.cover_blur_background)
@@ -178,6 +185,30 @@ public class MovieDetailActivity extends BaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mScrollView.getScrollY() != 0) {
+                mScrollView.smoothScrollTo(0, 0);
+                return true;
+            }
+            if (isAppBarLayoutCollapsed()) {
+                mAppBarLayout.setExpanded(true, true);
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * AppBarLayout 是否有折叠
+     *
+     * @return 是否有折叠
+     */
+    private boolean isAppBarLayoutCollapsed() {
+        return (mAppBarLayout.getHeight() - mAppBarLayout.getBottom()) != 0;
     }
 
 }

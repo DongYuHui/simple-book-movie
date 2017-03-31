@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -44,6 +45,8 @@ public class BookDetailActivity extends BaseActivity {
     private static final String ENTRY_BOOK_SUBJECT = "entry_book_subject";
 
     // views
+    @BindView(R.id.book_appbar_layout)
+    AppBarLayout mAppBarLayout;
     @BindView(R.id.book_scroll)
     NestedScrollView mScrollView;
     @BindView(R.id.book_image)
@@ -206,12 +209,25 @@ public class BookDetailActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mScrollView.getScrollX() != 0) {
+            if (mScrollView.getScrollY() != 0) {
                 mScrollView.smoothScrollTo(0, 0);
+                return true;
+            }
+            if (isAppBarLayoutCollapsed()) {
+                mAppBarLayout.setExpanded(true, true);
                 return true;
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * AppBarLayout 是否有折叠
+     *
+     * @return 是否有折叠
+     */
+    private boolean isAppBarLayoutCollapsed() {
+        return (mAppBarLayout.getHeight() - mAppBarLayout.getBottom()) != 0;
     }
 
 }

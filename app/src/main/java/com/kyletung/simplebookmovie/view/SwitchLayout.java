@@ -149,15 +149,20 @@ public class SwitchLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-//        if (!changed) return;
         int childCount = getChildCount();
-        if (childCount < 2) {
-            throw new IllegalStateException("There must be more than 2 child views.");
+        if (childCount < 2 || childCount > 3) {
+            throw new IllegalStateException("There must be only 2 or 3 child views.");
         }
         View viewFirst = getChildAt(0);
         viewFirst.layout(l, t, r, b);
         View viewSecond = getChildAt(1);
         viewSecond.layout(2 * l - r, t, l, b);
+        if (childCount == 3) {
+            View viewThird = getChildAt(2);
+            int viewThirdWidth = viewThird.getMeasuredWidth();
+            int viewThirdHeight = viewThird.getMeasuredHeight();
+            viewThird.layout(-viewThirdWidth / 2, 200, viewThirdWidth / 2, 200 + viewThirdHeight);
+        }
     }
 
     /**

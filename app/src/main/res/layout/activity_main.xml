@@ -42,4 +42,9 @@
         android:layout_height="match_parent"
         android:background="@color/feather_grey"/>
 
+    <ImageView
+        android:layout_width="@dimen/base_dimen_48dp"
+        android:layout_height="@dimen/base_dimen_48dp"
+        android:src="@mipmap/launcher_icon"/>
+
 </com.kyletung.simplebookmovie.view.SwitchLayout>
