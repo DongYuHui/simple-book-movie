@@ -1,4 +1,4 @@
-package com.zhanwang.commonlib.utils;
+package com.kyletung.commonlib.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
  * Create Time: DongYuHui at 2017/4/14<br>
  * <br>
  * MD5 Util
+ * 工具类的实现参考于 Apache Codec / DigestUtils 类
  */
 public class MD5 {
 
