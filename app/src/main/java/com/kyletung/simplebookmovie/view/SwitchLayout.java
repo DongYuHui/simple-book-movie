@@ -1,6 +1,7 @@
 package com.kyletung.simplebookmovie.view;
 
 import android.content.Context;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,7 +29,9 @@ public class SwitchLayout extends ViewGroup {
     private float mMoveRatio = 0.7F;        // 滑动的阻力系数
 
     private Type mNowType = Type.NONE;      // 当前模式，是在往右划还是往左滑
-    private Type mNowStatus = Type.RIGHT;    // 当前位于左侧的控件还是右侧的控件
+    private Type mNowStatus = Type.RIGHT;   // 当前位于左侧的控件还是右侧的控件
+
+    private View mToggle;                   // 默认该布局的第三个子控件是切换控件，往往是一个小图标，点击之后能够使得当前页面进行左右切换
 
     public SwitchLayout(Context context) {
         this(context, null);
@@ -45,6 +48,33 @@ public class SwitchLayout extends ViewGroup {
 
     private void init() {
         mScroller = new Scroller(getContext(), new DecelerateInterpolator());
+    }
+
+    private void initToggleView() {
+        if (getChildCount() > 3) return;
+        mToggle = getChildAt(2);
+        mToggle.setOnClickListener(new OnClickListener() {
+            @SuppressWarnings("UnnecessaryReturnStatement")
+            @Override
+            public void onClick(View v) {
+                if (isPageInLeft()) {
+                    scrollToRight();
+                    return;
+                }
+                if (isPageInRight()) {
+                    scrollToLeft();
+                    return;
+                }
+            }
+        });
+        mToggle.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO: 2017/4/19
+                System.out.println("toggle touch event");
+                return false;
+            }
+        });
     }
 
     /**
@@ -158,10 +188,10 @@ public class SwitchLayout extends ViewGroup {
         View viewSecond = getChildAt(1);
         viewSecond.layout(2 * l - r, t, l, b);
         if (childCount == 3) {
-            View viewThird = getChildAt(2);
-            int viewThirdWidth = viewThird.getMeasuredWidth();
-            int viewThirdHeight = viewThird.getMeasuredHeight();
-            viewThird.layout(-viewThirdWidth / 2, 200, viewThirdWidth / 2, 200 + viewThirdHeight);
+            if (mToggle == null) initToggleView();
+            int viewThirdWidth = mToggle.getMeasuredWidth();
+            int viewThirdHeight = mToggle.getMeasuredHeight();
+            mToggle.layout(-viewThirdWidth / 2, 200, viewThirdWidth / 2, 200 + viewThirdHeight);
         }
     }
 
@@ -175,6 +205,13 @@ public class SwitchLayout extends ViewGroup {
         boolean intercept = false;
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                // 最后判断触控点是否在切换控件上
+                // 1. 不是，则由之后的逻辑判断是否拦截
+                // 2. 是，则不拦截触控事件，全部交由该子控件处理
+                if (isTouchInView(ev, mToggle)) {
+                    intercept = false;
+                    break;
+                }
                 // 触发拦截从左往右滑动的条件
                 // 1. mSwitchEnableLeft 设置为 true
                 // 2. 当前控件显示在右边的子控件
@@ -202,6 +239,19 @@ public class SwitchLayout extends ViewGroup {
                 break;
         }
         return intercept;
+    }
+
+    /**
+     * 判断触控事件是否在某控件上
+     * @param ev        触控事件
+     * @param target    目标控件
+     * @return 返回是否在该控件上
+     */
+    private boolean isTouchInView(MotionEvent ev, View target) {
+        int[] location = new int[2];
+        target.getLocationOnScreen(location);
+        RectF rect = new RectF(location[0], location[1], location[0] + target.getMeasuredWidth(), location[1] + target.getMeasuredHeight());
+        return rect.contains(ev.getRawX(), ev.getRawY());
     }
 
     /**
