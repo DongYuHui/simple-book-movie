@@ -16,11 +16,13 @@ public class ViewUtil {
 
     /**
      * 判断触控事件是否在某 View 上
-     * @param ev        触控事件
-     * @param target    目标控件
+     *
+     * @param ev     触控事件
+     * @param target 目标控件
      * @return 返回是否在 View 上
      */
     public static boolean isTouchInView(MotionEvent ev, View target) {
+        if (target == null) return false;
         int[] location = new int[2];
         target.getLocationOnScreen(location);
         RectF rect = new RectF(location[0], location[1], location[0] + target.getMeasuredWidth(), location[1] + target.getMeasuredHeight());

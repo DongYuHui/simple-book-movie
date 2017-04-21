@@ -32,6 +32,7 @@ public class SwitchLayout extends ViewGroup {
     private Type mNowStatus = Type.RIGHT;   // 当前位于左侧的控件还是右侧的控件
 
     private View mToggle;                   // 默认该布局的第三个子控件是切换控件，往往是一个小图标，点击之后能够使得当前页面进行左右切换
+    private int mToggleMarginTop;           // 切换控件距离顶部的距离
 
     public SwitchLayout(Context context) {
         this(context, null);
@@ -50,8 +51,14 @@ public class SwitchLayout extends ViewGroup {
         mScroller = new Scroller(getContext(), new DecelerateInterpolator());
     }
 
+    private float mToggleDownY;             // 切换控件按下时的 Y 坐标
+    private long mToggleStartTime;          // 切换控件按下时的开始时间
+    private boolean mToggleMove = false;    // 切换控件是否是可移动状态
+
     private void initToggleView() {
         if (getChildCount() > 3) return;
+        // TODO: 2017/4/21 切换控件距离顶部的距离应该存储起来，初始化的时候读取
+        mToggleMarginTop = 200;
         mToggle = getChildAt(2);
         mToggle.setOnClickListener(new OnClickListener() {
             @SuppressWarnings("UnnecessaryReturnStatement")
@@ -70,9 +77,36 @@ public class SwitchLayout extends ViewGroup {
         mToggle.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                // TODO: 2017/4/19
-                System.out.println("toggle touch event");
-                return false;
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        mToggleStartTime = System.currentTimeMillis();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (mToggleMove) {
+                            float delta = event.getY() - mToggleDownY;
+                            v.layout(-v.getMeasuredWidth() / 2, (int) (v.getY() + delta), v.getMeasuredWidth() / 2, (int) (v.getY() + delta + v.getMeasuredHeight()));
+                        } else {
+                            if (System.currentTimeMillis() - mToggleStartTime > 1000 && isTouchInView(event, v)) {
+                                mToggleDownY = event.getY();
+                                mToggleMove = true;
+                                // TODO: 2017/4/21 change toggle view status
+                            }
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        // TODO: 2017/4/21 这里还有上面的 ACTION_MOVE 应该防止控件被移出屏幕或者特定范围
+                        if (mToggleMove) {
+                            mToggleMarginTop = v.getTop();
+                        }
+                        // TODO: 2017/4/21 change toggle view status
+                        mToggleMove = false;
+                        mToggleDownY = -1;
+                        if (System.currentTimeMillis() - mToggleStartTime < 500 && isTouchInView(event, v)) {
+                            v.performClick();
+                        }
+                        break;
+                }
+                return true;
             }
         });
     }
@@ -191,7 +225,7 @@ public class SwitchLayout extends ViewGroup {
             if (mToggle == null) initToggleView();
             int viewThirdWidth = mToggle.getMeasuredWidth();
             int viewThirdHeight = mToggle.getMeasuredHeight();
-            mToggle.layout(-viewThirdWidth / 2, 200, viewThirdWidth / 2, 200 + viewThirdHeight);
+            mToggle.layout(-viewThirdWidth / 2, mToggleMarginTop, viewThirdWidth / 2, mToggleMarginTop + viewThirdHeight);
         }
     }
 
@@ -243,11 +277,13 @@ public class SwitchLayout extends ViewGroup {
 
     /**
      * 判断触控事件是否在某控件上
-     * @param ev        触控事件
-     * @param target    目标控件
+     *
+     * @param ev     触控事件
+     * @param target 目标控件
      * @return 返回是否在该控件上
      */
     private boolean isTouchInView(MotionEvent ev, View target) {
+        if (target == null) return false;
         int[] location = new int[2];
         target.getLocationOnScreen(location);
         RectF rect = new RectF(location[0], location[1], location[0] + target.getMeasuredWidth(), location[1] + target.getMeasuredHeight());
