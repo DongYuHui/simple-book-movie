@@ -10,6 +10,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
+import com.kyletung.commonlib.utils.VibrateUtil;
+
 /**
  * All rights reserved by Author<br>
  * Author: Dong YuHui<br>
@@ -90,6 +92,7 @@ public class SwitchLayout extends ViewGroup {
                                 mToggleDownY = event.getY();
                                 mToggleMove = true;
                                 // TODO: 2017/4/21 change toggle view status
+                                VibrateUtil.vibrate(getContext(), 100);
                             }
                         }
                         break;
