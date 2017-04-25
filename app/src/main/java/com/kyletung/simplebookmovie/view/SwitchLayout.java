@@ -8,9 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.widget.ImageView;
 import android.widget.Scroller;
 
 import com.kyletung.commonlib.utils.VibrateUtil;
+import com.kyletung.simplebookmovie.R;
+import com.kyletung.simplebookmovie.utils.ConfigHandler;
 
 /**
  * All rights reserved by Author<br>
@@ -53,6 +56,7 @@ public class SwitchLayout extends ViewGroup {
         mScroller = new Scroller(getContext(), new DecelerateInterpolator());
     }
 
+    private ConfigHandler mToggleHandler;   // 切换控件的位置
     private float mToggleDownY;             // 切换控件按下时的 Y 坐标
     private long mToggleStartTime;          // 切换控件按下时的开始时间
     private boolean mToggleMove = false;    // 切换控件是否是可移动状态
@@ -60,7 +64,8 @@ public class SwitchLayout extends ViewGroup {
     private void initToggleView() {
         if (getChildCount() > 3) return;
         // TODO: 2017/4/21 切换控件距离顶部的距离应该存储起来，初始化的时候读取
-        mToggleMarginTop = 200;
+        mToggleHandler = new ConfigHandler(getContext());
+        mToggleMarginTop = mToggleHandler.readTogglePosition();
         mToggle = getChildAt(2);
         mToggle.setOnClickListener(new OnClickListener() {
             @SuppressWarnings("UnnecessaryReturnStatement")
@@ -92,6 +97,9 @@ public class SwitchLayout extends ViewGroup {
                                 mToggleDownY = event.getY();
                                 mToggleMove = true;
                                 // TODO: 2017/4/21 change toggle view status
+                                if (mToggle instanceof ImageView) {
+                                    ((ImageView) mToggle).setImageResource(R.mipmap.launcher_icon);
+                                }
                                 VibrateUtil.vibrate(getContext(), 100);
                             }
                         }
@@ -100,8 +108,12 @@ public class SwitchLayout extends ViewGroup {
                         // TODO: 2017/4/21 这里还有上面的 ACTION_MOVE 应该防止控件被移出屏幕或者特定范围
                         if (mToggleMove) {
                             mToggleMarginTop = v.getTop();
+                            mToggleHandler.saveTogglePosition(mToggleMarginTop);
+                            // TODO: 2017/4/21 change toggle view status
+                            if (mToggle instanceof ImageView) {
+                                ((ImageView) mToggle).setImageResource(R.mipmap.launcher_icon);
+                            }
                         }
-                        // TODO: 2017/4/21 change toggle view status
                         mToggleMove = false;
                         mToggleDownY = -1;
                         if (System.currentTimeMillis() - mToggleStartTime < 500 && isTouchInView(event, v)) {

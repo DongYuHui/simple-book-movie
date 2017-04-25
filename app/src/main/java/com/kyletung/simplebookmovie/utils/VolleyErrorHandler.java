@@ -15,7 +15,9 @@ import rx.Observer;
  * Create Time: 2016/08/06 at 11:04<br>
  * <br>
  * 错误处理工具类
+ * 已经遗弃，留在这里是保留其中的更新授权码，以供之后参考
  */
+@Deprecated
 public class VolleyErrorHandler {
 
 //    private static final String REFRESH_URL = "https://www.douban.com/service/auth2/token?client_id=%s&client_secret=%s&redirect_uri=http://www.douban.com&grant_type=refresh_token&refresh_token=%s";
