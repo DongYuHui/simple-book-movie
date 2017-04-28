@@ -63,7 +63,6 @@ public class SwitchLayout extends ViewGroup {
 
     private void initToggleView() {
         if (getChildCount() > 3) return;
-        // TODO: 2017/4/21 切换控件距离顶部的距离应该存储起来，初始化的时候读取
         mToggleHandler = new ConfigHandler(getContext());
         mToggleMarginTop = mToggleHandler.readTogglePosition();
         mToggle = getChildAt(2);
