@@ -45,6 +45,6 @@
     <ImageView
         android:layout_width="@dimen/base_dimen_48dp"
         android:layout_height="@dimen/base_dimen_48dp"
-        android:src="@mipmap/launcher_icon"/>
+        android:src="@drawable/main_switch_arrow"/>
 
 </com.kyletung.simplebookmovie.view.SwitchLayout>
