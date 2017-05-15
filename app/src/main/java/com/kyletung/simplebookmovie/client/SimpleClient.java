@@ -87,9 +87,9 @@ public abstract class SimpleClient extends BaseClient {
                     .addHeader("Cache-Control", "public, max-age=604800"); // 无网络时缓存一个星期
         }
         response = responseBuilder.build();
-        if (BuildConfig.DEBUG) {
-            response = printRequestAndResponse(request, response, endTime - startTime);
-        }
+//        if (BuildConfig.DEBUG) {
+//            response = printRequestAndResponse(request, response, endTime - startTime);
+//        }
         return response;
     }
 
@@ -115,6 +115,7 @@ public abstract class SimpleClient extends BaseClient {
                 response = response.newBuilder().body(ResponseBody.create(body.contentType(), responseBody)).build();
             }
         } catch (IOException ignored) {
+            ignored.printStackTrace();
         }
         Log.e(TAG, ">>>>>>> Http Request Start >>>>>>>");
         Log.e(TAG, String.format(
