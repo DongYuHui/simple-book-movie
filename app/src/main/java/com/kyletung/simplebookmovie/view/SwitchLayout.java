@@ -97,7 +97,7 @@ public class SwitchLayout extends ViewGroup {
                                 mToggleMove = true;
                                 // TODO: 2017/4/21 change toggle view status
                                 if (mToggle instanceof ImageView) {
-                                    ((ImageView) mToggle).setImageResource(R.mipmap.launcher_icon);
+                                    ((ImageView) mToggle).setImageResource(R.drawable.main_switch_arrow);
                                 }
                                 VibrateUtil.vibrate(getContext(), 100);
                             }
@@ -110,7 +110,7 @@ public class SwitchLayout extends ViewGroup {
                             mToggleHandler.saveTogglePosition(mToggleMarginTop);
                             // TODO: 2017/4/21 change toggle view status
                             if (mToggle instanceof ImageView) {
-                                ((ImageView) mToggle).setImageResource(R.mipmap.launcher_icon);
+                                ((ImageView) mToggle).setImageResource(R.drawable.main_switch_arrow);
                             }
                         }
                         mToggleMove = false;
