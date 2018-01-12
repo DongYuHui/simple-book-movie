@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string-array name="search_type">
-        <item>@string/search_type_book</item>
-        <item>@string/search_type_movie</item>
-    </string-array>
-
-</resources>
